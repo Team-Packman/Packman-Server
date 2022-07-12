@@ -289,7 +289,7 @@ const GroupSchema = new mongoose.Schema({
 ## 🧳   Code Covention
 
 <details>
-###<summary>명명규칙(Naming Conventions)</summary>
+<summary>명명규칙(Naming Conventions)</summary>
 <div markdown="1">
 
 1. 이름으로부터 의도가 읽혀질 수 있게 쓴다.
@@ -357,7 +357,7 @@ ex) `postUserInformation( )`
 </details>
 
 <details>
-###<summary>블록(Blocks)</summary>
+<summary>블록(Blocks)</summary>
 <div markdown="1">
 
 1. 복수행의 블록에는 중괄호({})를 사용한다.
