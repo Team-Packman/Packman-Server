@@ -1,4 +1,5 @@
-//service index file
-export {
+import AuthService from './AuthService'
 
+export {
+    AuthService
 }
