@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { FolderInfo } from '../interface/folder/folderInfo';
+import { FolderInfo } from '../interface/IFolderInfo';
 
 const FolderSchema = new mongoose.Schema(
   {
