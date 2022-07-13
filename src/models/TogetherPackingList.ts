@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TogetherPackingListInfo } from '../interface/togetherPackingList/TogetherPackingListInfo';
+import { TogetherPackingListInfo } from '../interface/ITogetherPackingListInfo';
 
 const TogetherPackingListSchema = new mongoose.Schema(
   {

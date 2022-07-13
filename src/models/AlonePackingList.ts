@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { AlonePackingListInfo } from '../interface/alonePackingList/AlonePackingListInfo';
+import { AlonePackingListInfo } from '../interface/IAlonePackingList';
 
 const AlonePackingListSchema = new mongoose.Schema(
   {

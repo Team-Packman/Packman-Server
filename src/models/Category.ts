@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { CategoryInfo } from '../interface/category/CategoryInfo';
+import { CategoryInfo } from '../interface/ICategoryInfo';
 
 const CategorySchema = new mongoose.Schema(
   {

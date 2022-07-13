@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PackInfo } from '../interface/pack/PackInfo';
+import { PackInfo } from '../interface/IPackInfo';
 
 const PackSchema = new mongoose.Schema(
   {

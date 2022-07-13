@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TemplateInfo } from '../interface/template/TemplateInfo';
+import { TemplateInfo } from '../interface/ITemplateInfo';
 
 const TemplateSchema = new mongoose.Schema(
   {

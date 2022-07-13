@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { GroupInfo } from '../interface/group/GroupInfo';
+import { GroupInfo } from '../interface/IGroupInfo';
 
 const GroupSchema = new mongoose.Schema({
   userIdArray: [
