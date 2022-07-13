@@ -1,4 +1,3 @@
+import AlonePackingListController from './AlonePackingListController';
 // controller index file
-export {
-    
-}
+export { AlonePackingListController };

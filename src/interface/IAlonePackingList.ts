@@ -10,3 +10,30 @@ export interface AlonePackingListInfo {
   isDeleted: boolean;
   remainDay: number;
 }
+
+export interface AlonePackingListCreateDTO {
+  title: string;
+  departureDate: Date;
+  folderId: string;
+  templateId: string;
+}
+
+export interface AlonePackingListResponseDTO {
+  id: mongoose.Types.ObjectId;
+  title: string;
+  departureDate: Date;
+  category: [
+    {
+      id: string;
+      name: string;
+      pack: [
+        {
+          id: string;
+          name: string;
+          isChecked: boolean;
+        },
+      ];
+    },
+  ];
+  isSaved: boolean;
+}
