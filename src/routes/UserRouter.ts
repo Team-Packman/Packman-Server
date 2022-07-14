@@ -6,6 +6,7 @@ import auth from "../middleware/auth";
 
 const router: Router = Router();
 
+router.get('/', auth, UserController.getUserInfo);
 router.post('/profile',[
     body('nickname')
     .notEmpty(),
