@@ -27,11 +27,11 @@ const getGoogleUser = async(req: Request, res: Response) => {
 }
 
 // 토큰 발급을 위한 코드 
-const getGoogleToken = async(req: Request, res: Response, next: NextFunction) => {
+const getGoogleToken = async(req: Request, res: Response) => {
     return res.redirect(`${GOOGLE_AUTH_URL}?client_id=${config.googleClientID}&redirect_uri=${GOOGLE_AUTH_REDIRECT_URL}&response_type=code&include_granted_scopes=true&scope=https://www.googleapis.com/auth/userinfo.email`)
 }
 
-const googleLogin = async(req: Request, res: Response, next: NextFunction) => {
+const googleLogin = async(req: Request, res: Response) => {
     const {code} = req.query;
     try{   
         const userEmail = await AuthService.getGoogleInfo(code as string);

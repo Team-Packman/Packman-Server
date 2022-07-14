@@ -39,8 +39,6 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
       return data;
     }
 
-      return userEmail;
-
   } catch (error) {
     console.log(error);
   }
