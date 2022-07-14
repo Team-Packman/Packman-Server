@@ -27,4 +27,14 @@ export default {
   googleClientID: process.env.GOOGLE_CLIENT_ID as string,
   googleClientSECRET: process.env.GOOGLE_CLIENT_SECRET as string,
 
+  /**
+   * jwt Secret
+   */
+
+  jwtSecret: process.env.JWT_SECRET as string,
+
+  /**
+   * jwt Algorithm
+   */
+  jwtAlgo: process.env.JWT_ALGO as string,
 };

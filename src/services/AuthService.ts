@@ -104,7 +104,7 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
 // };
 
 export default {
-  getGoogleInfo,
+  // getGoogleInfo,
   // googleLogin,
-  // getGoogleUser,
+  getGoogleUser,
 };

@@ -50,7 +50,7 @@ const getGoogleUser = async(req: Request, res: Response) => {
 // }
 
 export default {
-    googleLogin,
-    getGoogleToken,
+    // googleLogin,
+    // getGoogleToken,
     getGoogleUser
 }
