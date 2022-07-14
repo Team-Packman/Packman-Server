@@ -8,5 +8,4 @@ export interface AlonePackingListInfo {
   packRemainNum: number;
   categoryIdArray: mongoose.Types.ObjectId[];
   isDeleted: boolean;
-  remainDay: number;
 }
