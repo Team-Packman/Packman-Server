@@ -5,6 +5,7 @@ import util from "../modules/util";
 import { UserCreateDto } from "../interface/user/userCreateDto";
 import { UserService } from "../services";
 import { validationResult } from "express-validator";
+import getToken from "../modules/jwtHandler";
 
 const createUser = async(req: Request, res: Response) => {
 
@@ -14,11 +15,12 @@ const createUser = async(req: Request, res: Response) => {
     }
    
     const userCreateDto: UserCreateDto = req.body;
-    console.log(userCreateDto);
+
     try {
         const data = await UserService.createUser(userCreateDto);
-
-        if(!data) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.FAIL_CREATE_USER));
+        if (!data) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.FAIL_CREATE_USER));
+        const accessToken = getToken(data.id);
+        data.accessToken = accessToken;
         res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_CREATE_USER, data));
     } catch(error) {
         console.log(error);

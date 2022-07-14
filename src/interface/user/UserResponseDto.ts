@@ -5,5 +5,5 @@ export interface UserResponseDto {
     nickname: string,
     email: string,
     profileImageId: string,
-    // accessToken: string,
+    accessToken?: string,
 }
