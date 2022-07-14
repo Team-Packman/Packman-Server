@@ -3,13 +3,23 @@ const app = express();
 import connectDB from './loaders/db';
 import routes from './routes';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 dotenv.config();
 
 connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  cors({
+     credentials: true,
+     origin: [
+       "http://localhost:8000",
 
+     ],
+   })
+ );
 app.use(routes); //라우터
 // error handler
 

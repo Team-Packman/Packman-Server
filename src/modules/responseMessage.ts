@@ -7,6 +7,10 @@ const message = {
     // 토큰 관련 오류
     NULL_VALUE_TOKEN: '토큰이 없습니다',
     INVALID_TOKEN: '잘못된 토큰입니다',
+    SUCCESS_GET_TOKEN: '소셜 로그인 토큰 생성',
+
+    SUCCESS_SOCIAL_LOGIN: '소셜 로그인 성공',
+    
 }
 
 export default message;

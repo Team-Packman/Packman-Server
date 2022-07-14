@@ -1,3 +1,9 @@
+import mongoose from "mongoose"
+
 export interface AuthResponseDto {
-    email: string
+    isAlreadyUser: boolean,
+    id?: mongoose.Schema.Types.ObjectId;
+    email: string,
+    nickname?: string,
+    profileImageId?: string,
 }
