@@ -5,6 +5,7 @@ const GroupSchema = new mongoose.Schema({
   userIdArray: [
     {
       type: mongoose.Types.ObjectId,
+      ref: 'User',
     },
   ],
 });

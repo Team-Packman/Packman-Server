@@ -23,10 +23,13 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     groupId: {
       type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Group',
     },
     categoryIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {
@@ -35,6 +38,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     myPackingListId: {
       type: mongoose.Types.ObjectId,
+      ref: 'AlonePackingList',
     },
   },
   { timestamps: true },
