@@ -7,3 +7,16 @@ export interface FolderInfo {
   listNum: number;
   packingListArray: mongoose.Types.ObjectId[];
 }
+
+export interface FolderResponseDto {
+  aloneFolders : {
+    id: mongoose.Schema.Types.ObjectId;
+    title: string;
+    listNum: number;
+  }[];
+  togetherFolders : {
+    id: mongoose.Schema.Types.ObjectId;
+    title: string;
+    listNum: number;
+  }[];
+}
