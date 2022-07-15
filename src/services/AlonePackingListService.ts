@@ -8,7 +8,7 @@ import Template from '../models/Template';
 
 const createAlonePackingList = async (
   alonePackingListCreateDto: AlonePackingListCreateDTO,
-): Promise<AlonePackingListResponseDTO> => {
+): Promise<AlonePackingListResponseDTO | number> => {
   try {
     const alonePackingList = new AlonePackingList({
       title: alonePackingListCreateDto.title,
@@ -28,26 +28,22 @@ const createAlonePackingList = async (
       $push: { packingListArray: alonePackingList.id },
     });
 
-    // const categoryList = AlonePackingList.findOne(
-    //   { _id: alonePackingList.id },
-    //   { _id: 0, categoryIdArray: 1 },
-    // ).populate({
-    //   path: 'categoryIdArray',
-    //   populate: ({
-    //     path: 'PackIdArray',
-    //     select: '_id', 'name', 'isChecked'
-    //   }),
-    // });
+    const data: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(
+      { _id: alonePackingList.id },
+      { title: 1, departureDate: 1, isSaved: 1, categoryIdArray: 1 },
+    ).populate({
+      path: 'categoryIdArray',
+      model: 'Category',
+      populate: {
+        path: 'packIdArray',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1 },
+        options: { sort: { updatedAt: -1 } },
+      },
+    });
 
-    const data: AlonePackingListResponseDTO = {
-      id: alonePackingList.id,
-      title: alonePackingList.title,
-      departureDate: alonePackingList.departureDate,
-      // category: categoryList,
-      isSaved: alonePackingList.isSaved,
-      category: [],
-    };
-
+    console.log(data);
+    if (!data) return 400;
     return data;
   } catch (error) {
     console.log(error);

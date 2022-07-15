@@ -24,6 +24,7 @@ const AlonePackingListSchema = new mongoose.Schema(
     categoryIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {

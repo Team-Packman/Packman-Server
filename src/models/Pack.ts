@@ -13,6 +13,7 @@ const PackSchema = new mongoose.Schema(
     },
     packerId: {
       type: mongoose.Types.ObjectId,
+      ref: 'User',
     },
   },
   { timestamps: true },

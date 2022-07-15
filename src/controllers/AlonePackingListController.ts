@@ -13,23 +13,27 @@ import AlonePackingListService from '../services/AlonePackingListService';
  **/
 
 const createAlonePackingList = async (req: Request, res: Response) => {
-  //validation
-  // const error = validationResult(req);
-  // if (!error.isEmpty()) {
-  //     return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.BAD_REQUEST));
-  // }
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+  }
 
   const alonePackingListCreateDto: AlonePackingListCreateDTO = req.body;
 
   try {
     const data = await AlonePackingListService.createAlonePackingList(alonePackingListCreateDto);
+    if (data == 400)
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
 
     res
       .status(statusCode.CREATED)
       .send(util.success(statusCode.CREATED, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
   } catch (error) {
     console.log(error);
-    //서버 내부에서 오류 발생
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));

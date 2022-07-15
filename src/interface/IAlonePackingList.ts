@@ -18,17 +18,18 @@ export interface AlonePackingListCreateDTO {
   templateId: string;
 }
 
+//
 export interface AlonePackingListResponseDTO {
-  id: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   title: string;
   departureDate: Date;
-  category: [
+  categoryIdArray: [
     {
-      id: string;
+      _id: mongoose.Types.ObjectId;
       name: string;
-      pack: [
+      packIdArray: [
         {
-          id: string;
+          _id: mongoose.Types.ObjectId;
           name: string;
           isChecked: boolean;
         },
