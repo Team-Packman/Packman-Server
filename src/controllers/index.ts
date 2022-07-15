@@ -1,3 +1,5 @@
+import AuthController from './AuthController';
+import UserController from './UserController';
 import AlonePackingListController from './AlonePackingListController';
-// controller index file
-export { AlonePackingListController };
+
+export { AuthController, UserController, AlonePackingListController };

@@ -10,5 +10,4 @@ export interface TogetherPackingListInfo {
   categoryIdArray: mongoose.Types.ObjectId[];
   isDeleted: boolean;
   myPackingListId: mongoose.Types.ObjectId;
-  remainDay: number;
 }

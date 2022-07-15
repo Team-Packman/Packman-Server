@@ -3,13 +3,13 @@ const app = express();
 import connectDB from './loaders/db';
 import routes from './routes';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(routes); //라우터
 // error handler
 

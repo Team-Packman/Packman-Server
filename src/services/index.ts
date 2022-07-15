@@ -1,7 +1,7 @@
-import AlonePackingListService from "./AlonePackingListService";
-
 //service index file
-export {
-    AlonePackingListService
 
-}
+import AuthService from './AuthService';
+import UserService from './UserService';
+import AlonePackingListService from './AlonePackingListService';
+
+export { AuthService, UserService, AlonePackingListService };
