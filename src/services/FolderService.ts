@@ -1,5 +1,7 @@
 import { FolderCreateDto } from '../interface/IFolderInfo';
 import Folder from '../models/Folder';
+// const folderResponse = require('../modules/folderResponse');
+import { folderResponse } from '../modules/folderResponse';
 
 const createFolder = async (userId: string, folderCreateDto: FolderCreateDto) => {
   try {
@@ -9,29 +11,13 @@ const createFolder = async (userId: string, folderCreateDto: FolderCreateDto) =>
       userId: userId,
       listNum: 0,
       packingListArray: [],
-      listModel: folderCreateDto.isAloned ? "AlonePackingList" : "TogetherPackingList"
+      listModel: folderCreateDto.isAloned ? 'AlonePackingList' : 'TogetherPackingList',
     });
     await folder.save();
-    const folders = await Folder.find({ userId: userId });
-    const aloneFolders: any[] = [];
-    const togetherFolders: any[] = [];
-    await folders.map((folder) => {
-      const data = {
-        id: folder.id,
-        title: folder.title,
-        listNum: folder.listNum,
-      };
-      if (folder.isAloned === true) {
-        aloneFolders.push(data);
-      } else {
-        togetherFolders.push(data);
-      }
-    });
+    
+    const data = folderResponse(userId);
 
-    return {
-      aloneFolders: aloneFolders,
-      togetherFolders: togetherFolders,
-    };
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
