@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../config';
-import { AuthResponseDto } from '../interface/auth/authResponseDto';
+import { AuthResponseDto } from '../interface/IUserInfo';
 import User from '../models/User';
 import getToken from '../modules/jwtHandler';
 

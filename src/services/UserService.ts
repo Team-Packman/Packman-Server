@@ -1,6 +1,5 @@
-import { UserCreateDto } from "../interface/user/UserCreateDto";
-import { UserResponseDto } from "../interface/user/UserResponseDto";
-import { UserUpdateDto } from "../interface/user/UserUpdateDto";
+import { UserCreateDto,UserResponseDto, UserUpdateDto } from "../interface/IUserInfo";
+
 import User from "../models/User";
 
 const createUser = async(userCreateDto: UserCreateDto):  Promise<UserResponseDto|null> => {
