@@ -36,9 +36,6 @@ const TogetherPackingListSchema = new mongoose.Schema(
     myPackingListId: {
       type: mongoose.Types.ObjectId,
     },
-    remainDay: {
-      type: Number,
-    },
   },
   { timestamps: true },
 );

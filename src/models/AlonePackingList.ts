@@ -30,9 +30,6 @@ const AlonePackingListSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    remainDay: {
-      type: Number,
-    },
   },
   { timestamps: true },
 );
