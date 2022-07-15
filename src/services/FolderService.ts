@@ -1,9 +1,8 @@
-import { FolderCreateDto } from '../interface/IFolderInfo';
+import { FolderCreateDto, FolderResponseDto } from '../interface/IFolderInfo';
 import Folder from '../models/Folder';
-// const folderResponse = require('../modules/folderResponse');
 import { folderResponse } from '../modules/folderResponse';
 
-const createFolder = async (userId: string, folderCreateDto: FolderCreateDto) => {
+const createFolder = async (userId: string, folderCreateDto: FolderCreateDto): Promise<FolderResponseDto> => {
   try {
     const folder = new Folder({
       title: folderCreateDto.title,
