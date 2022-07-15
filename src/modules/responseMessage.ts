@@ -15,7 +15,9 @@ const message = {
     SUCCESS_CREATE_USER: '유저 생성 성공',
     FAIL_CREATE_USER: '유저 생성 실패',
 
-    
+    NO_USER: '존재하지 않는 User입니다',
+    SUCCESS_GET_USER: '유저 조회 성공',
+    SUCCESS_UPDATE_USER: '유저 수정 성공',
 }
 
 export default message;

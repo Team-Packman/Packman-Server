@@ -13,5 +13,11 @@ router.post('/profile',[
     body('profileImageId')
     .notEmpty() ] 
     , UserController.createUser);
+router.patch('/profile',[
+        body('nickname')
+        .notEmpty(),
+        body('profileImageId')
+        .notEmpty() ] 
+        , auth,UserController.updateUser);
 
 export default router;
