@@ -16,26 +16,9 @@ const deleteFolder = async (
     if (!folder) return null;
     var packingListArray = folder.packingListArray;
     if (folder.isAloned) {
-      var packingListArrayObjs = await AlonePackingList.find({ _id: { $in: packingListArray } });
+      await AlonePackingList.findByIdAndUpdate({ $in: packingListArray } ,{ $set: { isDeleted: true } });
     } else {
-      var packingListArrayObjs = await TogetherPackingList.find({
-        _id: { $in: packingListArray },
-      });
-    }
-
-    const categoryIdArray = await packingListArrayObjs.reduce(
-      (tmp, x) => [...tmp, ...x.categoryIdArray],
-      [],
-    );
-    const categoryObjs = await Category.find({ _id: { $in: categoryIdArray } });
-    const packIdArray = await categoryObjs.reduce((tmp, x) => [...tmp, ...x.packIdArray], []);
-
-    await Pack.deleteMany({ _id: { $in: packIdArray } });
-    await Category.deleteMany({ _id: { $in: categoryIdArray } });
-    if (folder.isAloned) {
-      await AlonePackingList.deleteMany({ _id: { $in: packingListArray } });
-    } else {
-      await TogetherPackingList.deleteMany({ _id: { $in: packingListArray } });
+      await TogetherPackingList.findByIdAndUpdate({ $in: packingListArray } , { $set: { isDeleted: true } } );
     }
     await Folder.findByIdAndDelete(folderId);
     const data = await folderResponse(userId);
