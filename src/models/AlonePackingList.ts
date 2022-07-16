@@ -17,9 +17,11 @@ const AlonePackingListSchema = new mongoose.Schema(
     },
     packTotalNum: {
       type: Number,
+      default: 0,
     },
     packRemainNum: {
       type: Number,
+      default: 0,
     },
     categoryIdArray: [
       {
