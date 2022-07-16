@@ -8,8 +8,13 @@ import Template from '../models/Template';
 
 const createAlonePackingList = async (
   alonePackingListCreateDto: AlonePackingListCreateDTO,
-): Promise<AlonePackingListResponseDTO | number> => {
+): Promise<AlonePackingListResponseDTO | string> => {
   try {
+    const duplicatedTitle = await AlonePackingList.findOne({
+      title: alonePackingListCreateDto.title,
+    });
+    if (duplicatedTitle) return 'duplication';
+
     const alonePackingList = new AlonePackingList({
       title: alonePackingListCreateDto.title,
       departureDate: alonePackingListCreateDto.departureDate,
@@ -43,7 +48,7 @@ const createAlonePackingList = async (
       },
     });
 
-    if (!data) return 400;
+    if (!data) return 'notfound';
     return data;
   } catch (error) {
     console.log(error);

@@ -24,14 +24,18 @@ const createAlonePackingList = async (req: Request, res: Response) => {
 
   try {
     const data = await AlonePackingListService.createAlonePackingList(alonePackingListCreateDto);
-    if (data == 400)
+    if (data == 'notfound')
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-
-    res
-      .status(statusCode.CREATED)
-      .send(util.success(statusCode.CREATED, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
+    else if (data == 'duplication')
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
+    else
+      res
+        .status(statusCode.CREATED)
+        .send(util.success(statusCode.CREATED, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res

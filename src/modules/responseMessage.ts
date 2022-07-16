@@ -21,6 +21,7 @@ const message = {
 
   //패킹리스트 공통
   NO_PACKINGLIST: '해당하는 패킹리스트가 없습니다',
+  DUPLICATION_PACKINGLIST: '중복된 리스트 이름입니다',
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
