@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-import { TogetherPackingListInfo } from '../interface/ITogetherPackingListInfo';
-import AlonePackingList from './AlonePackingList';
-import Category from './Category';
+import { ITogetherPackingList } from '../interface/ITogetherPackingList';
 
 const TogetherPackingListSchema = new mongoose.Schema(
   {
@@ -25,6 +23,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     groupId: {
       type: mongoose.Types.ObjectId,
+      required: true,
       ref: 'Group',
     },
     categoryIdArray: [
@@ -42,9 +41,9 @@ const TogetherPackingListSchema = new mongoose.Schema(
       ref: 'AlonePackingList',
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-export default mongoose.model<TogetherPackingListInfo & mongoose.Document>(
+export default mongoose.model<ITogetherPackingList & mongoose.Document>(
   'TogetherPackingList',
   TogetherPackingListSchema,
 );

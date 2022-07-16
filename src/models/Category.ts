@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { CategoryInfo } from '../interface/ICategoryInfo';
+import { ICategory } from '../interface/ICategory';
 
 const CategorySchema = new mongoose.Schema(
   {
@@ -14,7 +14,7 @@ const CategorySchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
-export default mongoose.model<CategoryInfo & mongoose.Document>('Category', CategorySchema);
+export default mongoose.model<ICategory & mongoose.Document>('Category', CategorySchema);

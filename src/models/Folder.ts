@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { FolderInfo } from '../interface/IFolderInfo';
+import { IFolder } from '../interface/IFolder';
 
 const FolderSchema = new mongoose.Schema(
   {
@@ -32,6 +32,6 @@ const FolderSchema = new mongoose.Schema(
       enum: ['AlonePackingList', 'TogetherPackingList'],
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-export default mongoose.model<FolderInfo & mongoose.Document>('Folder', FolderSchema);
+export default mongoose.model<IFolder & mongoose.Document>('Folder', FolderSchema);

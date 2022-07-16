@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { AlonePackingListInfo } from '../interface/IAlonePackingList';
+import { IAlonePackingList } from '../interface/IAlonePackingList';
 
 const AlonePackingListSchema = new mongoose.Schema(
   {
@@ -17,9 +17,11 @@ const AlonePackingListSchema = new mongoose.Schema(
     },
     packTotalNum: {
       type: Number,
+      default: 0,
     },
     packRemainNum: {
       type: Number,
+      default: 0,
     },
     categoryIdArray: [
       {
@@ -32,9 +34,9 @@ const AlonePackingListSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-export default mongoose.model<AlonePackingListInfo & mongoose.Document>(
+export default mongoose.model<IAlonePackingList & mongoose.Document>(
   'AlonePackingList',
   AlonePackingListSchema,
 );

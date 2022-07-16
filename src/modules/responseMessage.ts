@@ -20,10 +20,17 @@ const message = {
   SUCCESS_UPDATE_USER: '유저 수정 성공',
 
   //패킹리스트 공통
-  NO_PACKINGLIST: '해당하는 패킹리스트가 없습니다',
+  NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
+  DUPLICATION_PACKINGLIST: '중복된 리스트 이름입니다',
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
+
+  // 함께 패킹리스트 관련
+  SUCCESS_CREATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 생성 성공',
+
+  //카테고리
+  NO_CATAGORY: '존재하지 않는 Category입니다',
 };
 
 export default message;

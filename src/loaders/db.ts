@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import config from '../config';
 import AlonePackingList from '../models/AlonePackingList';
+import TogetherPackingList from '../models/TogetherPackingList';
+import Group from '../models/Group';
 import Category from '../models/Category';
 import Pack from '../models/Pack';
 import Template from '../models/Template';
@@ -24,6 +26,13 @@ const connectDB = async () => {
     });
     Template.createCollection().then((collection) => {
       console.log('Template Collection Created');
+    });
+    TogetherPackingList.createCollection().then((collection) => {
+      console.log('TogetherPackingList Collection Created');
+    });
+
+    Group.createCollection().then((collection) => {
+      console.log('Group Collection Created');
     });
   } catch (err: any) {
     console.error(err.message);
