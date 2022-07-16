@@ -5,15 +5,19 @@ import {
 import AlonePackingList from '../models/AlonePackingList';
 import Folder from '../models/Folder';
 import Template from '../models/Template';
+import TogetherPackingList from '../models/TogetherPackingList';
 
 const createAlonePackingList = async (
   alonePackingListCreateDto: AlonePackingListCreateDTO,
 ): Promise<AlonePackingListResponseDTO | string> => {
   try {
-    const duplicatedTitle = await AlonePackingList.findOne({
+    const duplicatedAlone = await AlonePackingList.findOne({
       title: alonePackingListCreateDto.title,
     });
-    if (duplicatedTitle) return 'duplication';
+    const duplicatedTogether = await TogetherPackingList.findOne({
+      title: alonePackingListCreateDto.title,
+    });
+    if (duplicatedAlone || duplicatedTogether) return 'duplication';
 
     const alonePackingList = new AlonePackingList({
       title: alonePackingListCreateDto.title,
