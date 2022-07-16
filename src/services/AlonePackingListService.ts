@@ -34,15 +34,15 @@ const createAlonePackingList = async (
     ).populate({
       path: 'categoryIdArray',
       model: 'Category',
+      options: { sort: { createdAt: 1 } },
       populate: {
         path: 'packIdArray',
         model: 'Pack',
         select: { _id: 1, name: 1, isChecked: 1 },
-        options: { sort: { updatedAt: -1 } },
+        options: { sort: { createdAt: 1 } },
       },
     });
 
-    console.log(data);
     if (!data) return 400;
     return data;
   } catch (error) {
