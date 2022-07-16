@@ -6,14 +6,13 @@ import getToken from '../modules/jwtHandler';
 
 const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | null | undefined> => {
   try {
-   
     const response = await axios({
       method: 'get',
       url: 'https://www.googleapis.com/oauth2/v2/userinfo',
       headers: {
         Authorization: `Bearer ${googleToken}`,
       },
-    })
+    });
 
     if (!response) return null;
 
@@ -38,7 +37,6 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
       };
       return data;
     }
-
   } catch (error) {
     console.log(error);
   }
