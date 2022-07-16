@@ -22,7 +22,7 @@ const TemplateSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 export default mongoose.model<TemplateInfo & mongoose.Document>('Template', TemplateSchema);

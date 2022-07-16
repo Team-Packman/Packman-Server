@@ -16,7 +16,7 @@ const PackSchema = new mongoose.Schema(
       ref: 'User',
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 export default mongoose.model<PackInfo & mongoose.Document>('Pack', PackSchema);

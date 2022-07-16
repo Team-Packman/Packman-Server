@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TogetherPackingListInfo } from '../interface/ITogetherPackingListInfo';
+import { TogetherPackingList } from '../interface/ITogetherPackingList';
 
 const TogetherPackingListSchema = new mongoose.Schema(
   {
@@ -41,9 +41,9 @@ const TogetherPackingListSchema = new mongoose.Schema(
       ref: 'AlonePackingList',
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-export default mongoose.model<TogetherPackingListInfo & mongoose.Document>(
+export default mongoose.model<TogetherPackingList & mongoose.Document>(
   'TogetherPackingList',
   TogetherPackingListSchema,
 );

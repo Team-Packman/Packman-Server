@@ -14,7 +14,7 @@ const CategorySchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 
 export default mongoose.model<CategoryInfo & mongoose.Document>('Category', CategorySchema);

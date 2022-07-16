@@ -32,6 +32,6 @@ const FolderSchema = new mongoose.Schema(
       enum: ['AlonePackingList', 'TogetherPackingList'],
     },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 export default mongoose.model<FolderInfo & mongoose.Document>('Folder', FolderSchema);

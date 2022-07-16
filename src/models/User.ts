@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { UserInfo} from '../interface/IUserInfo';
+import { UserInfo } from '../interface/IUserInfo';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 
