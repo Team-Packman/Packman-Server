@@ -25,7 +25,6 @@ const message = {
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
-};
 
   // 함께 패킹리스트 관련
   SUCCESS_CREATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 생성 성공',
