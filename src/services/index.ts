@@ -4,9 +4,5 @@ import FolderService from './FolderService';
 import TogetherPackingListCategoryService from './TogetherPackingListCategoryService';
 import AlonePackingListService from './AlonePackingListService';
 
-export {
-    AuthService,
-    UserService,
-    FolderService,
-}
-export { AuthService, UserService, AlonePackingListService, TogetherPackingListCategoryService };
+
+export { AuthService, UserService, AlonePackingListService, TogetherPackingListCategoryService, FolderService };
