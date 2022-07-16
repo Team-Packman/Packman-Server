@@ -10,6 +10,7 @@ const CategorySchema = new mongoose.Schema(
     packIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Pack',
       },
     ],
   },

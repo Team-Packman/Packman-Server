@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import { TogetherPackingListInfo } from '../interface/ITogetherPackingListInfo';
+import AlonePackingList from './AlonePackingList';
+import Category from './Category';
 
 const TogetherPackingListSchema = new mongoose.Schema(
   {
@@ -23,10 +25,12 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     groupId: {
       type: mongoose.Types.ObjectId,
+      ref: 'Group',
     },
     categoryIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {
@@ -35,9 +39,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     myPackingListId: {
       type: mongoose.Types.ObjectId,
-    },
-    remainDay: {
-      type: Number,
+      ref: 'AlonePackingList',
     },
   },
   { timestamps: true },
