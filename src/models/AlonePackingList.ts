@@ -24,17 +24,15 @@ const AlonePackingListSchema = new mongoose.Schema(
     categoryIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {
       type: Boolean,
       default: false,
     },
-    remainDay: {
-      type: Number,
-    },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
 export default mongoose.model<AlonePackingListInfo & mongoose.Document>(
   'AlonePackingList',

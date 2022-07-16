@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface FolderInfo {
+export interface IFolder {
   title: string;
   isAloned: boolean;
   userId: mongoose.Types.ObjectId;
