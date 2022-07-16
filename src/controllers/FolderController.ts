@@ -11,7 +11,7 @@ const deleteFolder = async (req: Request, res: Response) => {
 
   try {
     const data = FolderService.deleteFolder(userId, folderId);
-    if (!data) return res.status(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    if (!data) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
     res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_DELETE_FOLDER, data));
