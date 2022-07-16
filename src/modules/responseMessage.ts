@@ -28,6 +28,9 @@ const message = {
 
   // 함께 패킹리스트 관련
   SUCCESS_CREATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 생성 성공',
+
+  //카테고리
+  NO_CATAGORY: '존재하지 않는 Category입니다',
 };
 
 export default message;

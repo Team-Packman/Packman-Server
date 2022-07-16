@@ -24,7 +24,7 @@ const createAlonePackingList = async (req: Request, res: Response) => {
 
   try {
     const data = await AlonePackingListService.createAlonePackingList(alonePackingListCreateDto);
-    if (data == 'notfound')
+    if (data == 'notfoundList')
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
@@ -32,6 +32,10 @@ const createAlonePackingList = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
+    else if (data == 'notfoundCategory')
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATAGORY));
     else
       res
         .status(statusCode.CREATED)
