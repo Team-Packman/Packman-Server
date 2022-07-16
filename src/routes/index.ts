@@ -4,7 +4,7 @@ import PackingListRouter from './PackingListRouter';
 
 import AuthRouter from './AuthRouter';
 import UserRouter from './UserRouter';
-import FolderRouter from './FolderRouter'
+import FolderRouter from './FolderRouter';
 import TogetherPackingListCategoryRouter from './TogetherPackingListCategoryRouter';
 
 const router = Router();

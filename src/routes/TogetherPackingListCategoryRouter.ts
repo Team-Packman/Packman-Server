@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body } from 'express-validator';
+import { body } from 'express-validator/check';
 import TogetherPackingListCategoryController from '../controllers/TogetherPackingListCategoryController';
 
 const router: Router = Router();
