@@ -1,14 +1,16 @@
 import mongoose from 'mongoose';
-import { GroupInfo } from '../interface/IGroupInfo';
-import User from './User';
+import { IGroup } from '../interface/IGroup';
 
-const GroupSchema = new mongoose.Schema({
-  userIdArray: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: 'User',
-    },
-  ],
-});
+const GroupSchema = new mongoose.Schema(
+  {
+    userIdArray: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  { versionKey: false },
+);
 
-export default mongoose.model<GroupInfo & mongoose.Document>('Group', GroupSchema);
+export default mongoose.model<IG & mongoose.Document>('Group', GroupSchema);

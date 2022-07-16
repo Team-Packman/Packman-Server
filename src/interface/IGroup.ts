@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
-export interface GroupInfo {
+export interface IGroup {
   userIdArray: mongoose.Types.ObjectId[];
 }
