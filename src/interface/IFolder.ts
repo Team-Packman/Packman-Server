@@ -12,7 +12,10 @@ export interface FolderCreateDto {
   title: string;
   isAloned: boolean;
 }
-
+export interface FolderUpdateDto {
+  id: string;
+  title: string;
+}
 export interface FolderResponseDto {
   aloneFolders : {
     id: mongoose.Schema.Types.ObjectId;
