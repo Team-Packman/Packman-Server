@@ -42,7 +42,6 @@ const createAlonePackingList = async (
       },
     });
 
-    console.log(data);
     if (!data) return 400;
     return data;
   } catch (error) {

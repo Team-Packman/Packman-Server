@@ -9,6 +9,6 @@ const router = Router();
 
 router.use('/auth', AuthRouter);
 router.use('/user', UserRouter);
-router.use('/packinglist', PackingListRouter);
+router.use('/packingList', PackingListRouter);
 
 export default router;
