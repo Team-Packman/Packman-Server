@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PackInfo } from '../interface/IPackInfo';
+import { IPack } from '../interface/IPack';
 
 const PackSchema = new mongoose.Schema(
   {
@@ -19,4 +19,4 @@ const PackSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false },
 );
 
-export default mongoose.model<PackInfo & mongoose.Document>('Pack', PackSchema);
+export default mongoose.model<IPack & mongoose.Document>('Pack', PackSchema);

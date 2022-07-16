@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface TogetherPackingList {
+export interface ITogetherPackingList {
   title: string;
   isSaved: boolean;
   departureDate: Date;

@@ -24,7 +24,7 @@ const createCategory = async (req: Request, res: Response) => {
     if (data === 400) {
       res
         .status(statusCode.BAD_REQUEST)
-        .send(util.success(statusCode.BAD_REQUEST, message.NO_PACKING_LIST));
+        .send(util.success(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
     } else {
       res
         .status(statusCode.CREATED)

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface AlonePackingListInfo {
+export interface IAlonePackingList {
   title: string;
   isSaved: boolean;
   departureDate: Date;
