@@ -50,7 +50,6 @@ const updateCategory = async (req: Request, res: Response) => {
   }
 
   const categoryUpdateDto: CategoryUpdateDto = req.body;
-  console.log(categoryUpdateDto);
 
   try {
     const data = await TogetherPackingListCategoryService.updateCategory(categoryUpdateDto);
