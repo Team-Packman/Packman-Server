@@ -3,6 +3,7 @@ import {
   AlonePackingListResponseDTO,
 } from '../interface/IAlonePackingList';
 import AlonePackingList from '../models/AlonePackingList';
+import Category from '../models/Category';
 import Folder from '../models/Folder';
 import Template from '../models/Template';
 import TogetherPackingList from '../models/TogetherPackingList';
@@ -29,6 +30,12 @@ const createAlonePackingList = async (
       alonePackingList.categoryIdArray = [];
     } else {
       alonePackingList.categoryIdArray = innerTemplate.categoryIdArray;
+      alonePackingList.categoryIdArray.map(async (element) => {
+        const myCategory = await Category.findById(element);
+        if (!myCategory) return 'notfoundCategory';
+        alonePackingList.packTotalNum += myCategory.packIdArray.length;
+        alonePackingList.packRemainNum += myCategory.packIdArray.length;
+      });
     }
 
     await alonePackingList.save();
@@ -52,7 +59,7 @@ const createAlonePackingList = async (
       },
     });
 
-    if (!data) return 'notfound';
+    if (!data) return 'notfoundList';
     return data;
   } catch (error) {
     console.log(error);
