@@ -8,7 +8,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
       required: true,
     },
     isSaved: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     departureDate: {
