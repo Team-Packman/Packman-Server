@@ -15,13 +15,12 @@ const message = {
   SUCCESS_CREATE_USER: '유저 생성 성공',
   FAIL_CREATE_USER: '유저 생성 실패',
 
-    NO_USER: '존재하지 않는 User입니다',
-    SUCCESS_GET_USER: '유저 조회 성공',
-    SUCCESS_UPDATE_USER: '유저 수정 성공',
+  NO_USER: '존재하지 않는 User입니다',
+  SUCCESS_GET_USER: '유저 조회 성공',
+  SUCCESS_UPDATE_USER: '유저 수정 성공',
 
-    // 폴더 관련
-    SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
-}
+  // 폴더 관련
+  SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
