@@ -14,6 +14,8 @@ const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
 ): Promise<
   | {
+      title: string;
+      departureDate: Date;
       togetherPackingList: TogetherPackingListResponseDTO;
       alonePackingList: AlonePackingListResponseDTO;
     }
@@ -67,9 +69,9 @@ const createTogetherPackingList = async (
       $push: { packingListArray: togetherPackingList.id },
     });
 
-    const data1: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
+    const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
       { _id: togetherPackingList.id },
-      { title: 1, departureDate: 1, categoryIdArray: 1 },
+      { categoryIdArray: 1 },
     ).populate({
       path: 'categoryIdArray',
       model: 'Category',
@@ -90,9 +92,9 @@ const createTogetherPackingList = async (
       },
     });
 
-    const data2: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(
+    const aloneData: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(
       { _id: alonePackingList.id },
-      { title: 1, departureDate: 1, categoryIdArray: 1 },
+      { categoryIdArray: 1 },
     ).populate({
       path: 'categoryIdArray',
       model: 'Category',
@@ -105,9 +107,14 @@ const createTogetherPackingList = async (
       },
     });
 
-    if (!data1 || !data2) return 'notfoundList';
+    if (!togetherData || !aloneData) return 'notfoundList';
 
-    const response = { togetherPackingList: data1, alonePackingList: data2 };
+    const response = {
+      title: togetherPackingList.title,
+      departureDate: togetherPackingList.departureDate,
+      togetherPackingList: togetherData,
+      alonePackingList: aloneData,
+    };
     return response;
   } catch (error) {
     console.log(error);
