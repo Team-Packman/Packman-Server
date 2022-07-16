@@ -1,7 +1,5 @@
-import AuthService from './AuthService'
+import AuthService from './AuthService';
 import UserService from './UserService';
+import TogetherPackingListCategoryService from './TogetherPackingListCategoryService';
 
-export {
-    AuthService,
-    UserService,
-}
+export { AuthService, UserService, TogetherPackingListCategoryService };

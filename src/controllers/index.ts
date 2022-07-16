@@ -1,6 +1,4 @@
-import AuthController from "./AuthController";
-import UserController from "./UserController";
-export {
-    AuthController,
-    UserController,    
-}
+import AuthController from './AuthController';
+import UserController from './UserController';
+import TogetherPackingListCategoryController from './TogetherPackingListCategoryController';
+export { AuthController, UserController, TogetherPackingListCategoryController };
