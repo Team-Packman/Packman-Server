@@ -1,19 +1,19 @@
 import mongoose from 'mongoose';
 export interface IUser {
   email: string;
-  nickname: string;
+  name: string;
   profileImageId: string;
   isDeleted: string;
 }
 
 export interface UserUpdateDto {
-  nickname: string;
+  name: string;
   profileImageId: string;
 }
 
 export interface UserResponseDto {
-  id: mongoose.Schema.Types.ObjectId;
-  nickname: string;
+  _id: mongoose.Schema.Types.ObjectId;
+  name: string;
   email: string;
   profileImageId: string;
   accessToken?: string;
@@ -21,7 +21,7 @@ export interface UserResponseDto {
 
 export interface UserCreateDto {
   email: string;
-  nickname: string;
+  name: string;
   profileImageId: string;
 }
 
@@ -32,8 +32,8 @@ export interface SocialUserInfo {
 export interface AuthResponseDto {
   isAlreadyUser: boolean;
   token?: string;
-  id?: mongoose.Schema.Types.ObjectId;
+  _id?: mongoose.Schema.Types.ObjectId;
   email: string;
-  nickname?: string;
+  name?: string;
   profileImageId?: string;
 }

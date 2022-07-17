@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
 
 export interface IGroup {
-  userIdArray: mongoose.Types.ObjectId[];
+  members: mongoose.Types.ObjectId[];
 }

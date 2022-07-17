@@ -2,18 +2,18 @@ import mongoose from 'mongoose';
 
 export interface IAlonePackingList {
   title: string;
-  isSaved: boolean;
   departureDate: Date;
   packTotalNum: number;
   packRemainNum: number;
-  categoryIdArray: mongoose.Types.ObjectId[];
+  category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
+  isSaved: boolean;
 }
 
 export interface AlonePackingListCreateDTO {
-  title: string;
   departureDate: Date;
   folderId: string;
+  title: string;
   templateId: string;
 }
 
@@ -22,15 +22,16 @@ export interface AlonePackingListResponseDTO {
   _id: mongoose.Types.ObjectId;
   title: string;
   departureDate: Date;
-  categoryIdArray: [
+  category: [
     {
       _id: mongoose.Types.ObjectId;
       name: string;
-      packIdArray: [
+      pack: [
         {
           _id: mongoose.Types.ObjectId;
           name: string;
           isChecked: boolean;
+          packer: mongoose.Types.ObjectId;
         },
       ];
     },
