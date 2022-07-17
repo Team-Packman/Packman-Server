@@ -13,17 +13,17 @@ export interface FolderCreateDto {
   isAloned: boolean;
 }
 export interface FolderUpdateDto {
-  id: string;
+  _id: string;
   title: string;
 }
 export interface FolderResponseDto {
   aloneFolders: {
-    id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Schema.Types.ObjectId;
     title: string;
     listNum: number;
   }[];
   togetherFolders: {
-    id: mongoose.Schema.Types.ObjectId;
+    _id: mongoose.Schema.Types.ObjectId;
     title: string;
     listNum: number;
   }[];

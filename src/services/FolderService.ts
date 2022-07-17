@@ -80,8 +80,23 @@ const deleteFolder = async (
   }
 };
 
+
+
+
+const getFolders = async (userId: string): Promise<FolderResponseDto> => {
+  try {
+    const data = await folderResponse(userId);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+
 export default {
   createFolder,
   updateFolder,
   deleteFolder,
+  getFolders,
 };
