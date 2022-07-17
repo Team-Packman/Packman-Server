@@ -6,7 +6,6 @@ import { validationResult } from 'express-validator';
 import { TogetherPackingListCategoryCreateDto } from '../interface/ITogetherPackingList';
 import { TogetherPackingListCategoryService } from '../services';
 import { CategoryUpdateDto } from '../interface/ICategory';
-import { CategoryDeleteDto } from '../interface/ICategory';
 import Category from '../models/Category';
 import mongoose from 'mongoose';
 
