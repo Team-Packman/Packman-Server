@@ -14,6 +14,7 @@ const PackSchema = new mongoose.Schema(
     packer: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
+      default: null,
     },
     createdAt: {
       type: Date,

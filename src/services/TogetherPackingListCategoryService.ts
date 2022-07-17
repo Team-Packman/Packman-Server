@@ -83,6 +83,7 @@ const updateCategory = async (
     const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
       path: 'category',
       model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
       options: { sort: { createdAt: 1 } },
       populate: {
         path: 'pack',
@@ -112,14 +113,14 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
     const lId = new mongoose.Types.ObjectId(listId);
     const cateId = new mongoose.Types.ObjectId(categoryId);
 
-    const newCategory = await Category.findById(cateId);
-    if (!newCategory) return 'no_category';
+    const cate = await Category.findById(cateId);
+    if (!cate) return 'no_category';
 
     const list = await TogetherPackingList.findById(lId);
     if (!list) return 'no_list';
 
     const categories = list.category;
-    const packs = newCategory.pack;
+    const packs = cate.pack;
 
     // list의 category 배열에 존재하지 않는 categoryId인 경우
     if (!categories.includes(cateId)) return 'no_list_category';
@@ -141,6 +142,7 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
     const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
       path: 'category',
       model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
       options: { sort: { createdAt: 1 } },
       populate: {
         path: 'pack',
@@ -157,6 +159,7 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
         },
       },
     });
+
     return data;
   } catch (error) {
     console.log(error);
