@@ -18,4 +18,7 @@ router.patch(
   FolderController.updateFolder,
 );
 router.delete('/:folderId', auth, FolderController.deleteFolder);
+router.get('/', auth, FolderController.getFolders);
+
 export default router;
+

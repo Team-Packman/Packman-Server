@@ -12,7 +12,7 @@ export interface UserUpdateDto {
 }
 
 export interface UserResponseDto {
-  id: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
   name: string;
   email: string;
   profileImageId: string;
@@ -32,7 +32,7 @@ export interface SocialUserInfo {
 export interface AuthResponseDto {
   isAlreadyUser: boolean;
   token?: string;
-  id?: mongoose.Schema.Types.ObjectId;
+  _id?: mongoose.Schema.Types.ObjectId;
   email: string;
   name?: string;
   profileImageId?: string;
