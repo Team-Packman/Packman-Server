@@ -4,10 +4,12 @@ import AlonePackingListController from './AlonePackingListController';
 import TogetherPackingListCategoryController from './TogetherPackingListCategoryController';
 import TogetherPackingListController from './TogetherPackingListController';
 import PackingListController from './PackingListController';
+import FolderController from './FolderController';
 
 export {
   AuthController,
   UserController,
+  FolderController,
   AlonePackingListController,
   TogetherPackingListCategoryController,
   TogetherPackingListController,

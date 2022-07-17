@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 
 export interface ITogetherPackingList {
   title: string;
-  isSaved: boolean;
   departureDate: Date;
   packTotalNum: number;
   packRemainNum: number;
   groupId: mongoose.Types.ObjectId;
-  categoryIdArray: mongoose.Types.ObjectId[];
+  category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
   myPackingListId: mongoose.Types.ObjectId;
+  isSaved: boolean;
 }
 
 export interface TogetherPackingListCategoryCreateDto {
@@ -19,18 +19,18 @@ export interface TogetherPackingListCategoryCreateDto {
 
 export interface TogetherPackingListCategoryResponseDto {
   _id: mongoose.Schema.Types.ObjectId;
-  categoryIdArray: [
+  category: [
     {
       _id: mongoose.Schema.Types.ObjectId;
       name: string;
-      packIdArray: [
+      pack: [
         {
           _id: mongoose.Schema.Types.ObjectId;
           name: string;
           isChecked: boolean;
-          packerId: {
+          packer: {
             _id: mongoose.Schema.Types.ObjectId;
-            nickname: string;
+            name: string;
           };
         },
       ];
@@ -39,29 +39,47 @@ export interface TogetherPackingListCategoryResponseDto {
 }
 
 export interface TogetherPackingListCreateDTO {
-  title: string;
   departureDate: Date;
   folderId: string;
+  title: string;
   templateId: string;
 }
 
 export interface TogetherPackingListResponseDTO {
   _id: string;
-  title: string;
-  departureDate: string;
-  categoryIdArray: [
+  groupId: string;
+  category: [
     {
       _id: string;
       name: string;
-      packIdArray: [
+      pack: [
         {
           _id: string;
           name: string;
           isChecked: boolean;
-          myPackingListId: {
+          packer: {
             _id: string;
             name: string;
           };
+        },
+      ];
+    },
+  ];
+  isSaved: boolean;
+}
+
+export interface TogetherMyPackingListResponseDTO {
+  _id: string;
+  category: [
+    {
+      _id: string;
+      name: string;
+      pack: [
+        {
+          _id: string;
+          name: string;
+          isChecked: boolean;
+          packer: mongoose.Types.ObjectId;
         },
       ];
     },

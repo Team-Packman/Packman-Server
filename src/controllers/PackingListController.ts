@@ -33,14 +33,14 @@ const updatePackingListTitle = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
-    else if (data == 'notupdatedTitle')
+    else if (data == 'notfoundUpdatedTitle')
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_UPDATEDTITLE));
     else
       res
-        .status(statusCode.CREATED)
-        .send(util.success(statusCode.CREATED, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
+        .status(statusCode.OK)
+        .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res

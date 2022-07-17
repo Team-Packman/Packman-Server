@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    nickname: {
+    name: {
       type: String,
     },
     profileImageId: {
@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true,
     versionKey: false,
   },
 );

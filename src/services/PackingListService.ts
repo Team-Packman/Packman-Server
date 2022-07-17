@@ -9,7 +9,8 @@ const updatePackingListTitle = async (
     let duplicatedList;
     if (packingListTitleUpdateDto.isAloned) {
       duplicatedList = await AlonePackingList.findOne({
-        title: packingListTitleUpdateDto.title, //isAlone==true
+        title: packingListTitleUpdateDto.title,
+        isAloned: true,
       });
     } else {
       duplicatedList = await TogetherPackingList.findOne({
@@ -26,6 +27,7 @@ const updatePackingListTitle = async (
         packingListTitleUpdateDto._id,
         {
           title: packingListTitleUpdateDto.title,
+          updatedAt: Date.now(),
         },
         { new: true },
       );
@@ -34,6 +36,7 @@ const updatePackingListTitle = async (
         packingListTitleUpdateDto._id,
         {
           title: packingListTitleUpdateDto.title,
+          updatedAt: Date.now(),
         },
         { new: true },
       );
@@ -41,10 +44,11 @@ const updatePackingListTitle = async (
       if (!togetherPackingList) return 'notfoundList';
       await AlonePackingList.findByIdAndUpdate(togetherPackingList.myPackingListId, {
         title: packingListTitleUpdateDto.title,
+        updatedAt: Date.now(),
       });
     }
 
-    if (!updatedData) return 'notupdatedTitle';
+    if (!updatedData) return 'notfoundUpdatedTitle';
     const data = {
       _id: updatedData.id,
       title: updatedData.title,

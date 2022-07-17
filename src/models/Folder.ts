@@ -20,7 +20,7 @@ const FolderSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    packingListArray: [
+    pack: [
       {
         type: mongoose.Types.ObjectId,
         refPath: 'listModel',
@@ -31,7 +31,11 @@ const FolderSchema = new mongoose.Schema(
       required: true,
       enum: ['AlonePackingList', 'TogetherPackingList'],
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 export default mongoose.model<IFolder & mongoose.Document>('Folder', FolderSchema);

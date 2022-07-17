@@ -11,12 +11,17 @@ const PackSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    packerId: {
+    packer: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
+      default: null,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
     },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 
 export default mongoose.model<IPack & mongoose.Document>('Pack', PackSchema);

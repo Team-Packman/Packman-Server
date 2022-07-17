@@ -6,55 +6,70 @@ import AlonePackingList from '../models/AlonePackingList';
 import Category from '../models/Category';
 import Folder from '../models/Folder';
 import Template from '../models/Template';
-import TogetherPackingList from '../models/TogetherPackingList';
 
 const createAlonePackingList = async (
   alonePackingListCreateDto: AlonePackingListCreateDTO,
 ): Promise<AlonePackingListResponseDTO | string> => {
   try {
-    const duplicatedAlone = await AlonePackingList.findOne({
+    const duplicatedList = await AlonePackingList.findOne({
       title: alonePackingListCreateDto.title,
+      isAloned: true,
     });
-    const duplicatedTogether = await TogetherPackingList.findOne({
-      title: alonePackingListCreateDto.title,
-    });
-    if (duplicatedAlone || duplicatedTogether) return 'duplication';
+    if (duplicatedList) return 'duplication';
 
     const alonePackingList = new AlonePackingList({
       title: alonePackingListCreateDto.title,
       departureDate: alonePackingListCreateDto.departureDate,
     });
 
-    const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
-    if (!innerTemplate) {
-      alonePackingList.categoryIdArray = [];
-    } else {
-      alonePackingList.categoryIdArray = innerTemplate.categoryIdArray;
-      alonePackingList.categoryIdArray.map(async (element) => {
-        const myCategory = await Category.findById(element);
-        if (!myCategory) return 'notfoundCategory';
-        alonePackingList.packTotalNum += myCategory.packIdArray.length;
-        alonePackingList.packRemainNum += myCategory.packIdArray.length;
-      });
-    }
+    //null값으로 받을 경우
+    // const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
+    // if (!innerTemplate) {
+    //   alonePackingList.category = [];
+    // } else {
+    //   alonePackingList.category = innerTemplate.category;
+    //   for await (const element of alonePackingList.category) {
+    //     const myCategory = await Category.findById(element);
+    //     if (!myCategory) return 'notfoundCategory';
+    //     alonePackingList.packTotalNum += myCategory.pack.length;
+    //     alonePackingList.packRemainNum += myCategory.pack.length;
+    //   }
+    // }
+    // await alonePackingList.save();
 
+    //빈 문자열로 받을 경우
+    if (!alonePackingListCreateDto.templateId) {
+      alonePackingList.category = [];
+    } else {
+      const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
+      if (innerTemplate) {
+        alonePackingList.category = innerTemplate.category;
+        for await (const element of alonePackingList.category) {
+          const myCategory = await Category.findById(element);
+          if (!myCategory) return 'notfoundCategory';
+          alonePackingList.packTotalNum += myCategory.pack.length;
+          alonePackingList.packRemainNum += myCategory.pack.length;
+        }
+      } else return 'notfoundTemplate';
+    }
     await alonePackingList.save();
 
     await Folder.findByIdAndUpdate(alonePackingListCreateDto.folderId, {
-      $push: { packingListArray: alonePackingList.id },
+      $push: { pack: alonePackingList.id },
     });
 
     const data: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(
       { _id: alonePackingList.id },
-      { title: 1, departureDate: 1, isSaved: 1, categoryIdArray: 1 },
+      { title: 1, departureDate: 1, isSaved: 1, category: 1 },
     ).populate({
-      path: 'categoryIdArray',
+      path: 'category',
       model: 'Category',
       options: { sort: { createdAt: 1 } },
+      select: { _id: 1, name: 1, pack: 1 },
       populate: {
-        path: 'packIdArray',
+        path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
       },
     });

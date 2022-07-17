@@ -16,7 +16,6 @@ const getGoogleUser = async (req: Request, res: Response) => {
       .status(statusCode.BAD_REQUEST)
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE_TOKEN));
   }
-  console.log(token);
   try {
     const data = await AuthService.getGoogleUser(token);
 
