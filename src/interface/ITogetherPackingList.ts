@@ -19,18 +19,18 @@ export interface TogetherPackingListCategoryCreateDto {
 
 export interface TogetherPackingListCategoryResponseDto {
   _id: mongoose.Schema.Types.ObjectId;
-  categoryIdArray: [
+  category: [
     {
       _id: mongoose.Schema.Types.ObjectId;
       name: string;
-      packIdArray: [
+      pack: [
         {
           _id: mongoose.Schema.Types.ObjectId;
           name: string;
           isChecked: boolean;
-          packerId: {
+          packer: {
             _id: mongoose.Schema.Types.ObjectId;
-            nickname: string;
+            name: string;
           };
         },
       ];
