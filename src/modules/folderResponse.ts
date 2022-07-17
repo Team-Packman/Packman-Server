@@ -8,7 +8,7 @@ async function folderResponse(userId: string) {
     const data = {
       id: folder.id,
       title: folder.title,
-      listNum: folder.listNum,
+      listNum: folder.packingListArray.length,
     };
     if (folder.isAloned === true) {
       aloneFolders.push(data);
