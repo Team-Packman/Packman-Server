@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { UserInfo} from '../interface/IUserInfo';
+import { IUser } from '../interface/IUser';
 
 const UserSchema = new mongoose.Schema(
   {
@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    nickname: {
+    name: {
       type: String,
     },
     profileImageId: {
@@ -19,8 +19,8 @@ const UserSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true,
+    versionKey: false,
   },
 );
 
-export default mongoose.model<UserInfo & mongoose.Document>('User', UserSchema);
+export default mongoose.model<IUser & mongoose.Document>('User', UserSchema);

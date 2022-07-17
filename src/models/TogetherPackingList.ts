@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TogetherPackingListInfo } from '../interface/ITogetherPackingListInfo';
+import { ITogetherPackingList } from '../interface/ITogetherPackingList';
 
 const TogetherPackingListSchema = new mongoose.Schema(
   {
@@ -7,26 +7,27 @@ const TogetherPackingListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isSaved: {
-      type: String,
-      default: false,
-    },
     departureDate: {
       type: Date,
       required: true,
     },
     packTotalNum: {
       type: Number,
+      default: 0,
     },
     packRemainNum: {
       type: Number,
+      default: 0,
     },
     groupId: {
       type: mongoose.Types.ObjectId,
+      required: true,
+      ref: 'Group',
     },
-    categoryIdArray: [
+    category: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {
@@ -35,14 +36,24 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     myPackingListId: {
       type: mongoose.Types.ObjectId,
+      ref: 'AlonePackingList',
     },
-    remainDay: {
-      type: Number,
+    isSaved: {
+      type: Boolean,
+      default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now(),
     },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
-export default mongoose.model<TogetherPackingListInfo & mongoose.Document>(
+export default mongoose.model<ITogetherPackingList & mongoose.Document>(
   'TogetherPackingList',
   TogetherPackingListSchema,
 );

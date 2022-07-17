@@ -1,19 +1,18 @@
 import axios from 'axios';
 import config from '../config';
-import { AuthResponseDto } from '../interface/IUserInfo';
+import { AuthResponseDto } from '../interface/IUser';
 import User from '../models/User';
 import getToken from '../modules/jwtHandler';
 
 const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | null | undefined> => {
   try {
-   
     const response = await axios({
       method: 'get',
       url: 'https://www.googleapis.com/oauth2/v2/userinfo',
       headers: {
         Authorization: `Bearer ${googleToken}`,
       },
-    })
+    });
 
     if (!response) return null;
 
@@ -38,7 +37,6 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
       };
       return data;
     }
-
   } catch (error) {
     console.log(error);
   }
@@ -66,7 +64,6 @@ const getGoogleInfo = async (code: string): Promise<string | null> => {
     });
 
     const access_token = data['access_token'];
-    console.log(access_token);
     if (!access_token) return null;
     else {
       const { data: userEmail } = await axios.get(

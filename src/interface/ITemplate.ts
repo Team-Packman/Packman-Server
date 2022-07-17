@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface TemplateInfo {
+export interface ITemplate {
   title: string;
   categoryIdArray: mongoose.Types.ObjectId[];
   isAloned: boolean;

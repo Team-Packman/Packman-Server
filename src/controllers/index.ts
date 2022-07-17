@@ -1,8 +1,15 @@
 import AuthController from './AuthController';
 import UserController from './UserController';
-import FolderController from './FolderController'
+import AlonePackingListController from './AlonePackingListController';
+import TogetherPackingListCategoryController from './TogetherPackingListCategoryController';
+import TogetherPackingListController from './TogetherPackingListController';
+import FolderController from './FolderController';
+
 export {
-    AuthController,
-    UserController,    
-    FolderController,
-}
+  AuthController,
+  UserController,
+  FolderController,
+  AlonePackingListController,
+  TogetherPackingListCategoryController,
+  TogetherPackingListController,
+};

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export interface FolderInfo {
+export interface IFolder {
   title: string;
   isAloned: boolean;
   userId: mongoose.Types.ObjectId;
@@ -8,6 +8,14 @@ export interface FolderInfo {
   packingListArray: mongoose.Types.ObjectId[];
 }
 
+export interface FolderCreateDto {
+  title: string;
+  isAloned: boolean;
+}
+export interface FolderUpdateDto {
+  id: string;
+  title: string;
+}
 export interface FolderResponseDto {
   aloneFolders : {
     id: mongoose.Schema.Types.ObjectId;

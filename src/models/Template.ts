@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { TemplateInfo } from '../interface/ITemplateInfo';
+import { ITemplate } from '../interface/ITemplate';
 
 const TemplateSchema = new mongoose.Schema(
   {
@@ -7,9 +7,10 @@ const TemplateSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    categoryIdArray: [
+    category: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isAloned: {
@@ -20,8 +21,12 @@ const TemplateSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true },
+  { versionKey: false },
 );
 
-export default mongoose.model<TemplateInfo & mongoose.Document>('Template', TemplateSchema);
+export default mongoose.model<ITemplate & mongoose.Document>('Template', TemplateSchema);
