@@ -28,30 +28,29 @@ const createAlonePackingList = async (
     //   alonePackingList.category = [];
     // } else {
     //   alonePackingList.category = innerTemplate.category;
-    //   alonePackingList.category.map(async (element) => {
+    //   for await (const element of alonePackingList.category) {
     //     const myCategory = await Category.findById(element);
     //     if (!myCategory) return 'notfoundCategory';
     //     alonePackingList.packTotalNum += myCategory.pack.length;
     //     alonePackingList.packRemainNum += myCategory.pack.length;
-    //   });
+    //   }
     // }
+    // await alonePackingList.save();
 
     //빈 문자열로 받을 경우
     if (!alonePackingListCreateDto.templateId) {
       alonePackingList.category = [];
-      await alonePackingList.save();
     } else {
       const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
       if (innerTemplate) {
         alonePackingList.category = innerTemplate.category;
-        alonePackingList.category.map(async (element) => {
+        for await (const element of alonePackingList.category) {
           const myCategory = await Category.findById(element);
           if (!myCategory) return 'notfoundCategory';
           alonePackingList.packTotalNum += myCategory.pack.length;
           alonePackingList.packRemainNum += myCategory.pack.length;
-        });
+        }
       } else return 'notfoundTemplate';
-      await alonePackingList.save();
     }
     await alonePackingList.save();
 
@@ -66,6 +65,7 @@ const createAlonePackingList = async (
       path: 'category',
       model: 'Category',
       options: { sort: { createdAt: 1 } },
+      select: { _id: 1, name: 1, pack: 1 },
       populate: {
         path: 'pack',
         model: 'Pack',
