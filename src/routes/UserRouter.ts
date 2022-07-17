@@ -8,13 +8,13 @@ const router: Router = Router();
 
 router.get('/', auth, UserController.getUserInfo);
 router.post('/profile',[
-    body('nickname')
+    body('name')
     .notEmpty(),
     body('profileImageId')
     .notEmpty() ] 
     , UserController.createUser);
 router.patch('/profile',[
-        body('nickname')
+        body('name')
         .notEmpty(),
         body('profileImageId')
         .notEmpty() ] 

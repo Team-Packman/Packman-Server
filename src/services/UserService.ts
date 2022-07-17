@@ -11,13 +11,13 @@ const createUser = async (userCreateDto: UserCreateDto): Promise<UserResponseDto
     if (existUser) return null;
     const user = new User({
       email: userCreateDto.email,
-      nickname: userCreateDto.nickname,
+      name: userCreateDto.name,
       profileImageId: userCreateDto.profileImageId,
     });
     await user.save();
     const data = {
       id: user._id,
-      nickname: user.nickname,
+      name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,
     };
@@ -35,7 +35,7 @@ const getUserInfo = async (userId: string): Promise<UserResponseDto | null> => {
     if (!user) return null;
     const data = {
       id: user.id,
-      nickname: user.nickname,
+      name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,
     };
@@ -55,7 +55,7 @@ const updateUser = async (
       { _id: userId },
       {
         $set: {
-          nickname: userUpdateDto.nickname,
+          name: userUpdateDto.name,
           profileImageId: userUpdateDto.profileImageId,
         },
       },
@@ -69,7 +69,7 @@ const updateUser = async (
 
     const data = await {
       id: user.id,
-      nickname: user.nickname,
+      name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,
     };

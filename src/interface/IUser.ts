@@ -7,13 +7,13 @@ export interface IUser {
 }
 
 export interface UserUpdateDto {
-  nickname: string;
+  name: string;
   profileImageId: string;
 }
 
 export interface UserResponseDto {
   id: mongoose.Schema.Types.ObjectId;
-  nickname: string;
+  name: string;
   email: string;
   profileImageId: string;
   accessToken?: string;
@@ -21,7 +21,7 @@ export interface UserResponseDto {
 
 export interface UserCreateDto {
   email: string;
-  nickname: string;
+  name: string;
   profileImageId: string;
 }
 
@@ -34,6 +34,6 @@ export interface AuthResponseDto {
   token?: string;
   id?: mongoose.Schema.Types.ObjectId;
   email: string;
-  nickname?: string;
+  name?: string;
   profileImageId?: string;
 }

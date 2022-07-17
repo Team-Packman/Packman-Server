@@ -32,7 +32,7 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
         token: accessToken,
         id: user._id,
         email: userEmail,
-        nickname: user.nickname,
+        name: user.name,
         profileImageId: user.profileImageId,
       };
       return data;
@@ -93,7 +93,7 @@ const googleLogin = async (userEmail: string): Promise<AuthResponseDto> => {
         isAlreadyUser: true,
         id: user._id,
         email: userEmail,
-        nickname: user.nickname,
+        name: user.name,
         profileImageId: user.profileImageId,
       };
       return data;
