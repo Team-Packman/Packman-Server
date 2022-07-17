@@ -16,7 +16,7 @@ const createUser = async (userCreateDto: UserCreateDto): Promise<UserResponseDto
     });
     await user.save();
     const data = {
-      id: user._id,
+      _id: user._id,
       name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,
@@ -34,7 +34,7 @@ const getUserInfo = async (userId: string): Promise<UserResponseDto | null> => {
     const user = await User.findById(userId);
     if (!user) return null;
     const data = {
-      id: user.id,
+      _id: user.id,
       name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,
@@ -68,7 +68,7 @@ const updateUser = async (
     }
 
     const data = await {
-      id: user.id,
+      _id: user.id,
       name: user.name,
       email: user.email,
       profileImageId: user.profileImageId,

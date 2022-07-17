@@ -6,7 +6,7 @@ async function folderResponse(userId: string) {
   const togetherFolders: any[] = [];
   await folders.map((folder) => {
     const data = {
-      id: folder.id,
+      _id: folder.id,
       title: folder.title,
       listNum: folder.listNum,
     };
