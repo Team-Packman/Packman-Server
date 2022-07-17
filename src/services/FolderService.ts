@@ -1,4 +1,4 @@
-import { FolderInfo, FolderCreateDto, FolderResponseDto } from '../interface/IFolderInfo';
+import { FolderInfo, FolderCreateDto, FolderResponseDto, FolderUpdateDto  } from '../interface/IFolderInfo';
 import Folder from '../models/Folder';
 import { CategoryInfo } from '../interface/ICategoryInfo';
 import AlonePackingList from '../models/AlonePackingList';
@@ -7,8 +7,12 @@ import Folder from '../models/Folder';
 import Pack from '../models/Pack';
 import TogetherPackingList from '../models/TogetherPackingList';
 import { folderResponse } from '../modules/folderResponse';
+import mongoose from 'mongoose';
 
-const createFolder = async (userId: string, folderCreateDto: FolderCreateDto): Promise<FolderResponseDto> => {
+const createFolder = async (
+  userId: string,
+  folderCreateDto: FolderCreateDto,
+): Promise<FolderResponseDto> => {
   try {
     const folder = new Folder({
       title: folderCreateDto.title,
@@ -19,9 +23,23 @@ const createFolder = async (userId: string, folderCreateDto: FolderCreateDto): P
       listModel: folderCreateDto.isAloned ? 'AlonePackingList' : 'TogetherPackingList',
     });
     await folder.save();
-    
+
     const data = folderResponse(userId);
 
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const updateFolder = async (
+  userId: string,
+  folderUpdateDto: FolderUpdateDto,
+): Promise<FolderResponseDto> => {
+  try {
+    await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
+    const data = await folderResponse(userId);
     return data;
   } catch (error) {
     console.log(error);
@@ -57,5 +75,6 @@ const deleteFolder = async (
 
 export default {
   createFolder,
+  updateFolder,
   deleteFolder,
 };
