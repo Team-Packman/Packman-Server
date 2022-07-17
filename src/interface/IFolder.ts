@@ -5,7 +5,7 @@ export interface IFolder {
   isAloned: boolean;
   userId: mongoose.Types.ObjectId;
   listNum: number;
-  packingListArray: mongoose.Types.ObjectId[];
+  pack: mongoose.Types.ObjectId[];
 }
 
 export interface FolderCreateDto {
@@ -17,12 +17,12 @@ export interface FolderUpdateDto {
   title: string;
 }
 export interface FolderResponseDto {
-  aloneFolders : {
+  aloneFolders: {
     id: mongoose.Schema.Types.ObjectId;
     title: string;
     listNum: number;
   }[];
-  togetherFolders : {
+  togetherFolders: {
     id: mongoose.Schema.Types.ObjectId;
     title: string;
     listNum: number;

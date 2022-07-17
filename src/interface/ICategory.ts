@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface ICategory {
   name: string;
-  packIdArray: mongoose.Types.ObjectId[];
+  pack: mongoose.Types.ObjectId[];
 }
 
 export interface CategoryUpdateDto {

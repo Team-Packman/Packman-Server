@@ -2,14 +2,14 @@ import mongoose from 'mongoose';
 
 export interface ITogetherPackingList {
   title: string;
-  isSaved: boolean;
   departureDate: Date;
   packTotalNum: number;
   packRemainNum: number;
   groupId: mongoose.Types.ObjectId;
-  categoryIdArray: mongoose.Types.ObjectId[];
+  category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
   myPackingListId: mongoose.Types.ObjectId;
+  isSaved: boolean;
 }
 
 export interface TogetherPackingListCategoryCreateDto {

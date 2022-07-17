@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 export interface IAlonePackingList {
   title: string;
-  isSaved: boolean;
   departureDate: Date;
   packTotalNum: number;
   packRemainNum: number;
-  categoryIdArray: mongoose.Types.ObjectId[];
+  category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
+  isSaved: boolean;
 }
 
 export interface AlonePackingListCreateDTO {

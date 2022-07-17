@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 export interface IUser {
   email: string;
-  nickname: string;
+  name: string;
   profileImageId: string;
   isDeleted: string;
 }
