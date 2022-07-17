@@ -35,7 +35,7 @@ const createAlonePackingList = async (req: Request, res: Response) => {
     else if (data == 'notfoundCategory')
       res
         .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATAGORY));
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
     else
       res
         .status(statusCode.CREATED)
