@@ -64,7 +64,6 @@ const getGoogleInfo = async (code: string): Promise<string | null> => {
     });
 
     const access_token = data['access_token'];
-    console.log(access_token);
     if (!access_token) return null;
     else {
       const { data: userEmail } = await axios.get(

@@ -8,7 +8,7 @@ const AlonePackingListSchema = new mongoose.Schema(
       required: true,
     },
     isSaved: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     departureDate: {
@@ -17,9 +17,11 @@ const AlonePackingListSchema = new mongoose.Schema(
     },
     packTotalNum: {
       type: Number,
+      default: 0,
     },
     packRemainNum: {
       type: Number,
+      default: 0,
     },
     categoryIdArray: [
       {

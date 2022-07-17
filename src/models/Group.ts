@@ -13,4 +13,4 @@ const GroupSchema = new mongoose.Schema(
   { versionKey: false },
 );
 
-export default mongoose.model<IG & mongoose.Document>('Group', GroupSchema);
+export default mongoose.model<IGroup & mongoose.Document>('Group', GroupSchema);

@@ -3,16 +3,16 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator/check';
-import { AlonePackingListCreateDTO } from '../interface/IAlonePackingList';
-import AlonePackingListService from '../services/AlonePackingListService';
+import { TogetherPackingListCreateDTO } from '../interface/ITogetherPackingList';
+import { TogetherPackingListService } from '../services';
 
 /**
- *  @route POST /packinglist/alone
- *  @desc Create Alone Packinglist
+ *  @route POST /packinglist/together
+ *  @desc Create Together Packinglist
  *  @access Public
  **/
 
-const createAlonePackingList = async (req: Request, res: Response) => {
+const createTogetherPackingList = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res
@@ -20,10 +20,13 @@ const createAlonePackingList = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const alonePackingListCreateDto: AlonePackingListCreateDTO = req.body;
+  const togetherPackingListCreateDto: TogetherPackingListCreateDTO = req.body;
 
   try {
-    const data = await AlonePackingListService.createAlonePackingList(alonePackingListCreateDto);
+    const data = await TogetherPackingListService.createTogetherPackingList(
+      togetherPackingListCreateDto,
+    );
+
     if (data == 'notfoundList')
       res
         .status(statusCode.BAD_REQUEST)
@@ -32,14 +35,10 @@ const createAlonePackingList = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
-    else if (data == 'notfoundCategory')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
     else
       res
         .status(statusCode.CREATED)
-        .send(util.success(statusCode.CREATED, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
+        .send(util.success(statusCode.CREATED, message.CREATE_TOGETHERPACKINGLIST_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res
@@ -49,5 +48,5 @@ const createAlonePackingList = async (req: Request, res: Response) => {
 };
 
 export default {
-  createAlonePackingList,
+  createTogetherPackingList,
 };

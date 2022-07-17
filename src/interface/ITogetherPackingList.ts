@@ -37,3 +37,33 @@ export interface TogetherPackingListCategoryResponseDto {
     },
   ];
 }
+
+export interface TogetherPackingListCreateDTO {
+  title: string;
+  departureDate: Date;
+  folderId: string;
+  templateId: string;
+}
+
+export interface TogetherPackingListResponseDTO {
+  _id: string;
+  title: string;
+  departureDate: string;
+  categoryIdArray: [
+    {
+      _id: string;
+      name: string;
+      packIdArray: [
+        {
+          _id: string;
+          name: string;
+          isChecked: boolean;
+          myPackingListId: {
+            _id: string;
+            name: string;
+          };
+        },
+      ];
+    },
+  ];
+}
