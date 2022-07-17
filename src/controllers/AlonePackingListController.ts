@@ -38,8 +38,8 @@ const createAlonePackingList = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
     else
       res
-        .status(statusCode.CREATED)
-        .send(util.success(statusCode.CREATED, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
+        .status(statusCode.OK)
+        .send(util.success(statusCode.OK, message.CREATE_ALONEPACKINGLIST_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res
