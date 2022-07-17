@@ -1,4 +1,9 @@
-import { FolderInfo, FolderCreateDto, FolderResponseDto, FolderUpdateDto  } from '../interface/IFolderInfo';
+import {
+  FolderInfo,
+  FolderCreateDto,
+  FolderResponseDto,
+  FolderUpdateDto,
+} from '../interface/IFolderInfo';
 import Folder from '../models/Folder';
 import { CategoryInfo } from '../interface/ICategoryInfo';
 import AlonePackingList from '../models/AlonePackingList';
@@ -19,7 +24,7 @@ const createFolder = async (
       isAloned: folderCreateDto.isAloned,
       userId: userId,
       listNum: 0,
-      packingListArray: [],
+      pack: [],
       listModel: folderCreateDto.isAloned ? 'AlonePackingList' : 'TogetherPackingList',
     });
     await folder.save();
@@ -38,7 +43,7 @@ const updateFolder = async (
   folderUpdateDto: FolderUpdateDto,
 ): Promise<FolderResponseDto> => {
   try {
-    await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
+    await Folder.findByIdAndUpdate(folderUpdateDto.id, { $set: { title: folderUpdateDto.title } });
     const data = await folderResponse(userId);
     return data;
   } catch (error) {
@@ -47,10 +52,6 @@ const updateFolder = async (
   }
 };
 
-
-
-
-
 const deleteFolder = async (
   userId: string,
   folderId: string,
@@ -58,11 +59,17 @@ const deleteFolder = async (
   try {
     const folder = await Folder.findById(folderId);
     if (!folder) return null;
-    var packingListArray = folder.packingListArray;
+    var packingListArray = folder.pack;
     if (folder.isAloned) {
-      await AlonePackingList.findByIdAndUpdate({ $in: packingListArray } ,{ $set: { isDeleted: true } });
+      await AlonePackingList.findByIdAndUpdate(
+        { $in: packingListArray },
+        { $set: { isDeleted: true } },
+      );
     } else {
-      await TogetherPackingList.findByIdAndUpdate({ $in: packingListArray } , { $set: { isDeleted: true } } );
+      await TogetherPackingList.findByIdAndUpdate(
+        { $in: packingListArray },
+        { $set: { isDeleted: true } },
+      );
     }
     await Folder.findByIdAndDelete(folderId);
     const data = await folderResponse(userId);
