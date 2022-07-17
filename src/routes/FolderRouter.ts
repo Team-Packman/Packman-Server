@@ -11,5 +11,6 @@ router.post('/',[
     .notEmpty(),
     body('isAloned')
     .notEmpty() ] 
-    ,auth ,FolderController.createFolder)
+    ,auth ,FolderController.createFolder);
+router.delete('/:folderId', auth, FolderController.deleteFolder);
 export default router;
