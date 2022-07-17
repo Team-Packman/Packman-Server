@@ -57,6 +57,7 @@ const createTogetherPackingList = async (
       title: togetherPackingListCreateDto.title,
       departureDate: togetherPackingListCreateDto.departureDate,
       category: [],
+      isAloned: false,
     });
     await alonePackingList.save();
 

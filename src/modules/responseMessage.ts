@@ -26,6 +26,8 @@ const message = {
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
   DUPLICATION_PACKINGLIST: '중복된 리스트 이름입니다',
+  NO_UPDATEDTITLE: '존재하지 않는 UpdatedTitle입니다',
+  UPDATE_PACKINGLIST_TITLE_SUCCESS: '패킹리스트 제목 수정 성공',
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
