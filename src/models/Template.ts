@@ -7,7 +7,7 @@ const TemplateSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    categoryIdArray: [
+    category: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'Category',
@@ -21,8 +21,12 @@ const TemplateSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 
 export default mongoose.model<ITemplate & mongoose.Document>('Template', TemplateSchema);

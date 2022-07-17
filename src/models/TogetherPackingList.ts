@@ -7,10 +7,6 @@ const TogetherPackingListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isSaved: {
-      type: Boolean,
-      default: false,
-    },
     departureDate: {
       type: Date,
       required: true,
@@ -28,7 +24,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
       required: true,
       ref: 'Group',
     },
-    categoryIdArray: [
+    category: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'Category',
@@ -42,8 +38,20 @@ const TogetherPackingListSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'AlonePackingList',
     },
+    isSaved: {
+      type: Boolean,
+      default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 export default mongoose.model<ITogetherPackingList & mongoose.Document>(
   'TogetherPackingList',

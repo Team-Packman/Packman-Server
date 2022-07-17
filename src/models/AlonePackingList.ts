@@ -7,10 +7,6 @@ const AlonePackingListSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isSaved: {
-      type: Boolean,
-      default: false,
-    },
     departureDate: {
       type: Date,
       required: true,
@@ -23,7 +19,7 @@ const AlonePackingListSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    categoryIdArray: [
+    category: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'Category',
@@ -33,8 +29,24 @@ const AlonePackingListSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isAloned: {
+      type: Boolean,
+      default: true,
+    },
+    isSaved: {
+      type: Boolean,
+      default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 export default mongoose.model<IAlonePackingList & mongoose.Document>(
   'AlonePackingList',

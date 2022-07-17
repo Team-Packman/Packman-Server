@@ -7,14 +7,18 @@ const CategorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    packIdArray: [
+    pack: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'Pack',
       },
     ],
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 
 export default mongoose.model<ICategory & mongoose.Document>('Category', CategorySchema);

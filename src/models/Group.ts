@@ -3,7 +3,7 @@ import { IGroup } from '../interface/IGroup';
 
 const GroupSchema = new mongoose.Schema(
   {
-    userIdArray: [
+    members: [
       {
         type: mongoose.Types.ObjectId,
         ref: 'User',
