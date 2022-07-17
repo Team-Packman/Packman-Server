@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
-import { UserCreateDto } from '../interface/IUserInfo';
+import { UserCreateDto } from '../interface/IUser';
 import { UserService } from '../services';
 import { validationResult } from 'express-validator';
 import getToken from '../modules/jwtHandler';

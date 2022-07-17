@@ -50,7 +50,6 @@ const googleLogin = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE_TOKEN));
 
     const data = await AuthService.googleLogin(userEmail);
-    console.log(data);
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_TOKEN, data));
 
     // res.status(statusCode.OK).send()

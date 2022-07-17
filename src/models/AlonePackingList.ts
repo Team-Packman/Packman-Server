@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { AlonePackingListInfo } from '../interface/IAlonePackingList';
+import { IAlonePackingList } from '../interface/IAlonePackingList';
 
 const AlonePackingListSchema = new mongoose.Schema(
   {
@@ -8,7 +8,7 @@ const AlonePackingListSchema = new mongoose.Schema(
       required: true,
     },
     isSaved: {
-      type: String,
+      type: Boolean,
       default: false,
     },
     departureDate: {
@@ -17,26 +17,26 @@ const AlonePackingListSchema = new mongoose.Schema(
     },
     packTotalNum: {
       type: Number,
+      default: 0,
     },
     packRemainNum: {
       type: Number,
+      default: 0,
     },
     categoryIdArray: [
       {
         type: mongoose.Types.ObjectId,
+        ref: 'Category',
       },
     ],
     isDeleted: {
       type: Boolean,
       default: false,
     },
-    remainDay: {
-      type: Number,
-    },
   },
-  { timestamps: true },
+  { timestamps: true, versionKey: false },
 );
-export default mongoose.model<AlonePackingListInfo & mongoose.Document>(
+export default mongoose.model<IAlonePackingList & mongoose.Document>(
   'AlonePackingList',
   AlonePackingListSchema,
 );
