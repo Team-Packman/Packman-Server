@@ -19,10 +19,9 @@ const message = {
   SUCCESS_GET_USER: '유저 조회 성공',
   SUCCESS_UPDATE_USER: '유저 수정 성공',
 
-    // 폴더 관련
-    SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
-    SUCCESS_UPDATE_FOLDER: '폴더 수정 성공',
-
+  // 폴더 관련
+  SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
+  SUCCESS_UPDATE_FOLDER: '폴더 수정 성공',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
@@ -40,6 +39,9 @@ const message = {
   // 카테고리
   NO_CATEGORY: '존재하지 않는 Category입니다',
   NO_LIST_CATEGORY: '리스트에 존재하지 않는 Category입니다',
+
+  //템플릿
+  NO_TEMPLATE: '존재하지 않는 Template입니다',
 };
 
 export default message;

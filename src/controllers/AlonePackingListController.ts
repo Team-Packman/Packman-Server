@@ -36,6 +36,10 @@ const createAlonePackingList = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
+    else if (data == 'notfoundTemplate')
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_TEMPLATE));
     else
       res
         .status(statusCode.OK)

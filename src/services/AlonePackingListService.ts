@@ -22,21 +22,37 @@ const createAlonePackingList = async (
       departureDate: alonePackingListCreateDto.departureDate,
     });
 
-    const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
-    if (!innerTemplate) {
-      alonePackingList.category = [];
-    } else {
-      alonePackingList.category = innerTemplate.category;
-      alonePackingList.category.map(async (element) => {
-        const myCategory = await Category.findById(element);
-        if (!myCategory) return 'notfoundCategory';
-        console.log(myCategory.pack.length);
-        alonePackingList.packTotalNum += myCategory.pack.length;
-        alonePackingList.packRemainNum += myCategory.pack.length;
-      });
-    }
+    //null값으로 받을 경우
+    // const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
+    // if (!innerTemplate) {
+    //   alonePackingList.category = [];
+    // } else {
+    //   alonePackingList.category = innerTemplate.category;
+    //   alonePackingList.category.map(async (element) => {
+    //     const myCategory = await Category.findById(element);
+    //     if (!myCategory) return 'notfoundCategory';
+    //     alonePackingList.packTotalNum += myCategory.pack.length;
+    //     alonePackingList.packRemainNum += myCategory.pack.length;
+    //   });
+    // }
 
-    console.log(alonePackingList.packTotalNum, alonePackingList.packRemainNum);
+    //빈 문자열로 받을 경우
+    if (!alonePackingListCreateDto.templateId) {
+      alonePackingList.category = [];
+      await alonePackingList.save();
+    } else {
+      const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
+      if (innerTemplate) {
+        alonePackingList.category = innerTemplate.category;
+        alonePackingList.category.map(async (element) => {
+          const myCategory = await Category.findById(element);
+          if (!myCategory) return 'notfoundCategory';
+          alonePackingList.packTotalNum += myCategory.pack.length;
+          alonePackingList.packRemainNum += myCategory.pack.length;
+        });
+      } else return 'notfoundTemplate';
+      await alonePackingList.save();
+    }
     await alonePackingList.save();
 
     await Folder.findByIdAndUpdate(alonePackingListCreateDto.folderId, {
