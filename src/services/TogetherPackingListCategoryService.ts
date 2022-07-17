@@ -7,6 +7,8 @@ import TogetherPackingList from '../models/TogetherPackingList';
 import Category from '../models/Category';
 import Pack from '../models/Pack';
 import { CategoryUpdateDto } from '../interface/ICategory';
+import { CategoryDeleteDto } from '../interface/ICategory';
+import mongoose from 'mongoose';
 
 const createCategory = async (
   togetherPackingListCategoryCreateDto: TogetherPackingListCategoryCreateDto,
@@ -62,7 +64,7 @@ const updateCategory = async (
     const categoryId = categoryUpdateDto.id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
-
+    console.log(categoryId);
     const category = await Category.findById(categoryId);
     if (!category) return 'no_category';
 
@@ -110,7 +112,68 @@ const updateCategory = async (
     throw error;
   }
 };
+
+const deleteCategory = async (listId: string, categoryId: string): Promise<string> => {
+  try {
+    const lId = new mongoose.Types.ObjectId(listId);
+    const cateId = new mongoose.Types.ObjectId(categoryId);
+
+    const category = await Category.findById(cateId);
+    if (!category) return 'no_category';
+
+    const list = await TogetherPackingList.findById(lId);
+    if (!list) return 'no_list';
+
+    const categories = list.categoryIdArray;
+    const packs = category.packIdArray;
+
+    // list의 categoryIdArray 배열에 존재하지 않는 categoryId인 경우
+    if (!categories.includes(cateId)) return 'no_list_category';
+
+    await Pack.deleteMany({ _id: { $in: packs } });
+    await Category.deleteOne({ _id: cateId });
+
+    categories.splice(categories.indexOf(cateId));
+
+    await TogetherPackingList.updateOne(
+      { _id: listId },
+      {
+        $set: {
+          categoryIdArray: categories,
+        },
+      },
+    );
+
+    const data = await TogetherPackingList.findOne(
+      { _id: listId },
+      { categoryIdArray: 1 },
+    ).populate({
+      path: 'categoryIdArray',
+      model: 'Category',
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: 'packIdArray',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1 },
+        options: { sort: { createdAt: 1 } },
+        populate: {
+          path: 'packerId',
+          model: 'User',
+          select: {
+            _id: 1,
+            nickname: 1,
+          },
+        },
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createCategory,
   updateCategory,
+  deleteCategory,
 };

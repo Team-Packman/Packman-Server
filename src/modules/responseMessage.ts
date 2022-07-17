@@ -33,6 +33,7 @@ const message = {
   SUCCESS_CREATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 생성 성공',
   CREATE_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 생성 성공',
   SUCCESS_UPDATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 수정 성공',
+  SUCCESS_DELETE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 삭제 성공',
 
   // 카테고리
   NO_CATEGORY: '존재하지 않는 Category입니다',
