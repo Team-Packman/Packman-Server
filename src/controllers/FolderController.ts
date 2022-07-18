@@ -31,6 +31,7 @@ const updateFolder = async(req: Request, res: Response) => {
     const folderUpdateDto = req.body;
     try {
         const data = await FolderService.updateFolder(userId, folderUpdateDto);
+        if(!data) return res.statusCode(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NOT_FOUND));
         res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_UPDATE_FOLDER, data));
     } catch(error) {
         console.log(error);

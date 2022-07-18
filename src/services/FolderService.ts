@@ -44,7 +44,8 @@ const updateFolder = async (
   folderUpdateDto: FolderUpdateDto,
 ): Promise<AllFolderResponseDto> => {
   try {
-    await Folder.findByIdAndUpdate(folderUpdateDto.id, { $set: { title: folderUpdateDto.title } });
+    const folders = await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
+    if(!folders) return null;
     const data = await folderResponse(userId);
     return data;
   } catch (error) {
