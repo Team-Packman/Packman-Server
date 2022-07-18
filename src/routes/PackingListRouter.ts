@@ -18,6 +18,8 @@ router.post(
   [body('title').notEmpty(), body('departureDate').notEmpty(), body('folderId').notEmpty()],
   TogetherPackingListController.createTogetherPackingList,
 );
+router.get('/together/:listId', TogetherPackingListController.readTogetherPackingList);
+
 router.patch(
   '/title',
   [body('_id').notEmpty(), body('title').notEmpty(), body('isAloned').notEmpty()],
