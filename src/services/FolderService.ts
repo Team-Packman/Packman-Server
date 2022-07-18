@@ -36,9 +36,10 @@ const createFolder = async (
 const updateFolder = async (
   userId: string,
   folderUpdateDto: FolderUpdateDto,
-): Promise<FolderResponseDto> => {
+): Promise<FolderResponseDto|null> => {
   try {
-    await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
+    const folders = await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
+    if(!folders) return null;
     const data = await folderResponse(userId);
     return data;
   } catch (error) {
