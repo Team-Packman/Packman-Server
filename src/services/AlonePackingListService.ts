@@ -55,7 +55,7 @@ const createAlonePackingList = async (
     await alonePackingList.save();
 
     await Folder.findByIdAndUpdate(alonePackingListCreateDto.folderId, {
-      $push: { pack: alonePackingList.id },
+      $push: { list: alonePackingList.id },
     });
 
     const data: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(

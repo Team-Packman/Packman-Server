@@ -20,7 +20,7 @@ const FolderSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    pack: [
+    list: [
       {
         type: mongoose.Types.ObjectId,
         refPath: 'listModel',
