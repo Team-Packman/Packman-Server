@@ -14,28 +14,34 @@ export interface ITogetherPackingList {
 
 export interface TogetherPackingListCategoryCreateDto {
   name: string;
-  listId: mongoose.Schema.Types.ObjectId;
+  listId: mongoose.Types.ObjectId;
 }
 
 export interface TogetherPackingListCategoryResponseDto {
-  _id: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   category: [
     {
-      _id: mongoose.Schema.Types.ObjectId;
+      _id: mongoose.Types.ObjectId;
       name: string;
       pack: [
         {
-          _id: mongoose.Schema.Types.ObjectId;
+          _id: mongoose.Types.ObjectId;
           name: string;
           isChecked: boolean;
           packer: {
-            _id: mongoose.Schema.Types.ObjectId;
+            _id: mongoose.Types.ObjectId;
             name: string;
           };
         },
       ];
     },
   ];
+}
+
+export interface TogetherPackingListPackCreateDto {
+  name: string;
+  categoryId: mongoose.Types.ObjectId;
+  listId: mongoose.Types.ObjectId;
 }
 
 export interface TogetherPackingListCreateDTO {

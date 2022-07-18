@@ -1,11 +1,10 @@
-//router index file
 import { Router } from 'express';
 import PackingListRouter from './PackingListRouter';
-
 import AuthRouter from './AuthRouter';
 import UserRouter from './UserRouter';
 import FolderRouter from './FolderRouter';
 import TogetherPackingListCategoryRouter from './TogetherPackingListCategoryRouter';
+import TogetherPackingListPackRouter from './TogetherPackingListPackRouter';
 
 const router = Router();
 
@@ -16,5 +15,5 @@ router.use('/folder', FolderRouter);
 router.use('/folder', FolderRouter);
 router.use('/packingList', PackingListRouter);
 router.use('/packingList/together/category', TogetherPackingListCategoryRouter);
-
+router.use('/packingList/together/pack', TogetherPackingListPackRouter);
 export default router;
