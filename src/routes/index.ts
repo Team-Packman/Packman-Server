@@ -6,6 +6,7 @@ import FolderRouter from './FolderRouter';
 import TogetherPackingListCategoryRouter from './TogetherPackingListCategoryRouter';
 import TogetherPackingListPackRouter from './TogetherPackingListPackRouter';
 import TogetherPackingListRouter from './TogetherPackingListRouter';
+import AlonePackingListRouter from './AlonePackingListRouter';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/folder', FolderRouter);
 router.use('/folder', FolderRouter);
 router.use('/packingList', PackingListRouter);
 router.use('/packingList/together', TogetherPackingListRouter);
+router.use('/packingList/alone', AlonePackingListRouter);
 router.use('/packingList/together/category', TogetherPackingListCategoryRouter);
 router.use('/packingList/together/pack', TogetherPackingListPackRouter);
 export default router;
