@@ -3,6 +3,7 @@ const message = {
   NOT_FOUND: '존재하지 않는 자원',
   BAD_REQUEST: '잘못된 요청',
   INTERNAL_SERVER_ERROR: '서버 내부 오류',
+  INVALID_PARAMS: '유효하지 않은 파라미터 입니다',
 
   // 토큰 관련
   NULL_VALUE_TOKEN: '토큰이 없습니다',
@@ -22,6 +23,7 @@ const message = {
   // 폴더 관련
   SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
   SUCCESS_UPDATE_FOLDER: '폴더 수정 성공',
+  NO_FOLDER: '존재하지 않는 Folder입니다',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
@@ -45,6 +47,7 @@ const message = {
   SUCCESS_DELETE_TOGETHER_PACK_SUCCESS: '함께 패킹리스트 짐 삭제 성공',
   CREATE_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 생성 성공',
   READ_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 상세 조회 성공',
+  DELETE_TOGETHERPACKINGLIST_SUCCESS: '폴더 속 함께 패킹리스트 삭제 성공',
 
   // 카테고리
   NO_CATEGORY: '존재하지 않는 Category입니다',
