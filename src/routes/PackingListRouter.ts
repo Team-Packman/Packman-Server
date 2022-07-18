@@ -23,6 +23,12 @@ router.patch(
   [body('_id').notEmpty(), body('title').notEmpty(), body('isAloned').notEmpty()],
   PackingListController.updatePackingListTitle,
 );
+router.patch(
+  '/departureDate',
+  [body('_id').notEmpty(), body('departureDate').notEmpty(), body('isAloned').notEmpty()],
+  PackingListController.updatePackingListDate,
+);
+
 router;
 
 export default router;

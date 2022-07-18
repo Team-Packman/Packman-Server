@@ -1,4 +1,4 @@
-import { PackingListTitleUpdateDTO } from '../interface/IPackingList';
+import { PackingListDateUpdateDTO, PackingListTitleUpdateDTO } from '../interface/IPackingList';
 import AlonePackingList from '../models/AlonePackingList';
 import TogetherPackingList from '../models/TogetherPackingList';
 
@@ -61,6 +61,48 @@ const updatePackingListTitle = async (
   }
 };
 
+const updatePackingListDate = async (
+  packingListDateUpdateDto: PackingListDateUpdateDTO,
+): Promise<PackingListDateUpdateDTO | string> => {
+  try {
+    let updatedData;
+    if (packingListDateUpdateDto.isAloned) {
+      updatedData = await AlonePackingList.findByIdAndUpdate(
+        packingListDateUpdateDto._id,
+        {
+          departureDate: packingListDateUpdateDto.departureDate,
+          updatedAt: Date.now(),
+        },
+        { new: true },
+      );
+      if (!updatedData) return 'notfoundUpdatedDate';
+    } else {
+      updatedData = await TogetherPackingList.findByIdAndUpdate(
+        packingListDateUpdateDto._id,
+        {
+          departureDate: packingListDateUpdateDto.departureDate,
+          updatedAt: Date.now(),
+        },
+        { new: true },
+      );
+      if (!updatedData) return 'notfoundUpdatedDate';
+      await AlonePackingList.findByIdAndUpdate(updatedData.myPackingListId, {
+        departureDate: packingListDateUpdateDto.departureDate,
+        updatedAt: Date.now(),
+      });
+    }
+
+    const data = {
+      _id: updatedData.id,
+      departureDate: updatedData.departureDate,
+    };
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   updatePackingListTitle,
+  updatePackingListDate,
 };
