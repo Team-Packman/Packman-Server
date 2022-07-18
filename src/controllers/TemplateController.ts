@@ -16,7 +16,9 @@ const getAloneTemplate = async (req: Request, res: Response) => {
     const data = await TemplateService.getAloneTemplate();
 
     if (data == 'notfoundTemplate')
-      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_TEMPLATE));
     else
       res
         .status(statusCode.OK)

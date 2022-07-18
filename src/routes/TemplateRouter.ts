@@ -4,7 +4,7 @@ import TemplateController from '../controllers/TemplateController';
 
 const router: Router = Router();
 
-router.post('/alone', TemplateController.getAloneTemplate);
+router.get('/alone', TemplateController.getAloneTemplate);
 
 router;
 

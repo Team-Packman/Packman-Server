@@ -7,6 +7,7 @@ import TogetherPackingListCategoryRouter from './TogetherPackingListCategoryRout
 import TogetherPackingListPackRouter from './TogetherPackingListPackRouter';
 import TogetherPackingListRouter from './TogetherPackingListRouter';
 import AlonePackingListRouter from './AlonePackingListRouter';
+import TemplateRouter from './TemplateRouter';
 
 const router = Router();
 
@@ -20,4 +21,6 @@ router.use('/packingList/together', TogetherPackingListRouter);
 router.use('/packingList/alone', AlonePackingListRouter);
 router.use('/packingList/together/category', TogetherPackingListCategoryRouter);
 router.use('/packingList/together/pack', TogetherPackingListPackRouter);
+
+router.use('/template', TemplateRouter);
 export default router;
