@@ -38,6 +38,10 @@ const TogetherPackingListSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: 'AlonePackingList',
     },
+    inviteCode: {
+      type: String,
+      required: true,
+    },
     isSaved: {
       type: Boolean,
       default: false,
