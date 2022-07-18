@@ -5,6 +5,6 @@ const router: Router = Router();
 
 router.get('/google', AuthController.getGoogleUser);
 
-// router.get("/google/callback", AuthController.googleLogin);
+router.get("/google/callback", AuthController.googleLogin);
 
 export default router;
