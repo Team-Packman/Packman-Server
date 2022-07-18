@@ -70,22 +70,10 @@ const readTogetherPackingList = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-    else if (data == 'duplication')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
-    else if (data == 'notfoundCategory')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
-    else if (data == 'notfoundTemplate')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_TEMPLATE));
     else
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.CREATE_TOGETHERPACKINGLIST_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.READ_TOGETHERPACKINGLIST_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res
@@ -95,4 +83,5 @@ const readTogetherPackingList = async (req: Request, res: Response) => {
 };
 export default {
   createTogetherPackingList,
+  readTogetherPackingList,
 };
