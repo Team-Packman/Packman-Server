@@ -23,7 +23,7 @@ const createUser = async (req: Request, res: Response) => {
       return res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.FAIL_CREATE_USER));
-    const accessToken = getToken(data.id);
+    const accessToken = getToken(data._id);
     data.accessToken = accessToken;
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_CREATE_USER, data));
   } catch (error) {

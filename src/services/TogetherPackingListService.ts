@@ -66,7 +66,7 @@ const createTogetherPackingList = async (
     await togetherPackingList.save();
 
     await Folder.findByIdAndUpdate(togetherPackingListCreateDto.folderId, {
-      $push: { pack: togetherPackingList.id },
+      $push: { list: togetherPackingList.id },
     });
 
     const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
@@ -138,7 +138,7 @@ const readTogetherPackingList = async (
   try {
     const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
       { _id: listId },
-      { category: 1, isSaved: 1, groupId: 1 },
+      { category: 1, isSaved: 1, groupId: 1, inviteCode: 1 },
     ).populate({
       path: 'category',
       model: 'Category',
@@ -217,7 +217,7 @@ const deleteTogetherPackingList = async (
     const data = [];
     const responseFolder = await Folder.findById(folderId);
     if (!responseFolder) return 'notfoundFolder';
-    for await (const element of responseFolder.pack) {
+    for await (const element of responseFolder.list) {
       const responseList = await TogetherPackingList.findById(element);
       if (responseList && responseList.isDeleted == false) {
         const innerData: PackingListResponseDTO = {
