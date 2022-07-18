@@ -6,3 +6,14 @@ export interface ITemplate {
   isAloned: boolean;
   isHelped: boolean;
 }
+
+export interface TemplateResponseDTO {
+  basicTemplate: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+  }[];
+  myTemplate: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+  }[];
+}
