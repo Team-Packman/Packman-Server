@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { body } from 'express-validator/check';
+import { body } from 'express-validator';
 import {
   AlonePackingListController,
   PackingListController,
@@ -28,7 +28,6 @@ router.patch(
   [body('_id').notEmpty(), body('departureDate').notEmpty(), body('isAloned').notEmpty()],
   PackingListController.updatePackingListDate,
 );
-
-router;
+router.get('/invite/:inviteId', PackingListController.invitePackingList);
 
 export default router;

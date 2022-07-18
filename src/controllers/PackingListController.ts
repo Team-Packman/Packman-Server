@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
-import { validationResult } from 'express-validator/check';
+import { validationResult } from 'express-validator';
 import { PackingListDateUpdateDTO, PackingListTitleUpdateDTO } from '../interface/IPackingList';
 import PackingListService from '../services/PackingListService';
-
+import { nanoid } from 'nanoid';
 /**
  *  @route PATCH /packingList/title
  *  @desc Update Packinglist Title
@@ -83,7 +83,34 @@ const updatePackingListDate = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
+/**
+ *  @route GET /invite/:inviteCode
+ *  @desc find packingList by inviteCode
+ *  @access Public
+ **/
+
+const generateInviteCode = () => {
+  const code = nanoid();
+  return code;
+};
+const invitePackingList = async (req: Request, res: Response) => {
+  const inviteCode = req.params.inviteCode;
+  try {
+    const data = await PackingListService.getPackingByInviteCode(inviteCode);
+    if(!data) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.SUCCESS_INVITE_TOGETHER_PACKING, data));
+  } catch (error) {
+    console.log(error);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
 export default {
   updatePackingListTitle,
   updatePackingListDate,
+  invitePackingList,
 };

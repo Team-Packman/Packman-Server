@@ -102,7 +102,23 @@ const updatePackingListDate = async (
     throw error;
   }
 };
+
+const getPackingByInviteCode = async(inviteCode: string): Promise<PackingListResponseDto> => {
+  try {
+    const packingList = await togetherPackingList.find({inviteCode: inviteCode});
+    if (!packingList) return null;
+    const data = {
+      _id: packingList._id,
+      title: packingList.title
+    }
+    return data;
+  } catch(error) {
+    console.log(error);
+    throw error;
+  }
+}
 export default {
   updatePackingListTitle,
   updatePackingListDate,
+  getPackingByInviteCode,
 };
