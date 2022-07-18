@@ -3,7 +3,7 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
-import { TogetherPackingListPackCreateDto } from '../interface/ITogetherPackingList';
+import { PackCreateDto } from '../interface/IPack';
 import { TogetherPackingListPackService } from '../services';
 import { PackUpdateDto } from '../interface/IPack';
 
@@ -15,10 +15,10 @@ const createPack = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const togetherPackingListPackCreateDto: TogetherPackingListPackCreateDto = req.body;
+  const PackCreateDto: PackCreateDto = req.body;
 
   try {
-    const data = await TogetherPackingListPackService.createPack(togetherPackingListPackCreateDto);
+    const data = await TogetherPackingListPackService.createPack(PackCreateDto);
 
     if (data === 'no_list') {
       res

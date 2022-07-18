@@ -1,13 +1,13 @@
 import TogetherPackingList from '../models/TogetherPackingList';
-import { TogetherPackingListPackCreateDto } from '../interface/ITogetherPackingList';
+import { PackCreateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import Category from '../models/Category';
 import { PackUpdateDto } from '../interface/IPack';
 
-const createPack = async (togetherPackingListPackCreateDto: TogetherPackingListPackCreateDto) => {
+const createPack = async (packCreateDto: PackCreateDto) => {
   try {
-    const listId = togetherPackingListPackCreateDto.listId;
-    const categoryId = togetherPackingListPackCreateDto.categoryId;
+    const listId = packCreateDto.listId;
+    const categoryId = packCreateDto.categoryId;
 
     const cate = await Category.findById(categoryId);
     if (!cate) return 'no_category';
@@ -17,7 +17,7 @@ const createPack = async (togetherPackingListPackCreateDto: TogetherPackingListP
 
     if (!list.category.includes(categoryId)) return 'no_list_category';
 
-    const newPack = new Pack({ name: togetherPackingListPackCreateDto.name });
+    const newPack = new Pack({ name: packCreateDto.name });
     await newPack.save();
 
     await Category.findByIdAndUpdate(categoryId, {

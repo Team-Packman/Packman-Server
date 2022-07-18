@@ -38,12 +38,6 @@ export interface TogetherPackingListCategoryResponseDto {
   ];
 }
 
-export interface TogetherPackingListPackCreateDto {
-  name: string;
-  categoryId: mongoose.Types.ObjectId;
-  listId: mongoose.Types.ObjectId;
-}
-
 export interface TogetherPackingListCreateDTO {
   departureDate: Date;
   folderId: string;
