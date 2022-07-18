@@ -3,6 +3,7 @@ const message = {
   NOT_FOUND: '존재하지 않는 자원',
   BAD_REQUEST: '잘못된 요청',
   INTERNAL_SERVER_ERROR: '서버 내부 오류',
+  INVALID_PARAMS: '유효하지 않은 파라미터 입니다',
 
   // 토큰 관련
   NULL_VALUE_TOKEN: '토큰이 없습니다',

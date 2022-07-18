@@ -90,6 +90,11 @@ const readTogetherPackingList = async (req: Request, res: Response) => {
 
 const deleteTogetherPackingList = async (req: Request, res: Response) => {
   const { folderId, listId } = req.params;
+  if (!folderId || !listId)
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(util.fail(statusCode.BAD_REQUEST, message.INVALID_PARAMS));
+
   try {
     const data = await TogetherPackingListService.deleteTogetherPackingList(folderId, listId);
 
@@ -112,4 +117,5 @@ const deleteTogetherPackingList = async (req: Request, res: Response) => {
 export default {
   createTogetherPackingList,
   readTogetherPackingList,
+  deleteTogetherPackingList,
 };
