@@ -12,25 +12,20 @@ export interface ITogetherPackingList {
   isSaved: boolean;
 }
 
-export interface TogetherPackingListCategoryCreateDto {
-  name: string;
-  listId: mongoose.Schema.Types.ObjectId;
-}
-
 export interface TogetherPackingListCategoryResponseDto {
-  _id: mongoose.Schema.Types.ObjectId;
-  categoryIdArray: [
+  _id: mongoose.Types.ObjectId;
+  category: [
     {
-      _id: mongoose.Schema.Types.ObjectId;
+      _id: mongoose.Types.ObjectId;
       name: string;
-      packIdArray: [
+      pack: [
         {
-          _id: mongoose.Schema.Types.ObjectId;
+          _id: mongoose.Types.ObjectId;
           name: string;
           isChecked: boolean;
-          packerId: {
-            _id: mongoose.Schema.Types.ObjectId;
-            nickname: string;
+          packer: {
+            _id: mongoose.Types.ObjectId;
+            name: string;
           };
         },
       ];
@@ -39,29 +34,48 @@ export interface TogetherPackingListCategoryResponseDto {
 }
 
 export interface TogetherPackingListCreateDTO {
-  title: string;
   departureDate: Date;
   folderId: string;
+  title: string;
   templateId: string;
 }
 
 export interface TogetherPackingListResponseDTO {
   _id: string;
-  title: string;
-  departureDate: string;
-  categoryIdArray: [
+  groupId: string;
+  category: [
     {
       _id: string;
       name: string;
-      packIdArray: [
+      pack: [
         {
           _id: string;
           name: string;
           isChecked: boolean;
-          myPackingListId: {
+          packer: {
             _id: string;
             name: string;
           };
+        },
+      ];
+    },
+  ];
+  inviteCode: string;
+  isSaved: boolean;
+}
+
+export interface TogetherMyPackingListResponseDTO {
+  _id: string;
+  category: [
+    {
+      _id: string;
+      name: string;
+      pack: [
+        {
+          _id: string;
+          name: string;
+          isChecked: boolean;
+          packer: mongoose.Types.ObjectId;
         },
       ];
     },

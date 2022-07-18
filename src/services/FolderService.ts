@@ -60,7 +60,7 @@ const deleteFolder = async (
   try {
     const folder = await Folder.findById(folderId);
     if (!folder) return null;
-    var packingListArray = folder.pack;
+    const packingListArray = folder.pack;
     if (folder.isAloned) {
       await AlonePackingList.findByIdAndUpdate(
         { $in: packingListArray },

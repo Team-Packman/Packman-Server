@@ -5,7 +5,7 @@ export interface IFolder {
   isAloned: boolean;
   userId: mongoose.Types.ObjectId;
   listNum: number;
-  pack: mongoose.Types.ObjectId[];
+  list: mongoose.Types.ObjectId[];
 }
 
 export interface FolderCreateDto {

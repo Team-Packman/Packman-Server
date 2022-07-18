@@ -3,10 +3,9 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
-import { TogetherPackingListCategoryCreateDto } from '../interface/ITogetherPackingList';
+import { CategoryCreateDto } from '../interface/ICategory';
 import { TogetherPackingListCategoryService } from '../services';
 import { CategoryUpdateDto } from '../interface/ICategory';
-import { CategoryDeleteDto } from '../interface/ICategory';
 import Category from '../models/Category';
 import mongoose from 'mongoose';
 
@@ -18,12 +17,10 @@ const createCategory = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const togetherPackingListCategoryCreateDto: TogetherPackingListCategoryCreateDto = req.body;
+  const categoryCreateDto: CategoryCreateDto = req.body;
 
   try {
-    const data = await TogetherPackingListCategoryService.createCategory(
-      togetherPackingListCategoryCreateDto,
-    );
+    const data = await TogetherPackingListCategoryService.createCategory(categoryCreateDto);
 
     if (data === 400) {
       res
@@ -32,7 +29,7 @@ const createCategory = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.SUCCESS_CREATE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.CREATE_TOGETHER_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -70,7 +67,7 @@ const updateCategory = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.SUCCESS_UPDATE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -99,7 +96,7 @@ const deleteCategory = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.SUCCESS_DELETE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.DELETE_TOGETHER_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);

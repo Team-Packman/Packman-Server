@@ -1,49 +1,42 @@
-import {
-  TogetherPackingListCategoryCreateDto,
-  TogetherPackingListCategoryResponseDto,
-} from '../interface/ITogetherPackingList';
+import { TogetherPackingListCategoryResponseDto } from '../interface/ITogetherPackingList';
+import { CategoryCreateDto } from '../interface/ICategory';
 
 import TogetherPackingList from '../models/TogetherPackingList';
 import Category from '../models/Category';
 import Pack from '../models/Pack';
 import { CategoryUpdateDto } from '../interface/ICategory';
-import { CategoryDeleteDto } from '../interface/ICategory';
 import mongoose from 'mongoose';
 
-const createCategory = async (
-  togetherPackingListCategoryCreateDto: TogetherPackingListCategoryCreateDto,
-): Promise<TogetherPackingListCategoryResponseDto | number> => {
+const createCategory = async (categoryCreateDto: CategoryCreateDto) => {
   try {
-    const listId = togetherPackingListCategoryCreateDto.listId;
-    const category = new Category({ name: togetherPackingListCategoryCreateDto.name });
+    const listId = categoryCreateDto.listId;
+    const newCategory = new Category({ name: categoryCreateDto.name });
 
-    await category.save();
+    await newCategory.save();
 
     await TogetherPackingList.findByIdAndUpdate(listId, {
-      $push: { categoryIdArray: category.id },
+      $push: { category: newCategory.id },
     });
 
     // Pack 생성되지 않는 오류로 추가
     const pack = Pack.find();
 
-    const data = await TogetherPackingList.findOne(
-      { _id: listId },
-      { categoryIdArray: 1 },
-    ).populate({
-      path: 'categoryIdArray',
+    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+      path: 'category',
       model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
       options: { sort: { createdAt: 1 } },
       populate: {
-        path: 'packIdArray',
+        path: 'pack',
         model: 'Pack',
         select: { _id: 1, name: 1, isChecked: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
-          path: 'packerId',
+          path: 'packer',
           model: 'User',
           select: {
             _id: 1,
-            nickname: 1,
+            name: 1,
           },
         },
       },
@@ -64,15 +57,15 @@ const updateCategory = async (
     const categoryId = categoryUpdateDto.id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
-    console.log(categoryId);
-    const category = await Category.findById(categoryId);
-    if (!category) return 'no_category';
+
+    const cate = await Category.findById(categoryId);
+    if (!cate) return 'no_category';
 
     const list = await TogetherPackingList.findById(listId);
     if (!list) return 'no_list';
 
-    // list의 categoryIdArray 배열에 존재하지 않는 categoryId인 경우
-    if (!list.categoryIdArray.includes(categoryId)) return 'no_list_category';
+    // list의 category 배열에 존재하지 않는 categoryId인 경우
+    if (!list.category.includes(categoryId)) return 'no_list_category';
 
     await Category.updateOne(
       { _id: categoryId },
@@ -83,24 +76,22 @@ const updateCategory = async (
       },
     );
 
-    const data = await TogetherPackingList.findOne(
-      { _id: listId },
-      { categoryIdArray: 1 },
-    ).populate({
-      path: 'categoryIdArray',
+    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+      path: 'category',
       model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
       options: { sort: { createdAt: 1 } },
       populate: {
-        path: 'packIdArray',
+        path: 'pack',
         model: 'Pack',
         select: { _id: 1, name: 1, isChecked: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
-          path: 'packerId',
+          path: 'packer',
           model: 'User',
           select: {
             _id: 1,
-            nickname: 1,
+            name: 1,
           },
         },
       },
@@ -118,16 +109,16 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
     const lId = new mongoose.Types.ObjectId(listId);
     const cateId = new mongoose.Types.ObjectId(categoryId);
 
-    const category = await Category.findById(cateId);
-    if (!category) return 'no_category';
+    const cate = await Category.findById(cateId);
+    if (!cate) return 'no_category';
 
     const list = await TogetherPackingList.findById(lId);
     if (!list) return 'no_list';
 
-    const categories = list.categoryIdArray;
-    const packs = category.packIdArray;
+    const categories = list.category;
+    const packs = cate.pack;
 
-    // list의 categoryIdArray 배열에 존재하지 않는 categoryId인 경우
+    // list의 category 배열에 존재하지 않는 categoryId인 경우
     if (!categories.includes(cateId)) return 'no_list_category';
 
     await Pack.deleteMany({ _id: { $in: packs } });
@@ -139,33 +130,32 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
       { _id: listId },
       {
         $set: {
-          categoryIdArray: categories,
+          category: categories,
         },
       },
     );
 
-    const data = await TogetherPackingList.findOne(
-      { _id: listId },
-      { categoryIdArray: 1 },
-    ).populate({
-      path: 'categoryIdArray',
+    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+      path: 'category',
       model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
       options: { sort: { createdAt: 1 } },
       populate: {
-        path: 'packIdArray',
+        path: 'pack',
         model: 'Pack',
         select: { _id: 1, name: 1, isChecked: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
-          path: 'packerId',
+          path: 'packer',
           model: 'User',
           select: {
             _id: 1,
-            nickname: 1,
+            name: 1,
           },
         },
       },
     });
+
     return data;
   } catch (error) {
     console.log(error);
