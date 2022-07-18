@@ -191,6 +191,7 @@ const readTogetherPackingList = async (
     throw error;
   }
 };
+
 export default {
   createTogetherPackingList,
   readTogetherPackingList,

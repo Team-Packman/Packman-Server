@@ -45,6 +45,7 @@ const message = {
   SUCCESS_DELETE_TOGETHER_PACK_SUCCESS: '함께 패킹리스트 짐 삭제 성공',
   CREATE_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 생성 성공',
   READ_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 상세 조회 성공',
+  DELETE_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 삭제 성공',
 
   // 카테고리
   NO_CATEGORY: '존재하지 않는 Category입니다',
