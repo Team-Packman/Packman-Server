@@ -22,4 +22,6 @@ router.patch(
   TogetherPackingListPackController.updatePack,
 );
 
+router.delete('/:listId/:categoryId/:packId', TogetherPackingListPackController.deletePack);
+
 export default router;
