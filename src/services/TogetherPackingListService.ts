@@ -130,7 +130,7 @@ const readTogetherPackingList = async (
       title: string;
       departureDate: Date;
       togetherPackingList: TogetherPackingListResponseDTO;
-      alonePackingList: TogetherMyPackingListResponseDTO;
+      myPackingList: TogetherMyPackingListResponseDTO;
     }
   | string
 > => {
@@ -183,7 +183,7 @@ const readTogetherPackingList = async (
       title: togetherRawData.title,
       departureDate: togetherRawData.departureDate,
       togetherPackingList: togetherData,
-      alonePackingList: aloneData,
+      myPackingList: aloneData,
     };
     return response;
   } catch (error) {
