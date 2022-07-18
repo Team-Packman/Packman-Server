@@ -118,7 +118,6 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
     const categories = list.category;
     const packs = cate.pack;
 
-    // list의 category 배열에 존재하지 않는 categoryId인 경우
     if (!categories.includes(cateId)) return 'no_list_category';
 
     await Pack.deleteMany({ _id: { $in: packs } });

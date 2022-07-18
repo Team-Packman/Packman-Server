@@ -14,8 +14,6 @@ const router = Router();
 router.use('/auth', AuthRouter);
 router.use('/user', UserRouter);
 router.use('/folder', FolderRouter);
-
-router.use('/folder', FolderRouter);
 router.use('/packingList', PackingListRouter);
 router.use('/packingList/together', TogetherPackingListRouter);
 router.use('/packingList/alone', AlonePackingListRouter);

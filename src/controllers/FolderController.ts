@@ -31,6 +31,7 @@ const updateFolder = async(req: Request, res: Response) => {
     const folderUpdateDto = req.body;
     try {
         const data = await FolderService.updateFolder(userId, folderUpdateDto);
+        if(!data) return res.statusCode(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NOT_FOUND));
         res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_UPDATE_FOLDER, data));
     } catch(error) {
         console.log(error);
@@ -74,9 +75,33 @@ const getFolders = async(req: Request, res: Response) => {
     }
 }
 
+const getAloneFolders = async(req: Request, res: Response) => {
+  const userId = req.body.user.id;
+  try {
+    const data = await FolderService.getAloneFolders(userId);
+    res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, {AloneFolders: data}));
+  } catch(error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+}
+
+const getTogetherFolders = async(req: Request, res: Response) => {
+  const userId = req.body.user.id;
+  try {
+    const data = await FolderService.getTogetherFolders(userId);
+    res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, {TogetherFolders: data}));
+  } catch(error) {
+    console.log(error);
+    res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+}
+
 export default {
     createFolder,
     updateFolder,
      deleteFolder,
      getFolders,
+     getAloneFolders,
+     getTogetherFolders,
 }
