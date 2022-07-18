@@ -56,6 +56,7 @@ const message = {
 
   //템플릿
   NO_TEMPLATE: '존재하지 않는 Template입니다',
+  GET_ALONETEMPLATE_SUCCESS: '혼자 템플릿 리스트 조회 성공',
 };
 
 export default message;
