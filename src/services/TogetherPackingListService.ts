@@ -138,7 +138,7 @@ const readTogetherPackingList = async (
   try {
     const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
       { _id: listId },
-      { category: 1, isSaved: 1, groupId: 1 },
+      { category: 1, isSaved: 1, groupId: 1, inviteCode: 1 },
     ).populate({
       path: 'category',
       model: 'Category',
