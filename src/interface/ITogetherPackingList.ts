@@ -65,6 +65,7 @@ export interface TogetherPackingListResponseDTO {
       ];
     },
   ];
+  inviteCode: string;
   isSaved: boolean;
 }
 
