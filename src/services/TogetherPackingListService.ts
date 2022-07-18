@@ -123,6 +123,75 @@ const createTogetherPackingList = async (
   }
 };
 
+const readTogetherPackingList = async (
+  listId: string,
+): Promise<
+  | {
+      title: string;
+      departureDate: Date;
+      togetherPackingList: TogetherPackingListResponseDTO;
+      myPackingList: TogetherMyPackingListResponseDTO;
+    }
+  | string
+> => {
+  try {
+    const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1, isSaved: 1, groupId: 1 },
+    ).populate({
+      path: 'category',
+      model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: 'pack',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1, packerId: 1 },
+        options: { sort: { createdAt: 1 } },
+        populate: {
+          path: 'packer',
+          model: 'User',
+          select: {
+            _id: 1,
+            name: 1,
+          },
+        },
+      },
+    });
+
+    const togetherRawData = await TogetherPackingList.findById(listId);
+    if (!togetherRawData) return 'notfoundList';
+    const aloneData: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
+      { _id: togetherRawData.myPackingListId },
+      { category: 1 },
+    ).populate({
+      path: 'category',
+      model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: 'pack',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
+        options: { sort: { createdAt: 1 } },
+      },
+    });
+
+    if (!togetherData || !aloneData) return 'notfoundList';
+
+    const response = {
+      title: togetherRawData.title,
+      departureDate: togetherRawData.departureDate,
+      togetherPackingList: togetherData,
+      myPackingList: aloneData,
+    };
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createTogetherPackingList,
+  readTogetherPackingList,
 };
