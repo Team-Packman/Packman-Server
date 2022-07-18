@@ -61,9 +61,9 @@ const updateCategory = async (
     const categoryId = categoryUpdateDto.id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
-    console.log(categoryId);
-    const newCategory = await Category.findById(categoryId);
-    if (!newCategory) return 'no_category';
+
+    const cate = await Category.findById(categoryId);
+    if (!cate) return 'no_category';
 
     const list = await TogetherPackingList.findById(listId);
     if (!list) return 'no_list';
