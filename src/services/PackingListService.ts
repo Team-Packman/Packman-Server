@@ -1,4 +1,8 @@
-import { PackingListDateUpdateDTO, PackingListTitleUpdateDTO } from '../interface/IPackingList';
+import {
+  PackingListDateUpdateDTO,
+  PackingListMyTemplateUpdateDTO,
+  PackingListTitleUpdateDTO,
+} from '../interface/IPackingList';
 import AlonePackingList from '../models/AlonePackingList';
 import TogetherPackingList from '../models/TogetherPackingList';
 
@@ -102,7 +106,45 @@ const updatePackingListDate = async (
     throw error;
   }
 };
+
+const updatePackingListMyTemplate = async (
+  packingListMyTemplateUpdateDto: PackingListMyTemplateUpdateDTO,
+): Promise<PackingListMyTemplateUpdateDTO | string> => {
+  try {
+    let updatedMyTemplate;
+    if (packingListMyTemplateUpdateDto.isAloned) {
+      updatedMyTemplate = await AlonePackingList.findByIdAndUpdate(
+        packingListMyTemplateUpdateDto._id,
+        {
+          isSaved: packingListMyTemplateUpdateDto.isSaved,
+          updatedAt: Date.now(),
+        },
+        { new: true },
+      );
+    } else {
+      updatedMyTemplate = await TogetherPackingList.findByIdAndUpdate(
+        packingListMyTemplateUpdateDto._id,
+        {
+          isSaved: packingListMyTemplateUpdateDto.isSaved,
+          updatedAt: Date.now(),
+        },
+        { new: true },
+      );
+    }
+    if (!updatedMyTemplate) return 'notfoundUpdatedMyTemplate';
+    const data = {
+      _id: updatedMyTemplate.id,
+      isSaved: updatedMyTemplate.isSaved,
+    };
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export default {
   updatePackingListTitle,
   updatePackingListDate,
+  updatePackingListMyTemplate,
 };

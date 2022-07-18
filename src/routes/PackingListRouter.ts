@@ -28,6 +28,11 @@ router.patch(
   [body('_id').notEmpty(), body('departureDate').notEmpty(), body('isAloned').notEmpty()],
   PackingListController.updatePackingListDate,
 );
+router.patch(
+  '/myTemplate',
+  [body('_id').notEmpty(), body('isSaved').notEmpty(), body('isAloned').notEmpty()],
+  PackingListController.updatePackingListMyTemplate,
+);
 
 router;
 

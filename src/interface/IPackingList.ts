@@ -9,3 +9,9 @@ export interface PackingListDateUpdateDTO {
   departureDate: Date;
   isAloned?: boolean;
 }
+
+export interface PackingListMyTemplateUpdateDTO {
+  _id: string;
+  isSaved: boolean;
+  isAloned?: boolean;
+}
