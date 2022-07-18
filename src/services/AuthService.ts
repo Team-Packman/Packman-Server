@@ -36,12 +36,9 @@ const getGoogleUser = async (googleToken: string, inviteCode: string): Promise<A
         const groupId = packingList.groupId;
         const group = await Group.findByIdAndUpdate(groupId,{$push: {members: user._id}});
         if(!group) return null;      // 그룹 존재하지 않을 때 예외 처리
-
-        // await group.members.push(user._id);
-        // group.save(); 
+ 
         // 기본 폴더 생성 or 찾은 후 초대된 리스트 삽입
         const folder = await Folder.findOne({title: "기본"});
-    
         if(!folder) {
           const newFolder = new Folder({
             title: "기본",
@@ -54,7 +51,7 @@ const getGoogleUser = async (googleToken: string, inviteCode: string): Promise<A
           newFolder.save()
         }
         else {
-          folder.list.push(packingList._id)
+          await Folder.findByIdAndUpdate(folder._id, {$push: {list: packingList._id}});
         }
       }
       const data = {
