@@ -91,7 +91,7 @@ const updatePackingListDate = async (req: Request, res: Response) => {
  **/
 
 const generateInviteCode = () => {
-  const code = nanoid();
+  const code = nanoid(6);
   return code;
 };
 const invitePackingList = async (req: Request, res: Response) => {
@@ -113,4 +113,5 @@ export default {
   updatePackingListTitle,
   updatePackingListDate,
   invitePackingList,
+  generateInviteCode,
 };

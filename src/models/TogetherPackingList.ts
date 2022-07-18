@@ -42,6 +42,10 @@ const TogetherPackingListSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    inviteCode: {
+      type: String,
+      required: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
