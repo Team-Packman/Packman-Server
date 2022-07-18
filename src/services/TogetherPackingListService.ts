@@ -125,4 +125,5 @@ const createTogetherPackingList = async (
 
 export default {
   createTogetherPackingList,
+  readTogetherPackingList,
 };
