@@ -34,11 +34,10 @@ const createTogetherPackingList = async (
     });
     await group.save();
 
-    var inviteCode = await PackingListController.generateInviteCode();
-    console.log(PackingListService.getPackingByInviteCode(inviteCode))
-    // while (await PackingListService.getPackingByInviteCode(inviteCode)) {
-    //   inviteCode = await PackingListController.generateInviteCode();
-    // }
+    let inviteCode = await PackingListController.generateInviteCode();
+    while (await PackingListService.getPackingByInviteCode(inviteCode)._id) {
+      inviteCode = await PackingListController.generateInviteCode();
+    }
 
     const togetherPackingList = new TogetherPackingList({
       title: togetherPackingListCreateDto.title,
