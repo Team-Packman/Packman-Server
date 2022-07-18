@@ -27,7 +27,6 @@ const message = {
   SUCCESS_GET_FOLDERS: '폴더 조회 성공',
   NO_FOLDER: '존재하지 않는 Folder입니다',
 
-
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
   DUPLICATION_PACKINGLIST: '중복된 리스트 이름입니다',
@@ -58,7 +57,7 @@ const message = {
 
   //템플릿
   NO_TEMPLATE: '존재하지 않는 Template입니다',
-  GET_ALONETEMPLATE_SUCCESS: '혼자 템플릿 리스트 조회 성공',
+  GET_ALONETEMPLATE_SUCCESS: '혼자 패킹 템플릿 리스트 조회 성공',
 };
 
 export default message;
