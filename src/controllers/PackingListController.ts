@@ -3,16 +3,16 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator/check';
-import { TogetherPackingListCreateDTO } from '../interface/ITogetherPackingList';
-import { TogetherPackingListService } from '../services';
+import { PackingListTitleUpdateDTO } from '../interface/IPackingList';
+import PackingListService from '../services/PackingListService';
 
 /**
- *  @route POST /packinglist/together
- *  @desc Create Together Packinglist
+ *  @route PATCH /packingList/title
+ *  @desc Update Packinglist Title
  *  @access Public
  **/
 
-const createTogetherPackingList = async (req: Request, res: Response) => {
+const updatePackingListTitle = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res
@@ -20,12 +20,10 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const togetherPackingListCreateDto: TogetherPackingListCreateDTO = req.body;
+  const packingListTitleUpdateDto: PackingListTitleUpdateDTO = req.body;
 
   try {
-    const data = await TogetherPackingListService.createTogetherPackingList(
-      togetherPackingListCreateDto,
-    );
+    const data = await PackingListService.updatePackingListTitle(packingListTitleUpdateDto);
 
     if (data == 'notfoundList')
       res
@@ -35,18 +33,14 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.DUPLICATION_PACKINGLIST));
-    else if (data == 'notfoundCategory')
+    else if (data == 'notfoundUpdatedTitle')
       res
         .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
-    else if (data == 'notfoundTemplate')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_TEMPLATE));
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_UPDATEDTITLE));
     else
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.CREATE_TOGETHERPACKINGLIST_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res
@@ -56,5 +50,5 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
 };
 
 export default {
-  createTogetherPackingList,
+  updatePackingListTitle,
 };
