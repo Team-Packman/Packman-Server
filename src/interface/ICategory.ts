@@ -5,6 +5,11 @@ export interface ICategory {
   pack: mongoose.Types.ObjectId[];
 }
 
+export interface CategoryCreateDto {
+  name: string;
+  listId: mongoose.Types.ObjectId;
+}
+
 export interface CategoryUpdateDto {
   id: mongoose.Types.ObjectId;
   name: string;

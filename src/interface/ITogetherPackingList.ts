@@ -12,11 +12,6 @@ export interface ITogetherPackingList {
   isSaved: boolean;
 }
 
-export interface TogetherPackingListCategoryCreateDto {
-  name: string;
-  listId: mongoose.Types.ObjectId;
-}
-
 export interface TogetherPackingListCategoryResponseDto {
   _id: mongoose.Types.ObjectId;
   category: [

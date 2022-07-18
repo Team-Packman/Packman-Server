@@ -1,7 +1,5 @@
-import {
-  TogetherPackingListCategoryCreateDto,
-  TogetherPackingListCategoryResponseDto,
-} from '../interface/ITogetherPackingList';
+import { TogetherPackingListCategoryResponseDto } from '../interface/ITogetherPackingList';
+import { CategoryCreateDto } from '../interface/ICategory';
 
 import TogetherPackingList from '../models/TogetherPackingList';
 import Category from '../models/Category';
@@ -9,12 +7,10 @@ import Pack from '../models/Pack';
 import { CategoryUpdateDto } from '../interface/ICategory';
 import mongoose from 'mongoose';
 
-const createCategory = async (
-  togetherPackingListCategoryCreateDto: TogetherPackingListCategoryCreateDto,
-) => {
+const createCategory = async (categoryCreateDto: CategoryCreateDto) => {
   try {
-    const listId = togetherPackingListCategoryCreateDto.listId;
-    const newCategory = new Category({ name: togetherPackingListCategoryCreateDto.name });
+    const listId = categoryCreateDto.listId;
+    const newCategory = new Category({ name: categoryCreateDto.name });
 
     await newCategory.save();
 

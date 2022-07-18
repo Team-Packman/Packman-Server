@@ -3,7 +3,7 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
-import { TogetherPackingListCategoryCreateDto } from '../interface/ITogetherPackingList';
+import { CategoryCreateDto } from '../interface/ICategory';
 import { TogetherPackingListCategoryService } from '../services';
 import { CategoryUpdateDto } from '../interface/ICategory';
 import Category from '../models/Category';
@@ -17,12 +17,10 @@ const createCategory = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const togetherPackingListCategoryCreateDto: TogetherPackingListCategoryCreateDto = req.body;
+  const categoryCreateDto: CategoryCreateDto = req.body;
 
   try {
-    const data = await TogetherPackingListCategoryService.createCategory(
-      togetherPackingListCategoryCreateDto,
-    );
+    const data = await TogetherPackingListCategoryService.createCategory(categoryCreateDto);
 
     if (data === 400) {
       res
