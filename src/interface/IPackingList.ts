@@ -15,3 +15,11 @@ export interface PackingListMyTemplateUpdateDTO {
   isSaved: boolean;
   isAloned?: boolean;
 }
+
+export interface PackingListResponseDTO {
+  _id: string;
+  departureDate: Date;
+  title: string;
+  packTotalNum: number;
+  packRemainNum: number;
+}

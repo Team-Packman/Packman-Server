@@ -3,6 +3,7 @@ import {
   TogetherPackingListCreateDTO,
   TogetherPackingListResponseDTO,
 } from '../interface/ITogetherPackingList';
+import { PackingListResponseDTO } from '../interface/IPackingList';
 import AlonePackingList from '../models/AlonePackingList';
 import Category from '../models/Category';
 import Folder from '../models/Folder';
@@ -192,7 +193,52 @@ const readTogetherPackingList = async (
   }
 };
 
+const deleteTogetherPackingList = async (
+  folderId: string,
+  listId: string,
+): Promise<
+  | {
+      togetherPackingList: PackingListResponseDTO[];
+    }
+  | string
+> => {
+  try {
+    const deleteLists = listId.split(',');
+    for await (const element of deleteLists) {
+      const deleteList = await TogetherPackingList.findByIdAndUpdate(element, {
+        isDeleted: true,
+      });
+      if (!deleteList) return 'notfoundList';
+      await AlonePackingList.findByIdAndUpdate(deleteList.myPackingListId, {
+        isDeleted: true,
+      });
+    }
+
+    const data = [];
+    const responseFolder = await Folder.findById(folderId);
+    if (!responseFolder) return 'notfoundFolder';
+    for await (const element of responseFolder.pack) {
+      const responseList = await TogetherPackingList.findById(element);
+      if (responseList && responseList.isDeleted == false) {
+        const innerData: PackingListResponseDTO = {
+          _id: responseList.id,
+          departureDate: responseList.departureDate,
+          title: responseList.title,
+          packTotalNum: responseList.packTotalNum,
+          packRemainNum: responseList.packRemainNum,
+        };
+        data.push(innerData);
+      }
+    }
+
+    return { togetherPackingList: data };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createTogetherPackingList,
   readTogetherPackingList,
+  deleteTogetherPackingList,
 };
