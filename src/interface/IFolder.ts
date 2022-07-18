@@ -16,7 +16,7 @@ export interface FolderUpdateDto {
   _id: string;
   title: string;
 }
-export interface FolderResponseDto {
+export interface AllFolderResponseDto {
   aloneFolders: {
     _id: mongoose.Schema.Types.ObjectId;
     title: string;
@@ -27,4 +27,9 @@ export interface FolderResponseDto {
     title: string;
     listNum: number;
   }[];
+}
+
+export interface FolderResponseDto {
+    _id: mongoose.Schema.Types.ObjectId;
+    title: string;
 }

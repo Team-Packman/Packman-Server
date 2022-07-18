@@ -1,6 +1,7 @@
 import {
   FolderInfo,
   FolderCreateDto,
+  AllFolderResponseDto,
   FolderResponseDto,
   FolderUpdateDto,
 } from '../interface/IFolderInfo';
@@ -17,7 +18,7 @@ import mongoose from 'mongoose';
 const createFolder = async (
   userId: string,
   folderCreateDto: FolderCreateDto,
-): Promise<FolderResponseDto> => {
+): Promise<AllFolderResponseDto> => {
   try {
     const folder = new Folder({
       title: folderCreateDto.title,
@@ -29,7 +30,7 @@ const createFolder = async (
     });
     await folder.save();
 
-    const data = folderResponse(userId);
+    const data = await folderResponse(userId);
 
     return data;
   } catch (error) {
@@ -41,7 +42,7 @@ const createFolder = async (
 const updateFolder = async (
   userId: string,
   folderUpdateDto: FolderUpdateDto,
-): Promise<FolderResponseDto> => {
+): Promise<AllFolderResponseDto> => {
   try {
     await Folder.findByIdAndUpdate(folderUpdateDto.id, { $set: { title: folderUpdateDto.title } });
     const data = await folderResponse(userId);
@@ -55,7 +56,7 @@ const updateFolder = async (
 const deleteFolder = async (
   userId: string,
   folderId: string,
-): Promise<FolderResponseDto | null> => {
+): Promise<AllFolderResponseDto | null> => {
   try {
     const folder = await Folder.findById(folderId);
     if (!folder) return null;
@@ -80,10 +81,7 @@ const deleteFolder = async (
   }
 };
 
-
-
-
-const getFolders = async (userId: string): Promise<FolderResponseDto> => {
+const getFolders = async (userId: string): Promise<AllFolderResponseDto> => {
   try {
     const data = await folderResponse(userId);
     return data;
@@ -93,10 +91,39 @@ const getFolders = async (userId: string): Promise<FolderResponseDto> => {
   }
 };
 
+const getAloneFolders = async (userId: string): Promise<FolderResponseDto[]> => {
+  try {
+    const folders = await Folder.find({ $and: [{ userId: userId }, { isAloned: true }] });
+    const data: FolderResponseDto[] = await folders.map((folder) => ({
+      _id: folder.id,
+      title: folder.title,
+    }));
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+const getTogetherFolders = async (userId: string): Promise<FolderResponseDto[]> => {
+  try {
+    const folders = await Folder.find({ $and: [{ userId: userId }, { isAloned: false }] });
+    const data: FolderResponseDto[] = await folders.map((folder) => ({
+      _id: folder.id,
+      title: folder.title,
+    }));
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 export default {
   createFolder,
   updateFolder,
   deleteFolder,
   getFolders,
+  getAloneFolders,
+  getTogetherFolders,
 };
