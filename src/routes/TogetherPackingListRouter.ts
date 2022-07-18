@@ -10,6 +10,7 @@ router.post(
   TogetherPackingListController.createTogetherPackingList,
 );
 router.get('/:listId', TogetherPackingListController.readTogetherPackingList);
+router.delete('/:folderId/:listId', TogetherPackingListController.deleteTogetherPackingList);
 
 router;
 
