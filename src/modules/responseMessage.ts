@@ -50,6 +50,7 @@ const message = {
   CREATE_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 생성 성공',
   READ_TOGETHERPACKINGLIST_SUCCESS: '함께 패킹리스트 상세 조회 성공',
   DELETE_TOGETHERPACKINGLIST_SUCCESS: '폴더 속 함께 패킹리스트 삭제 성공',
+  UPDATE_PACKER_SUCCESS: '함께 패킹리스트 담당자 배정 성공',
 
   // 카테고리
   NO_CATEGORY: '존재하지 않는 Category입니다',
@@ -62,6 +63,7 @@ const message = {
 
   // 초대 코드 관련
   SUCCESS_INVITE_TOGETHER_PACKING: '함께 패킹리스트 초대 성공'
+  READ_DETAILEDTEMPLTATE_SUCCESS: '템플릿 상세조회 성공',
 };
 
 export default message;

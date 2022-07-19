@@ -18,3 +18,9 @@ export interface PackUpdateDto {
   listId: mongoose.Types.ObjectId;
   categoryId: mongoose.Types.ObjectId;
 }
+
+export interface PackerUpdateDto {
+  listId: mongoose.Types.ObjectId;
+  packId: mongoose.Types.ObjectId;
+  packerId: mongoose.Types.ObjectId;
+}

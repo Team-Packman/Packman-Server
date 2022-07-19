@@ -6,6 +6,7 @@ const router: Router = Router();
 
 router.get('/alone', TemplateController.getAloneTemplate);
 router.get('/together', TemplateController.getTogetherTemplate);
+router.get('/:templateId/:type', TemplateController.readTemplate);
 
 router;
 
