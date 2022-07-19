@@ -1,9 +1,15 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
 import { FolderService } from '../services';
+
+/**
+ *  @route GET /folder
+ *  @desc create folder
+ *  @access private
+ **/
 
 const createFolder = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -28,6 +34,13 @@ const createFolder = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route PATCH /folder
+ *  @desc update folder
+ *  @access private
+ **/
+
+
 const updateFolder = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
@@ -42,7 +55,7 @@ const updateFolder = async (req: Request, res: Response) => {
     if (!data)
       return res
         .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NOT_FOUND));
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_UPDATE_FOLDER, data));
@@ -54,6 +67,12 @@ const updateFolder = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route DELETE /folder/:folderId
+ *  @desc delete folder
+ *  @access private
+ **/
+
 const deleteFolder = async (req: Request, res: Response) => {
   const folderId = req.params.folderId;
   const userId = req.body.user.id;
@@ -63,7 +82,7 @@ const deleteFolder = async (req: Request, res: Response) => {
     if (!data)
       return res
         .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     res
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_DELETE_FOLDER, data));
@@ -74,6 +93,12 @@ const deleteFolder = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
+/**
+ *  @route GET /folder
+ *  @desc read folders
+ *  @access private
+ **/
 
 const getFolders = async (req: Request, res: Response) => {
   const userId = req.body.user.id;
@@ -87,6 +112,12 @@ const getFolders = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
+/**
+ *  @route GET /folder/alone
+ *  @desc get folder/alone
+ *  @access private
+ **/
 
 const getAloneFolders = async (req: Request, res: Response) => {
   const userId = req.body.user.id;
@@ -102,6 +133,12 @@ const getAloneFolders = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
+/**
+ *  @route GET /together
+ *  @desc get folder/together
+ *  @access private
+ **/
 
 const getTogetherFolders = async (req: Request, res: Response) => {
   const userId = req.body.user.id;
