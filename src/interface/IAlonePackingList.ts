@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface IAlonePackingList {
   title: string;
-  departureDate: Date;
+  departureDate: string;
   packTotalNum: number;
   packRemainNum: number;
   category: mongoose.Types.ObjectId[];
@@ -11,7 +11,7 @@ export interface IAlonePackingList {
 }
 
 export interface AlonePackingListCreateDTO {
-  departureDate: Date;
+  departureDate: string;
   folderId: string;
   title: string;
   templateId: string;
@@ -21,7 +21,7 @@ export interface AlonePackingListCreateDTO {
 export interface AlonePackingListResponseDTO {
   _id: mongoose.Types.ObjectId;
   title: string;
-  departureDate: Date;
+  departureDate: string;
   category: [
     {
       _id: mongoose.Types.ObjectId;

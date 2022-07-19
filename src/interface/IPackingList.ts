@@ -6,7 +6,7 @@ export interface PackingListTitleUpdateDTO {
 
 export interface PackingListDateUpdateDTO {
   _id: string;
-  departureDate: Date;
+  departureDate: string;
   isAloned?: boolean;
 }
 
@@ -18,7 +18,7 @@ export interface PackingListMyTemplateUpdateDTO {
 
 export interface PackingListResponseDTO {
   _id: string;
-  departureDate: Date;
+  departureDate: string;
   title: string;
   packTotalNum: number;
   packRemainNum: number;

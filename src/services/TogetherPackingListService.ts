@@ -13,15 +13,13 @@ import TogetherPackingList from '../models/TogetherPackingList';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
-import mongoose from 'mongoose';
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
 ): Promise<
   | {
       title: string;
-      departureDate: Date;
+      departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
       alonePackingList: TogetherMyPackingListResponseDTO;
     }
@@ -134,7 +132,7 @@ const readTogetherPackingList = async (
 ): Promise<
   | {
       title: string;
-      departureDate: Date;
+      departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
       myPackingList: TogetherMyPackingListResponseDTO;
     }
