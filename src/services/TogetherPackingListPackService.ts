@@ -128,29 +128,40 @@ const deletePack = async (
   packId: string,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const lId = new mongoose.Types.ObjectId(listId);
-    const cateId = new mongoose.Types.ObjectId(categoryId);
-    const pId = new mongoose.Types.ObjectId(packId);
-
-    const pack = await Pack.findById(pId);
+    const pack = await Pack.findById(packId);
     if (!pack) return 'no_pack';
 
-    const cate = await Category.findById(cateId);
+    const cate = await Category.findById(categoryId);
     if (!cate) return 'no_category';
 
-    const list = await TogetherPackingList.findById(lId);
+    const list = await TogetherPackingList.findById(listId);
     if (!list) return 'no_list';
 
-    if (!list.category.includes(cateId)) return 'no_list_category';
-    if (!cate.pack.includes(pId)) return 'no_category_pack';
+    const stringCate: string[] = [];
+    const stringPack: string[] = [];
+
+    console.log(stringCate);
+    list.category.map((cat) => {
+      stringCate.push(cat.toString());
+    });
+
+    console.log(stringCate);
+    cate.pack.map((pk) => {
+      stringPack.push(pk.toString());
+    });
+
+    if (!stringCate.includes(categoryId)) return 'no_list_category';
+    if (!stringPack.includes(packId)) return 'no_category_pack';
 
     const packs = cate.pack;
 
-    await Pack.deleteOne({ _id: pId });
-    packs.splice(packs.indexOf(pId));
+    await Pack.deleteOne({ _id: packId });
+    console.log(packs);
+    packs.splice(stringPack.indexOf(packId), 1);
+    console.log(packs);
 
     await Category.updateOne(
-      { _id: cateId },
+      { _id: categoryId },
       {
         $set: {
           pack: packs,
