@@ -17,3 +17,20 @@ export interface TemplateResponseDTO {
     title: string;
   }[];
 }
+
+export interface DetailedTemplateResponseDTO {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  category: [
+    {
+      _id: string;
+      name: string;
+      pack: [
+        {
+          _id: string;
+          name: string;
+        },
+      ];
+    },
+  ];
+}
