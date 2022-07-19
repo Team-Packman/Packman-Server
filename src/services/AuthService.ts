@@ -3,9 +3,7 @@ import config from '../config';
 import { AuthResponseDto } from '../interface/IUser';
 import User from '../models/User';
 import getToken from '../modules/jwtHandler';
-import TogetherPackingList from '../models/TogetherPackingList';
-import Group from '../models/Group';
-import Folder from '../models/Folder';
+
 
 const getGoogleUser = async (
   googleToken: string,
@@ -47,7 +45,6 @@ const getGoogleUser = async (
   }
 };
 
-const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_AUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_AUTH_REDIRECT_URL = 'http://localhost:8000/auth/google/callback';
 

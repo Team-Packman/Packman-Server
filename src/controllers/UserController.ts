@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import  { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
@@ -6,6 +6,12 @@ import { UserCreateDto } from '../interface/IUser';
 import { UserService } from '../services';
 import { validationResult } from 'express-validator';
 import getToken from '../modules/jwtHandler';
+
+/**
+ *  @route POST /user/profile
+ *  @desc create user
+ *  @access public
+ **/
 
 const createUser = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -34,6 +40,12 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route GET /user
+ *  @desc get user profile
+ *  @access private
+ **/
+
 const getUserInfo = async (req: Request, res: Response) => {
   const userId = req.body.user.id;
   try {
@@ -51,6 +63,11 @@ const getUserInfo = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route GET /user/profile
+ *  @desc update user
+ *  @access private
+ **/
 const updateUser = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
