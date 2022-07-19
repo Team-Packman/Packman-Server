@@ -11,7 +11,10 @@ router.post(
 );
 router.get('/:listId', TogetherPackingListController.readTogetherPackingList);
 router.delete('/:folderId/:listId', TogetherPackingListController.deleteTogetherPackingList);
-
-router;
+router.patch(
+  '/packer',
+  [body('listId').notEmpty(), body('packId').notEmpty(), body('packerId').notEmpty()],
+  TogetherPackingListController.updatePacker,
+);
 
 export default router;
