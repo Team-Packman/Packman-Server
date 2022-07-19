@@ -16,7 +16,7 @@ import PackingListService from './PackingListService';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
-import { aloneListResponse, togetherListResponse } from '../modules/listResponse';
+import { togetherMyListResponse, togetherListResponse } from '../modules/togetherListResponse';
 
 const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
@@ -86,7 +86,7 @@ const createTogetherPackingList = async (
       togetherPackingList.id,
     );
 
-    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
       alonePackingList.id,
     );
 
@@ -143,7 +143,7 @@ const readTogetherPackingList = async (
 
     const togetherRawData = await TogetherPackingList.findById(listId);
     if (!togetherRawData) return 'notfoundList';
-    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
       togetherRawData.myPackingListId,
     );
 
