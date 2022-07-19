@@ -4,8 +4,11 @@ import Pack from '../models/Pack';
 import Category from '../models/Category';
 import { PackUpdateDto } from '../interface/IPack';
 import mongoose from 'mongoose';
+import { TogetherPackingListCategoryResponseDto } from '../interface/ITogetherPackingList';
 
-const createPack = async (packCreateDto: PackCreateDto) => {
+const createPack = async (
+  packCreateDto: PackCreateDto,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const listId = packCreateDto.listId;
     const categoryId = packCreateDto.categoryId;
@@ -25,7 +28,10 @@ const createPack = async (packCreateDto: PackCreateDto) => {
       $push: { pack: newPack.id },
     });
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -33,7 +39,7 @@ const createPack = async (packCreateDto: PackCreateDto) => {
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -46,15 +52,17 @@ const createPack = async (packCreateDto: PackCreateDto) => {
       },
     });
 
-    if (!data) return 400;
-    else return data;
+    if (!data) return 'null';
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-const updatePack = async (packUpdateDto: PackUpdateDto) => {
+const updatePack = async (
+  packUpdateDto: PackUpdateDto,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const packId = packUpdateDto.id;
     const packName = packUpdateDto.name;
@@ -84,7 +92,10 @@ const updatePack = async (packUpdateDto: PackUpdateDto) => {
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -104,14 +115,18 @@ const updatePack = async (packUpdateDto: PackUpdateDto) => {
         },
       },
     });
-
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
-const deletePack = async (listId: string, categoryId: string, packId: string): Promise<string> => {
+const deletePack = async (
+  listId: string,
+  categoryId: string,
+  packId: string,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const lId = new mongoose.Types.ObjectId(listId);
     const cateId = new mongoose.Types.ObjectId(categoryId);
@@ -143,7 +158,10 @@ const deletePack = async (listId: string, categoryId: string, packId: string): P
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -151,7 +169,7 @@ const deletePack = async (listId: string, categoryId: string, packId: string): P
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -163,7 +181,7 @@ const deletePack = async (listId: string, categoryId: string, packId: string): P
         },
       },
     });
-
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);

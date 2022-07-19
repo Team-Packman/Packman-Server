@@ -7,7 +7,9 @@ import Pack from '../models/Pack';
 import { CategoryUpdateDto } from '../interface/ICategory';
 import mongoose from 'mongoose';
 
-const createCategory = async (categoryCreateDto: CategoryCreateDto) => {
+const createCategory = async (
+  categoryCreateDto: CategoryCreateDto,
+): Promise<TogetherPackingListCategoryResponseDto | number> => {
   try {
     const listId = categoryCreateDto.listId;
     const newCategory = new Category({ name: categoryCreateDto.name });
@@ -21,7 +23,10 @@ const createCategory = async (categoryCreateDto: CategoryCreateDto) => {
     // Pack 생성되지 않는 오류로 추가
     const pack = Pack.find();
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -29,7 +34,7 @@ const createCategory = async (categoryCreateDto: CategoryCreateDto) => {
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -76,7 +81,10 @@ const updateCategory = async (
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -84,7 +92,7 @@ const updateCategory = async (
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -97,6 +105,7 @@ const updateCategory = async (
       },
     });
 
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);
@@ -104,7 +113,10 @@ const updateCategory = async (
   }
 };
 
-const deleteCategory = async (listId: string, categoryId: string): Promise<string> => {
+const deleteCategory = async (
+  listId: string,
+  categoryId: string,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const lId = new mongoose.Types.ObjectId(listId);
     const cateId = new mongoose.Types.ObjectId(categoryId);
@@ -134,7 +146,10 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -142,7 +157,7 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -155,6 +170,7 @@ const deleteCategory = async (listId: string, categoryId: string): Promise<strin
       },
     });
 
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);

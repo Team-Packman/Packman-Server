@@ -1,5 +1,6 @@
 import {
   TogetherMyPackingListResponseDTO,
+  TogetherPackingListCategoryResponseDto,
   TogetherPackingListCreateDTO,
   TogetherPackingListResponseDTO,
 } from '../interface/ITogetherPackingList';
@@ -39,7 +40,7 @@ const createTogetherPackingList = async (
     await group.save();
 
     let inviteCode = await PackingListController.generateInviteCode();
-    while (await PackingListService.getPackingByInviteCode(inviteCode)._id) {
+    while (await PackingListService.getPackingByInviteCode(inviteCode)) {
       inviteCode = await PackingListController.generateInviteCode();
     }
 
@@ -91,7 +92,7 @@ const createTogetherPackingList = async (
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packerId: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -249,7 +250,9 @@ const deleteTogetherPackingList = async (
   }
 };
 
-const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
+const updatePacker = async (
+  packerUpdateDto: PackerUpdateDto,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const listId = packerUpdateDto.listId;
     const packId = packerUpdateDto.packId;
@@ -287,7 +290,10 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -295,7 +301,7 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -307,7 +313,7 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
         },
       },
     });
-
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);

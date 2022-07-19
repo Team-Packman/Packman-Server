@@ -23,4 +23,4 @@ async function folderResponse(userId: string) {
   };
 }
 
-module.exports.folderResponse = folderResponse;
+export { folderResponse };

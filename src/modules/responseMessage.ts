@@ -24,6 +24,7 @@ const message = {
   // 폴더 관련
   SUCCESS_CREATE_FOLDER: '폴더 생성 성공',
   SUCCESS_UPDATE_FOLDER: '폴더 수정 성공',
+  SUCCESS_DELETE_FOLDER: '폴더 수정 성공',
   SUCCESS_GET_FOLDERS: '폴더 조회 성공',
   NO_FOLDER: '존재하지 않는 Folder입니다',
 

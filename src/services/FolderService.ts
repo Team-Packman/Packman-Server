@@ -1,19 +1,13 @@
 import {
-  FolderInfo,
   FolderCreateDto,
   AllFolderResponseDto,
   FolderResponseDto,
   FolderUpdateDto,
-} from '../interface/IFolderInfo';
+} from '../interface/IFolder';
 import Folder from '../models/Folder';
-import { CategoryInfo } from '../interface/ICategoryInfo';
 import AlonePackingList from '../models/AlonePackingList';
-import Category from '../models/Category';
-import Folder from '../models/Folder';
-import Pack from '../models/Pack';
 import TogetherPackingList from '../models/TogetherPackingList';
 import { folderResponse } from '../modules/folderResponse';
-import mongoose from 'mongoose';
 
 const createFolder = async (
   userId: string,
@@ -42,10 +36,12 @@ const createFolder = async (
 const updateFolder = async (
   userId: string,
   folderUpdateDto: FolderUpdateDto,
-): Promise<AllFolderResponseDto> => {
+): Promise<AllFolderResponseDto | null> => {
   try {
-    const folders = await Folder.findByIdAndUpdate(folderUpdateDto.id ,{ $set: { title: folderUpdateDto.title } });
-    if(!folders) return null;
+    const folders = await Folder.findByIdAndUpdate(folderUpdateDto._id, {
+      $set: { title: folderUpdateDto.title },
+    });
+    if (!folders) return null;
     const data = await folderResponse(userId);
     return data;
   } catch (error) {
@@ -61,7 +57,7 @@ const deleteFolder = async (
   try {
     const folder = await Folder.findById(folderId);
     if (!folder) return null;
-    const packingListArray = folder.pack;
+    const packingListArray = folder.list;
     if (folder.isAloned) {
       await AlonePackingList.findByIdAndUpdate(
         { $in: packingListArray },
