@@ -57,3 +57,5 @@ async function aloneListResponse(
 
   return data;
 }
+
+export { aloneListResponse, togetherListResponse };
