@@ -59,6 +59,9 @@ const message = {
   NO_TEMPLATE: '존재하지 않는 Template입니다',
   GET_ALONETEMPLATE_SUCCESS: '혼자 패킹 템플릿 리스트 조회 성공',
   GET_TOGETHERTEMPLATE_SUCCESS: '함께 패킹 템플릿 리스트 조회 성공',
+
+  // 초대 코드 관련
+  SUCCESS_INVITE_TOGETHER_PACKING: '함께 패킹리스트 초대 성공'
 };
 
 export default message;

@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
@@ -9,7 +9,7 @@ import {
   PackingListTitleUpdateDTO,
 } from '../interface/IPackingList';
 import PackingListService from '../services/PackingListService';
-
+import { nanoid } from 'nanoid';
 /**
  *  @route PATCH /packingList/title
  *  @desc Update Packinglist Title

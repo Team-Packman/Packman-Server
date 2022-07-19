@@ -1,6 +1,11 @@
 import { Router } from 'express';
-import { body } from 'express-validator/check';
 import { PackingListController } from '../controllers';
+import { body } from 'express-validator';
+import {
+  AlonePackingListController,
+  PackingListController,
+  TogetherPackingListController,
+} from '../controllers';
 
 const router: Router = Router();
 
@@ -19,7 +24,6 @@ router.patch(
   [body('_id').notEmpty(), body('isSaved').notEmpty(), body('isAloned').notEmpty()],
   PackingListController.updatePackingListMyTemplate,
 );
-
-router;
+router.get('/invite/:inviteId', PackingListController.invitePackingList);
 
 export default router;
