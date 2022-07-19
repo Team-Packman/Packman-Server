@@ -64,7 +64,7 @@ const updatePack = async (
   packUpdateDto: PackUpdateDto,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const packId = packUpdateDto.id;
+    const packId = packUpdateDto._id;
     const packName = packUpdateDto.name;
     const isChecked = packUpdateDto.isChecked;
     const listId = packUpdateDto.listId;
@@ -140,12 +140,10 @@ const deletePack = async (
     const stringCate: string[] = [];
     const stringPack: string[] = [];
 
-    console.log(stringCate);
     list.category.map((cat) => {
       stringCate.push(cat.toString());
     });
 
-    console.log(stringCate);
     cate.pack.map((pk) => {
       stringPack.push(pk.toString());
     });
@@ -156,9 +154,7 @@ const deletePack = async (
     const packs = cate.pack;
 
     await Pack.deleteOne({ _id: packId });
-    console.log(packs);
     packs.splice(stringPack.indexOf(packId), 1);
-    console.log(packs);
 
     await Category.updateOne(
       { _id: categoryId },

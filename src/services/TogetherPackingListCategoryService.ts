@@ -59,7 +59,7 @@ const updateCategory = async (
   categoryUpdateDto: CategoryUpdateDto,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const categoryId = categoryUpdateDto.id;
+    const categoryId = categoryUpdateDto._id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
 

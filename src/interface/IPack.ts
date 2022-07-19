@@ -12,7 +12,7 @@ export interface PackCreateDto {
   listId: mongoose.Types.ObjectId;
 }
 export interface PackUpdateDto {
-  id: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   name: string;
   isChecked: boolean;
   listId: mongoose.Types.ObjectId;
