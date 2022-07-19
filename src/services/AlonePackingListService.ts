@@ -2,6 +2,7 @@ import {
   AlonePackingListCreateDTO,
   AlonePackingListResponseDTO,
 } from '../interface/IAlonePackingList';
+import { PackingListResponseDTO } from '../interface/IPackingList';
 import AlonePackingList from '../models/AlonePackingList';
 import Category from '../models/Category';
 import Folder from '../models/Folder';
@@ -45,22 +46,6 @@ const createAlonePackingList = async (
 
     const data: AlonePackingListResponseDTO | null = await aloneListResponse(alonePackingList.id);
 
-    // const data: AlonePackingListResponseDTO | null = await AlonePackingList.findOne(
-    //   { _id: alonePackingList.id },
-    //   { title: 1, departureDate: 1, isSaved: 1, category: 1 },
-    // ).populate({
-    //   path: 'category',
-    //   model: 'Category',
-    //   options: { sort: { createdAt: 1 } },
-    //   select: { _id: 1, name: 1, pack: 1 },
-    //   populate: {
-    //     path: 'pack',
-    //     model: 'Pack',
-    //     select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-    //     options: { sort: { createdAt: 1 } },
-    //   },
-    // });
-
     if (!data) return 'notfoundList';
     return data;
   } catch (error) {
@@ -82,7 +67,51 @@ const readAlonePackingList = async (
   }
 };
 
+const deleteAlonePackingList = async (
+  folderId: string,
+  listId: string,
+): Promise<
+  | {
+      alonePackingList: PackingListResponseDTO[];
+    }
+  | string
+> => {
+  try {
+    const deleteLists = listId.split(',');
+    await AlonePackingList.updateMany(
+      {
+        _id: {
+          $in: deleteLists,
+        },
+      },
+      { $set: { isDeleted: true } },
+    );
+
+    const data = [];
+    const responseFolder = await Folder.findById(folderId);
+    if (!responseFolder) return 'notfoundFolder';
+    for await (const element of responseFolder.list) {
+      const responseList = await AlonePackingList.findById(element);
+      if (responseList && responseList.isDeleted == false) {
+        const innerData: PackingListResponseDTO = {
+          _id: responseList.id,
+          departureDate: responseList.departureDate,
+          title: responseList.title,
+          packTotalNum: responseList.packTotalNum,
+          packRemainNum: responseList.packRemainNum,
+        };
+        data.push(innerData);
+      }
+    }
+
+    return { alonePackingList: data };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createAlonePackingList,
   readAlonePackingList,
+  deleteAlonePackingList,
 };
