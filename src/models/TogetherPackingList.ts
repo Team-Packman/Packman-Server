@@ -8,7 +8,7 @@ const TogetherPackingListSchema = new mongoose.Schema(
       required: true,
     },
     departureDate: {
-      type: Date,
+      type: String,
       required: true,
     },
     packTotalNum: {
@@ -45,10 +45,6 @@ const TogetherPackingListSchema = new mongoose.Schema(
     isSaved: {
       type: Boolean,
       default: false,
-    },
-    inviteCode: {
-      type: String,
-      required: true,
     },
     createdAt: {
       type: Date,

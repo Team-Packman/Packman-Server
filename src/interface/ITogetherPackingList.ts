@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 export interface ITogetherPackingList {
   title: string;
-  departureDate: Date;
+  departureDate: string;
   packTotalNum: number;
   packRemainNum: number;
   groupId: mongoose.Types.ObjectId;
@@ -35,7 +35,7 @@ export interface TogetherPackingListCategoryResponseDto {
 }
 
 export interface TogetherPackingListCreateDTO {
-  departureDate: Date;
+  departureDate: string;
   folderId: string;
   title: string;
   templateId: string;
