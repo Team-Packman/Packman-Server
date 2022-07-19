@@ -21,6 +21,5 @@ router.delete('/:folderId', auth, FolderController.deleteFolder);
 router.get('/', auth, FolderController.getFolders);
 router.get('/alone', auth, FolderController.getAloneFolders);
 router.get('/together', auth, FolderController.getTogetherFolders);
-
+router.get('/packingList/together/:folderId', auth, FolderController.getTogetherListInFolder);
 export default router;
-

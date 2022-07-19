@@ -82,3 +82,22 @@ export interface TogetherMyPackingListResponseDTO {
     },
   ];
 }
+
+export interface TogetherListInFolderResponseDto {
+  currentFolder: {
+    _id: string;
+    title: string;
+  };
+  folder: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+  }[];
+  listNum: number;
+  togetherPackingList: {
+    _id: string;
+    title: string;
+    departureDate: string;
+    packTotalNum: number;
+    packRemainNum: number;
+  }[];
+}

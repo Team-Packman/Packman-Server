@@ -8,6 +8,8 @@ import Folder from '../models/Folder';
 import AlonePackingList from '../models/AlonePackingList';
 import TogetherPackingList from '../models/TogetherPackingList';
 import { folderResponse } from '../modules/folderResponse';
+import mongoose from 'mongoose';
+import { TogetherListInFolderResponseDto } from '../interface/ITogetherPackingList';
 
 const createFolder = async (
   userId: string,
@@ -116,6 +118,72 @@ const getTogetherFolders = async (userId: string): Promise<FolderResponseDto[]> 
   }
 };
 
+const getTogetherListInFolders = async (
+  userId: string,
+  folderId: string,
+): Promise<TogetherListInFolderResponseDto | null> => {
+  try {
+    const folders = await Folder.find({ userId: userId }, { isAloned: false });
+    const currentFd = await Folder.findById(folderId);
+    if (!currentFd) return null;
+    const currentTitle = currentFd.title;
+    const currentFolder = {
+      _id: folderId,
+      title: currentTitle,
+    };
+
+    const folder: {
+      _id: mongoose.Types.ObjectId;
+      title: string;
+    }[] = [];
+
+    folders.map((fd) => {
+      const tmp = {
+        _id: fd.id,
+        title: fd.title,
+      };
+      folder.push(tmp);
+    });
+
+    const lists: {
+      _id: string;
+      title: string;
+      departureDate: string;
+      packTotalNum: number;
+      packRemainNum: number;
+    }[] = [];
+
+    for await (const lt of currentFd.list) {
+      const list = await TogetherPackingList.findById(lt);
+      if (!list) return null;
+      if (!list.isDeleted) {
+        const data = {
+          _id: list._id,
+          title: list.title,
+          departureDate: list.departureDate,
+          packTotalNum: list.packTotalNum,
+          packRemainNum: list.packRemainNum,
+        };
+        lists.push(data);
+      }
+    }
+
+    const listNum = lists.length;
+
+    const data: TogetherListInFolderResponseDto | null = {
+      currentFolder: currentFolder,
+      folder: folder,
+      listNum: listNum,
+      togetherPackingList: lists,
+    };
+    if (!data) return null;
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export default {
   createFolder,
   updateFolder,
@@ -123,4 +191,5 @@ export default {
   getFolders,
   getAloneFolders,
   getTogetherFolders,
+  getTogetherListInFolders,
 };
