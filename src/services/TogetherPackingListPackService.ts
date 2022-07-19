@@ -64,7 +64,7 @@ const updatePack = async (
   packUpdateDto: PackUpdateDto,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const packId = packUpdateDto.id;
+    const packId = packUpdateDto._id;
     const packName = packUpdateDto.name;
     const isChecked = packUpdateDto.isChecked;
     const listId = packUpdateDto.listId;

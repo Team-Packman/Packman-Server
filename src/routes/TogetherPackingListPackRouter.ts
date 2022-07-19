@@ -15,7 +15,7 @@ router.post(
 router.patch(
   '/',
   [
-    body('id').notEmpty(),
+    body('_id').notEmpty(),
     body('name').notEmpty(),
     body('isChecked').notEmpty(),
     body('listId').notEmpty(),
