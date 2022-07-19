@@ -7,6 +7,7 @@ import TogetherPackingListCategoryRouter from './TogetherPackingListCategoryRout
 import TogetherPackingListPackRouter from './TogetherPackingListPackRouter';
 import TogetherPackingListRouter from './TogetherPackingListRouter';
 import AlonePackingListRouter from './AlonePackingListRouter';
+import AlonePackingListCategoryRouter from './AlonePackingListCategoryRouter';
 import TemplateRouter from './TemplateRouter';
 
 const router = Router();
@@ -17,6 +18,7 @@ router.use('/folder', FolderRouter);
 router.use('/packingList', PackingListRouter);
 router.use('/packingList/together', TogetherPackingListRouter);
 router.use('/packingList/alone', AlonePackingListRouter);
+router.use('/packingList/alone/category', AlonePackingListCategoryRouter);
 router.use('/packingList/together/category', TogetherPackingListCategoryRouter);
 router.use('/packingList/together/pack', TogetherPackingListPackRouter);
 
