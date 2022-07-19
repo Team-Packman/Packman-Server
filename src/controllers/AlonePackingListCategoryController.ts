@@ -26,7 +26,7 @@ const createCategory = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.CREATE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.CREATE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -36,40 +36,40 @@ const createCategory = async (req: Request, res: Response) => {
   }
 };
 
-// const updateCategory = async (req: Request, res: Response) => {
-//   const error = validationResult(req);
-//   if (!error.isEmpty()) {
-//     return res
-//       .status(statusCode.BAD_REQUEST)
-//       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-//   }
+const updateCategory = async (req: Request, res: Response) => {
+  const error = validationResult(req);
+  if (!error.isEmpty()) {
+    return res
+      .status(statusCode.BAD_REQUEST)
+      .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+  }
 
-//   const categoryUpdateDto: CategoryUpdateDto = req.body;
+  const categoryUpdateDto: CategoryUpdateDto = req.body;
 
-//   try {
-//     const data = await TogetherPackingListCategoryService.updateCategory(categoryUpdateDto);
+  try {
+    const data = await AlonePackingListCategoryService.updateCategory(categoryUpdateDto);
 
-//     if (
-//       data === 'no_list' ||
-//       data === 'no_category' ||
-//       data === 'no_list_category' ||
-//       data === 'null'
-//     ) {
-//       res
-//         .status(statusCode.BAD_REQUEST)
-//         .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-//     } else {
-//       res
-//         .status(statusCode.OK)
-//         .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_CATEGORY_SUCCESS, data));
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(statusCode.INTERNAL_SERVER_ERROR)
-//       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
-//   }
-// };
+    if (
+      data === 'no_list' ||
+      data === 'no_category' ||
+      data === 'no_list_category' ||
+      data === 'null'
+    ) {
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
+    } else {
+      res
+        .status(statusCode.OK)
+        .send(util.success(statusCode.OK, message.UPDATE_ALONE_CATEGORY_SUCCESS, data));
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
 
 // const deleteCategory = async (req: Request, res: Response) => {
 //   const { listId, categoryId } = req.params;
@@ -97,6 +97,6 @@ const createCategory = async (req: Request, res: Response) => {
 
 export default {
   createCategory,
-//   updateCategory,
+  updateCategory,
 //   deleteCategory,
 };

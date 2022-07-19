@@ -14,7 +14,7 @@ router.post(
 
 router.patch(
   '/',
-  [body('id').notEmpty(), body('name').notEmpty(), body('listId').notEmpty()],
+  [body('_id').notEmpty(), body('name').notEmpty(), body('listId').notEmpty()],
   auth,
   TogetherPackingListCategoryController.updateCategory,
 );

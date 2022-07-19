@@ -12,12 +12,12 @@ router.post(
   AlonePackingListCategoryController.createCategory,
 );
 
-// router.patch(
-//   '/',
-//   [body('id').notEmpty(), body('name').notEmpty(), body('listId').notEmpty()],
-//   auth,
-//   TogetherPackingListCategoryController.updateCategory,
-// );
+router.patch(
+  '/',
+  [body('_id').notEmpty(), body('name').notEmpty(), body('listId').notEmpty()],
+  auth,
+  AlonePackingListCategoryController.updateCategory,
+);
 
 // router.delete('/:listId/:categoryId', auth, TogetherPackingListCategoryController.deleteCategory);
 export default router;
