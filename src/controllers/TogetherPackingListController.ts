@@ -129,7 +129,8 @@ const updatePacker = async (req: Request, res: Response) => {
       data === 'no_list' ||
       data === 'no_pack' ||
       data === 'no_packer' ||
-      data === 'no_user_pack'
+      data === 'no_user_pack' ||
+      data === 'null'
     ) {
       res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {

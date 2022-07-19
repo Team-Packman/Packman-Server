@@ -23,7 +23,7 @@ const createCategory = async (req: Request, res: Response) => {
     if (data === 400) {
       res
         .status(statusCode.BAD_REQUEST)
-        .send(util.success(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
+        .send(util.success(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)
@@ -50,18 +50,15 @@ const updateCategory = async (req: Request, res: Response) => {
   try {
     const data = await TogetherPackingListCategoryService.updateCategory(categoryUpdateDto);
 
-    if (data === 'no_list') {
+    if (
+      data === 'no_list' ||
+      data === 'no_category' ||
+      data === 'no_list_category' ||
+      data === 'null'
+    ) {
       res
         .status(statusCode.BAD_REQUEST)
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-    } else if (data === 'no_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
-    } else if (data === 'no_list_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_LIST_CATEGORY));
     } else {
       res
         .status(statusCode.OK)
@@ -79,18 +76,13 @@ const deleteCategory = async (req: Request, res: Response) => {
   const { listId, categoryId } = req.params;
   try {
     const data = await TogetherPackingListCategoryService.deleteCategory(listId, categoryId);
-    if (data === 'no_list') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-    } else if (data === 'no_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
-    } else if (data === 'no_list_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_LIST_CATEGORY));
+    if (
+      data === 'no_list' ||
+      data === 'no_category' ||
+      data === 'no_list_category' ||
+      data === 'null'
+    ) {
+      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)

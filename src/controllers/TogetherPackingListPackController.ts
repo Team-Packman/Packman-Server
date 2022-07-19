@@ -20,18 +20,13 @@ const createPack = async (req: Request, res: Response) => {
   try {
     const data = await TogetherPackingListPackService.createPack(PackCreateDto);
 
-    if (data === 'no_list') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
-    } else if (data === 'no_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_CATEGORY));
-    } else if (data === 'no_list_category') {
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_LIST_CATEGORY));
+    if (
+      data === 'no_list' ||
+      data === 'no_category' ||
+      data === 'no_list_category' ||
+      data === 'null'
+    ) {
+      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)
@@ -63,13 +58,14 @@ const updatePack = async (req: Request, res: Response) => {
       data === 'no_list' ||
       data === 'no_category' ||
       data === 'no_list_category' ||
-      data === 'no_category_pack'
+      data === 'no_category_pack' ||
+      data === 'null'
     ) {
       res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -89,7 +85,8 @@ const deletePack = async (req: Request, res: Response) => {
       data === 'no_list' ||
       data === 'no_category' ||
       data === 'no_list_category' ||
-      data === 'no_category_pack'
+      data === 'no_category_pack' ||
+      data === 'null'
     ) {
       res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {

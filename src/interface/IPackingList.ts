@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 export interface PackingListTitleUpdateDTO {
   _id: string;
   title: string;

@@ -1,11 +1,6 @@
 import { Router } from 'express';
 import { PackingListController } from '../controllers';
-import { body } from 'express-validator';
-import {
-  AlonePackingListController,
-  PackingListController,
-  TogetherPackingListController,
-} from '../controllers';
+import { body } from 'express-validator/check';
 
 const router: Router = Router();
 

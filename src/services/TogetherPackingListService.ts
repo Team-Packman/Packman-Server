@@ -1,5 +1,6 @@
 import {
   TogetherMyPackingListResponseDTO,
+  TogetherPackingListCategoryResponseDto,
   TogetherPackingListCreateDTO,
   TogetherPackingListResponseDTO,
 } from '../interface/ITogetherPackingList';
@@ -15,6 +16,7 @@ import PackingListService from './PackingListService';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
+import { aloneListResponse, togetherListResponse } from '../modules/listResponse';
 
 const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
@@ -23,7 +25,7 @@ const createTogetherPackingList = async (
       title: string;
       departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
-      alonePackingList: TogetherMyPackingListResponseDTO;
+      myPackingList: TogetherMyPackingListResponseDTO;
     }
   | string
 > => {
@@ -39,7 +41,7 @@ const createTogetherPackingList = async (
     await group.save();
 
     let inviteCode = await PackingListController.generateInviteCode();
-    while (await PackingListService.getPackingByInviteCode(inviteCode)._id) {
+    while (await PackingListService.getPackingByInviteCode(inviteCode)) {
       inviteCode = await PackingListController.generateInviteCode();
     }
 
@@ -80,45 +82,13 @@ const createTogetherPackingList = async (
       $push: { list: togetherPackingList.id },
     });
 
-    const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
-      { _id: togetherPackingList.id },
-      { category: 1, isSaved: 1, groupId: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packerId: 1 },
-        options: { sort: { createdAt: 1 } },
-        populate: {
-          path: 'packer',
-          model: 'User',
-          select: {
-            _id: 1,
-            name: 1,
-          },
-        },
-      },
-    });
+    const togetherData: TogetherPackingListResponseDTO | null = await togetherListResponse(
+      togetherPackingList.id,
+    );
 
-    const aloneData: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
-      { _id: alonePackingList.id },
-      { category: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-        options: { sort: { createdAt: 1 } },
-      },
-    });
+    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+      alonePackingList.id,
+    );
 
     if (!togetherData || !aloneData) return 'notfoundList';
 
@@ -126,7 +96,7 @@ const createTogetherPackingList = async (
       title: togetherPackingList.title,
       departureDate: togetherPackingList.departureDate,
       togetherPackingList: togetherData,
-      alonePackingList: aloneData,
+      myPackingList: aloneData,
     };
     return response;
   } catch (error) {
@@ -158,7 +128,7 @@ const readTogetherPackingList = async (
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packerId: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -173,21 +143,9 @@ const readTogetherPackingList = async (
 
     const togetherRawData = await TogetherPackingList.findById(listId);
     if (!togetherRawData) return 'notfoundList';
-    const aloneData: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
-      { _id: togetherRawData.myPackingListId },
-      { category: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-        options: { sort: { createdAt: 1 } },
-      },
-    });
+    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+      togetherRawData.myPackingListId,
+    );
 
     if (!togetherData || !aloneData) return 'notfoundList';
 
@@ -249,7 +207,9 @@ const deleteTogetherPackingList = async (
   }
 };
 
-const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
+const updatePacker = async (
+  packerUpdateDto: PackerUpdateDto,
+): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
     const listId = packerUpdateDto.listId;
     const packId = packerUpdateDto.packId;
@@ -287,7 +247,10 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
       },
     );
 
-    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
       path: 'category',
       model: 'Category',
       select: { _id: 1, name: 1, pack: 1 },
@@ -295,7 +258,7 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -307,7 +270,7 @@ const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
         },
       },
     });
-
+    if (!data) return 'null';
     return data;
   } catch (error) {
     console.log(error);

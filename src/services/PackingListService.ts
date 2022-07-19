@@ -5,6 +5,8 @@ import {
 } from '../interface/IPackingList';
 import AlonePackingList from '../models/AlonePackingList';
 import TogetherPackingList from '../models/TogetherPackingList';
+import { PackingListResponseDTO } from '../interface/IPackingList';
+import mongoose from 'mongoose';
 
 const updatePackingListTitle = async (
   packingListTitleUpdateDto: PackingListTitleUpdateDTO,
@@ -143,13 +145,17 @@ const updatePackingListMyTemplate = async (
   }
 };
 
-
-const getPackingByInviteCode = async (inviteCode: string): Promise<PackingListResponseDto> => {
+const getPackingByInviteCode = async (
+  inviteCode: string,
+): Promise<{
+  _id: mongoose.Types.ObjectId;
+  title: string;
+} | null> => {
   try {
-    const packingList = await TogetherPackingList.find({ inviteCode: inviteCode });
+    const packingList = await TogetherPackingList.findOne({ inviteCode: inviteCode });
     if (!packingList) return null;
     const data = {
-      _id: packingList._id,
+      _id: packingList.id,
       title: packingList.title,
     };
     return data;
