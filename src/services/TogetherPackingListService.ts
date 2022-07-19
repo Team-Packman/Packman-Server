@@ -10,6 +10,8 @@ import Folder from '../models/Folder';
 import Group from '../models/Group';
 import Template from '../models/Template';
 import TogetherPackingList from '../models/TogetherPackingList';
+import PackingListController from '../controllers/PackingListController';
+import PackingListService from './PackingListService';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
@@ -36,10 +38,16 @@ const createTogetherPackingList = async (
     });
     await group.save();
 
+    let inviteCode = await PackingListController.generateInviteCode();
+    while (await PackingListService.getPackingByInviteCode(inviteCode)._id) {
+      inviteCode = await PackingListController.generateInviteCode();
+    }
+
     const togetherPackingList = new TogetherPackingList({
       title: togetherPackingListCreateDto.title,
       departureDate: togetherPackingListCreateDto.departureDate,
       groupId: group.id,
+      inviteCode: inviteCode,
     });
 
     if (!togetherPackingListCreateDto.templateId) {

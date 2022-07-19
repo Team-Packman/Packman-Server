@@ -10,7 +10,6 @@ const GOOGLE_AUTH_REDIRECT_URL = 'http://localhost:8000/auth/google/callback';
 
 const getGoogleUser = async (req: Request, res: Response) => {
   const token = req.body.accessToken;
-
   if (!token) {
     res
       .status(statusCode.BAD_REQUEST)

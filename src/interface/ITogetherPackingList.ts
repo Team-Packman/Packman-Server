@@ -10,6 +10,7 @@ export interface ITogetherPackingList {
   isDeleted: boolean;
   myPackingListId: mongoose.Types.ObjectId;
   isSaved: boolean;
+  inviteCode: string;
 }
 
 export interface TogetherPackingListCategoryResponseDto {
