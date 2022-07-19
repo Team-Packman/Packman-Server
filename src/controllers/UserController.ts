@@ -7,6 +7,12 @@ import { UserService } from '../services';
 import { validationResult } from 'express-validator';
 import getToken from '../modules/jwtHandler';
 
+/**
+ *  @route POST /user/profile
+ *  @desc create user
+ *  @access public
+ **/
+
 const createUser = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
@@ -34,6 +40,12 @@ const createUser = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route GET /user
+ *  @desc get user profile
+ *  @access private
+ **/
+
 const getUserInfo = async (req: Request, res: Response) => {
   const userId = req.body.user.id;
   try {
@@ -51,6 +63,11 @@ const getUserInfo = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ *  @route GET /user/profile
+ *  @desc update user
+ *  @access private
+ **/
 const updateUser = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
