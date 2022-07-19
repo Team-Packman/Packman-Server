@@ -90,7 +90,13 @@ const updatePackingListDate = async (req: Request, res: Response) => {
  *  @access Public
  **/
 
-const generateInviteCode = () => {
+/**
+ *  @route GET /invite/:inviteCode
+ *  @desc find packingList by inviteCode
+ *  @access Public
+ **/
+
+ const generateInviteCode = () => {
   const code = nanoid(6);
   return code;
 };
