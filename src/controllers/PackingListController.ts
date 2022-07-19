@@ -94,16 +94,19 @@ const updatePackingListDate = async (req: Request, res: Response) => {
  *  @access Public
  **/
 
-const updatePackingListMyTemplate = async (req: Request, res: Response) => {
-  const error = validationResult(req);
-  if (!error.isEmpty()) {
-    return res
-      .status(statusCode.BAD_REQUEST)
-      .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
-  }
 
-  const packingListMyTemplateUpdateDto: PackingListMyTemplateUpdateDTO = req.body;
+/**
+ *  @route GET /invite/:inviteCode
+ *  @desc find packingList by inviteCode
+ *  @access Public
+ **/
 
+ const generateInviteCode = () => {
+  const code = nanoid(6);
+  return code;
+};
+const invitePackingList = async (req: Request, res: Response) => {
+  const inviteCode = req.params.inviteCode;
   try {
     const data = await PackingListService.updatePackingListMyTemplate(
       packingListMyTemplateUpdateDto,
