@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
@@ -7,6 +7,13 @@ import config from '../config';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_AUTH_REDIRECT_URL = 'http://localhost:8000/auth/google/callback';
+
+
+/**
+ *  @route GET /auth/google
+ *  @desc get google user
+ *  @access public
+ **/
 
 const getGoogleUser = async (req: Request, res: Response) => {
   const token = req.body.accessToken;
@@ -30,6 +37,7 @@ const getGoogleUser = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
 
 // 토큰 발급을 위한 코드
 const getGoogleToken = async (req: Request, res: Response) => {
