@@ -13,7 +13,7 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:8000', config.baseUrl],
+    origin: ['http://localhost:3000', config.baseUrl],
   }),
 );
 
