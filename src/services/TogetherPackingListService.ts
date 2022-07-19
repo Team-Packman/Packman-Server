@@ -10,6 +10,11 @@ import Folder from '../models/Folder';
 import Group from '../models/Group';
 import Template from '../models/Template';
 import TogetherPackingList from '../models/TogetherPackingList';
+import { PackerUpdateDto } from '../interface/IPack';
+import Pack from '../models/Pack';
+import User from '../models/User';
+import mongoose from 'mongoose';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
@@ -237,8 +242,76 @@ const deleteTogetherPackingList = async (
     throw error;
   }
 };
+
+const updatePacker = async (packerUpdateDto: PackerUpdateDto) => {
+  try {
+    const listId = packerUpdateDto.listId;
+    const packId = packerUpdateDto.packId;
+    const packerId = packerUpdateDto.packerId;
+
+    const list = await TogetherPackingList.findById(listId);
+    if (!list) return 'no_list';
+
+    const pack = await Pack.findById(packId);
+    if (!pack) return 'no_pack';
+
+    const packer = await User.findById(packerId);
+    if (!packer) return 'no_packer';
+
+    const category = list.category;
+    const packs = [];
+
+    for await (const cate of category) {
+      const cat = await Category.findById(cate);
+      if (cat) {
+        for await (const pk of cat.pack) {
+          packs.push(pk.toString());
+        }
+      }
+    }
+
+    if (!packs.includes(packId.toString())) return 'no_user_pack';
+
+    await Pack.updateOne(
+      { _id: packId },
+      {
+        $set: {
+          packer: packerId,
+        },
+      },
+    );
+
+    const data = await TogetherPackingList.findOne({ _id: listId }, { category: 1 }).populate({
+      path: 'category',
+      model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: 'pack',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1 },
+        options: { sort: { createdAt: 1 } },
+        populate: {
+          path: 'packer',
+          model: 'User',
+          select: {
+            _id: 1,
+            name: 1,
+          },
+        },
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export default {
   createTogetherPackingList,
   readTogetherPackingList,
   deleteTogetherPackingList,
+  updatePacker,
 };
