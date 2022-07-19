@@ -30,7 +30,7 @@ const createPack = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.DELETE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.CREATE_TOGETHER_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -65,7 +65,7 @@ const updatePack = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_CATEGORY_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);

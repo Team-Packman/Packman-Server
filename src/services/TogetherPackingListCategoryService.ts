@@ -118,24 +118,25 @@ const deleteCategory = async (
   categoryId: string,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const lId = new mongoose.Types.ObjectId(listId);
-    const cateId = new mongoose.Types.ObjectId(categoryId);
-
-    const cate = await Category.findById(cateId);
+    const cate = await Category.findById(categoryId);
     if (!cate) return 'no_category';
 
-    const list = await TogetherPackingList.findById(lId);
+    const list = await TogetherPackingList.findById(listId);
     if (!list) return 'no_list';
 
     const categories = list.category;
+    const stringCate: string[] = [];
     const packs = cate.pack;
 
-    if (!categories.includes(cateId)) return 'no_list_category';
+    categories.map((cat) => {
+      stringCate.push(cat.toString());
+    });
+    if (!stringCate.includes(categoryId)) return 'no_list_category';
 
     await Pack.deleteMany({ _id: { $in: packs } });
-    await Category.deleteOne({ _id: cateId });
+    await Category.deleteOne({ _id: categoryId });
 
-    categories.splice(categories.indexOf(cateId));
+    categories.splice(stringCate.indexOf(categoryId), 1);
 
     await TogetherPackingList.updateOne(
       { _id: listId },
