@@ -6,8 +6,6 @@ import { validationResult } from 'express-validator';
 import { CategoryCreateDto } from '../interface/ICategory';
 import { TogetherPackingListCategoryService } from '../services';
 import { CategoryUpdateDto } from '../interface/ICategory';
-import Category from '../models/Category';
-import mongoose from 'mongoose';
 
 const createCategory = async (req: Request, res: Response) => {
   const error = validationResult(req);
