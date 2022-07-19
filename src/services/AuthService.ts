@@ -7,7 +7,9 @@ import TogetherPackingList from '../models/TogetherPackingList';
 import Group from '../models/Group';
 import Folder from '../models/Folder';
 
-const getGoogleUser = async (googleToken: string, inviteCode: string): Promise<AuthResponseDto | null | undefined> => {
+const getGoogleUser = async (
+  googleToken: string,
+): Promise<AuthResponseDto | null | undefined> => {
   try {
     const response = await axios({
       method: 'get',
@@ -29,31 +31,7 @@ const getGoogleUser = async (googleToken: string, inviteCode: string): Promise<A
       };
       return data;
     } else {
-      const accessToken = getToken(user._id);
-      if(inviteCode) {
-        const packingList = await TogetherPackingList.findOne({inviteCode: inviteCode});
-        if(!packingList) return null;     // 패킹리스트 없을 때 예외 처리
-        const groupId = packingList.groupId;
-        const group = await Group.findByIdAndUpdate(groupId,{$push: {members: user._id}});
-        if(!group) return null;      // 그룹 존재하지 않을 때 예외 처리
- 
-        // 기본 폴더 생성 or 찾은 후 초대된 리스트 삽입
-        const folder = await Folder.findOne({title: "기본"});
-        if(!folder) {
-          const newFolder = new Folder({
-            title: "기본",
-            isAloned: false,
-            userId: user._id,
-            listNum: 1,
-            list: [packingList._id],
-            listModel: "TogetherPackingList", 
-          });
-          newFolder.save()
-        }
-        else {
-          await Folder.findByIdAndUpdate(folder._id, {$push: {list: packingList._id}});
-        }
-      }
+      const accessToken = getToken(user._id);                      
       const data = {
         isAlreadyUser: true,
         token: accessToken,
@@ -91,7 +69,7 @@ const getGoogleInfo = async (code: string): Promise<string | null> => {
     });
 
     const access_token = data['access_token'];
-    console.log(access_token)
+    console.log(access_token);
     if (!access_token) return null;
     else {
       const { data: userEmail } = await axios.get(
