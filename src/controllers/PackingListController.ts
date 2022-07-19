@@ -2,12 +2,8 @@ import { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
-import { validationResult } from 'express-validator/check';
-import {
-  PackingListDateUpdateDTO,
-  PackingListMyTemplateUpdateDTO,
-  PackingListTitleUpdateDTO,
-} from '../interface/IPackingList';
+import { validationResult } from 'express-validator';
+import { PackingListDateUpdateDTO, PackingListTitleUpdateDTO } from '../interface/IPackingList';
 import PackingListService from '../services/PackingListService';
 import { nanoid } from 'nanoid';
 /**
@@ -79,7 +75,7 @@ const updatePackingListDate = async (req: Request, res: Response) => {
     else
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_DATE_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
   } catch (error) {
     console.log(error);
     res
@@ -89,11 +85,10 @@ const updatePackingListDate = async (req: Request, res: Response) => {
 };
 
 /**
- *  @route PATCH /packingList/myTemplate
- *  @desc Update Packinglist Is Saved
+ *  @route GET /invite/:inviteCode
+ *  @desc find packingList by inviteCode
  *  @access Public
  **/
-
 
 /**
  *  @route GET /invite/:inviteCode
@@ -108,18 +103,11 @@ const updatePackingListDate = async (req: Request, res: Response) => {
 const invitePackingList = async (req: Request, res: Response) => {
   const inviteCode = req.params.inviteCode;
   try {
-    const data = await PackingListService.updatePackingListMyTemplate(
-      packingListMyTemplateUpdateDto,
-    );
-
-    if (data == 'notfoundUpdatedMyTemplate')
-      res
-        .status(statusCode.BAD_REQUEST)
-        .send(util.fail(statusCode.BAD_REQUEST, message.NO_UPDATEDMYTEMPLATE));
-    else
-      res
-        .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_MYTEMPLATE_SUCCESS, data));
+    const data = await PackingListService.getPackingByInviteCode(inviteCode);
+    if(!data) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    res
+      .status(statusCode.OK)
+      .send(util.success(statusCode.OK, message.SUCCESS_INVITE_TOGETHER_PACKING, data));
   } catch (error) {
     console.log(error);
     res
@@ -130,5 +118,6 @@ const invitePackingList = async (req: Request, res: Response) => {
 export default {
   updatePackingListTitle,
   updatePackingListDate,
-  updatePackingListMyTemplate,
+  invitePackingList,
+  generateInviteCode,
 };
