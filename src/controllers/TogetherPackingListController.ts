@@ -146,6 +146,7 @@ const updatePacker = async (req: Request, res: Response) => {
   }
 };
 
+
 export default {
   createTogetherPackingList,
   readTogetherPackingList,

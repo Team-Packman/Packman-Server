@@ -68,6 +68,9 @@ const message = {
   // 초대 코드 관련
   SUCCESS_INVITE_TOGETHER_PACKING: '함께 패킹리스트 초대 성공',
   READ_DETAILEDTEMPLTATE_SUCCESS: '템플릿 상세조회 성공',
+
+  // 멤버
+  SUCCESS_GET_MEMBERS: '멤버 조회 성공',
 };
 
 export default message;
