@@ -6,6 +6,6 @@ export interface IGroup {
 
 export interface GroupResponseDto {
   _id: mongoose.Types.ObjectId,
-  nickname: string,
+  name: string,
   profileImageId: string,
 }
