@@ -24,4 +24,5 @@ router.patch(
   AlonePackingListPackController.updatePack,
 );
 
+router.delete('/:listId/:categoryId/:packId', auth, AlonePackingListPackController.deletePack);
 export default router;
