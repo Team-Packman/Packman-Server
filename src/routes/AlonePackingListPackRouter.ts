@@ -11,6 +11,18 @@ router.post(
   auth,
   AlonePackingListPackController.createPack,
 );
+router.patch(
+  '/',
+  [
+    body('_id').notEmpty(),
+    body('name').notEmpty(),
+    body('isChecked').notEmpty(),
+    body('listId').notEmpty(),
+    body('categoryId').notEmpty(),
+  ],
+  auth,
+  AlonePackingListPackController.updatePack,
+);
 
 router.delete('/:listId/:categoryId/:packId', auth, AlonePackingListPackController.deletePack);
 export default router;
