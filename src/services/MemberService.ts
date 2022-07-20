@@ -10,7 +10,7 @@ const getMembers = async (userId: string, groupId: string): Promise<GroupRespons
     const master = await User.findById(userId);
     if (!master) return null;
     let idx = 0;
-    let target;
+    let target = 0;
     const result = [];
     for await (const memberId of group.members){
       const mem = await User.findById(memberId);
@@ -27,17 +27,11 @@ const getMembers = async (userId: string, groupId: string): Promise<GroupRespons
       };
       result.push(data);
     }
-
-  
-    if (!target) {
-      return null; // 유저가 멤버에 없을 때
-    }
     
-
+    
     const swap = result[target];
     result[target] = result[0];
     result[0] = swap;
-    
     return result;
   } catch (error) {
     console.log(error);
