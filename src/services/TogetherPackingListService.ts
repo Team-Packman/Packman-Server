@@ -157,7 +157,6 @@ const readTogetherPackingList = async (
     );
 
     if (!togetherData || !aloneData) return 'notfoundList';
-
     const response = {
       title: togetherRawData.title,
       departureDate: togetherRawData.departureDate,
