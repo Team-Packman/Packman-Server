@@ -3,7 +3,7 @@ import { AuthController } from '../controllers';
 
 const router: Router = Router();
 
-router.get('/google', AuthController.getGoogleUser);
+router.post('/google', AuthController.getGoogleUser);
 
 
 export default router;
