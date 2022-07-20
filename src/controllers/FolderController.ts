@@ -124,7 +124,7 @@ const getAloneFolders = async (req: Request, res: Response) => {
     const data = await FolderService.getAloneFolders(userId);
     res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { AloneFolders: data }));
+      .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { aloneFolders: data }));
   } catch (error) {
     console.log(error);
     res
@@ -145,7 +145,7 @@ const getTogetherFolders = async (req: Request, res: Response) => {
     const data = await FolderService.getTogetherFolders(userId);
     res
       .status(statusCode.OK)
-      .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { TogetherFolders: data }));
+      .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { togetherFolders: data }));
   } catch (error) {
     console.log(error);
     res
