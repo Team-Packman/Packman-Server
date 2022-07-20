@@ -4,10 +4,7 @@ import { AuthResponseDto } from '../interface/IUser';
 import User from '../models/User';
 import getToken from '../modules/jwtHandler';
 
-
-const getGoogleUser = async (
-  googleToken: string,
-): Promise<AuthResponseDto | null | undefined> => {
+const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | null | undefined> => {
   try {
     const response = await axios({
       method: 'get',
@@ -29,7 +26,7 @@ const getGoogleUser = async (
       };
       return data;
     } else {
-      const accessToken = getToken(user._id);                      
+      const accessToken = getToken(user._id);
       const data = {
         isAlreadyUser: true,
         token: accessToken,
@@ -66,7 +63,6 @@ const getGoogleInfo = async (code: string): Promise<string | null> => {
     });
 
     const access_token = data['access_token'];
-    console.log(access_token);
     if (!access_token) return null;
     else {
       const { data: userEmail } = await axios.get(

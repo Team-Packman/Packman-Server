@@ -64,8 +64,9 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
 
 const readTogetherPackingList = async (req: Request, res: Response) => {
   const { listId } = req.params;
+  const userId = req.body.user.id;
   try {
-    const data = await TogetherPackingListService.readTogetherPackingList(listId);
+    const data = await TogetherPackingListService.readTogetherPackingList(listId, userId);
 
     if (data == 'notfoundList')
       res
@@ -145,6 +146,7 @@ const updatePacker = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
+
 
 export default {
   createTogetherPackingList,

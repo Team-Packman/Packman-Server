@@ -9,7 +9,7 @@ import TogetherPackingListRouter from './TogetherPackingListRouter';
 import AlonePackingListRouter from './AlonePackingListRouter';
 import AlonePackingListCategoryRouter from './AlonePackingListCategoryRouter';
 import TemplateRouter from './TemplateRouter';
-
+import MemberRouter from './MemberRouter';
 const router = Router();
 
 router.use('/auth', AuthRouter);
@@ -22,5 +22,6 @@ router.use('/packingList/alone/category', AlonePackingListCategoryRouter);
 router.use('/packingList/together/category', TogetherPackingListCategoryRouter);
 router.use('/packingList/together/pack', TogetherPackingListPackRouter);
 
+router.use('/together',MemberRouter);
 router.use('/template', TemplateRouter);
 export default router;

@@ -27,6 +27,8 @@ const message = {
   SUCCESS_DELETE_FOLDER: '폴더 수정 성공',
   SUCCESS_GET_FOLDERS: '폴더 조회 성공',
   NO_FOLDER: '존재하지 않는 Folder입니다',
+  SUCCESS_GET_TOGETHER_PACKINGLIST_IN_FOLDER: '폴더 속 함께 패킹리스트 조회 성공',
+  SUCCESS_GET_ALONE_PACKINGLIST_IN_FOLDER: '폴더 속 혼자 패킹리스트 조회 성공',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
@@ -73,6 +75,9 @@ const message = {
   // 초대 코드 관련
   SUCCESS_INVITE_TOGETHER_PACKING: '함께 패킹리스트 초대 성공',
   READ_DETAILEDTEMPLTATE_SUCCESS: '템플릿 상세조회 성공',
+
+  // 멤버
+  SUCCESS_GET_MEMBERS: '멤버 조회 성공',
 };
 
 export default message;

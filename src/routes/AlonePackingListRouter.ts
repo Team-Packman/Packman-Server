@@ -12,6 +12,7 @@ router.post(
   AlonePackingListController.createAlonePackingList,
 );
 
-router;
+router.get('/:listId', auth, AlonePackingListController.readAlonePackingList);
+router.delete('/:folderId/:listId', auth, AlonePackingListController.deleteAlonePackingList);
 
 export default router;

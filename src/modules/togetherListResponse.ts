@@ -36,7 +36,7 @@ async function togetherListResponse(
   return data;
 }
 
-async function aloneListResponse(
+async function togetherMyListResponse(
   listId: mongoose.Types.ObjectId,
 ): Promise<TogetherMyPackingListResponseDTO | null> {
   const data: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
@@ -58,4 +58,4 @@ async function aloneListResponse(
   return data;
 }
 
-export { aloneListResponse, togetherListResponse };
+export { togetherMyListResponse, togetherListResponse };
