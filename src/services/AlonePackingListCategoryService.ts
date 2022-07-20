@@ -111,73 +111,73 @@ const updateCategory = async (
   }
 };
 
-// const deleteCategory = async (
-//   listId: string,
-//   categoryId: string,
-// ): Promise<TogetherPackingListCategoryResponseDto | string> => {
-//   try {
-//     const cate = await Category.findById(categoryId);
-//     if (!cate) return 'no_category';
+const deleteCategory = async (
+  listId: string,
+  categoryId: string,
+): Promise<AlonePackingListCategoryResponseDto | string> => {
+  try {
+    const cate = await Category.findById(categoryId);
+    if (!cate) return 'no_category';
 
-//     const list = await TogetherPackingList.findById(listId);
-//     if (!list) return 'no_list';
+    const list = await AlonePackingList.findById(listId);
+    if (!list) return 'no_list';
 
-//     const categories = list.category;
-//     const stringCate: string[] = [];
-//     const packs = cate.pack;
+    const categories = list.category;
+    const stringCate: string[] = [];
+    const packs = cate.pack;
 
-//     categories.map((cat) => {
-//       stringCate.push(cat.toString());
-//     });
-//     if (!stringCate.includes(categoryId)) return 'no_list_category';
+    categories.map((cat) => {
+      stringCate.push(cat.toString());
+    });
+    if (!stringCate.includes(categoryId)) return 'no_list_category';
 
-//     await Pack.deleteMany({ _id: { $in: packs } });
-//     await Category.deleteOne({ _id: categoryId });
+    await Pack.deleteMany({ _id: { $in: packs } });
+    await Category.deleteOne({ _id: categoryId });
 
-//     categories.splice(stringCate.indexOf(categoryId), 1);
+    categories.splice(stringCate.indexOf(categoryId), 1);
 
-//     await TogetherPackingList.updateOne(
-//       { _id: listId },
-//       {
-//         $set: {
-//           category: categories,
-//         },
-//       },
-//     );
+    await AlonePackingList.updateOne(
+      { _id: listId },
+      {
+        $set: {
+          category: categories,
+        },
+      },
+    );
 
-//     const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
-//       { _id: listId },
-//       { category: 1 },
-//     ).populate({
-//       path: 'category',
-//       model: 'Category',
-//       select: { _id: 1, name: 1, pack: 1 },
-//       options: { sort: { createdAt: 1 } },
-//       populate: {
-//         path: 'pack',
-//         model: 'Pack',
-//         select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-//         options: { sort: { createdAt: 1 } },
-//         populate: {
-//           path: 'packer',
-//           model: 'User',
-//           select: {
-//             _id: 1,
-//             name: 1,
-//           },
-//         },
-//       },
-//     });
+    const data: AlonePackingListCategoryResponseDto | null = await AlonePackingList.findOne(
+      { _id: listId },
+      { category: 1 },
+    ).populate({
+      path: 'category',
+      model: 'Category',
+      select: { _id: 1, name: 1, pack: 1 },
+      options: { sort: { createdAt: 1 } },
+      populate: {
+        path: 'pack',
+        model: 'Pack',
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
+        options: { sort: { createdAt: 1 } },
+        populate: {
+          path: 'packer',
+          model: 'User',
+          select: {
+            _id: 1,
+            name: 1,
+          },
+        },
+      },
+    });
 
-//     if (!data) return 'null';
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// };
+    if (!data) return 'null';
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 export default {
   createCategory,
   updateCategory,
-  //   deleteCategory,
+    deleteCategory,
 };
