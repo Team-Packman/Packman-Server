@@ -278,14 +278,9 @@ const updatePacker = async (
   }
 };
 
-const getTogetherListInFolder = async (userId: string, folderId: string) => {
-  console.log(userId, folderId);
-};
-
 export default {
   createTogetherPackingList,
   readTogetherPackingList,
   deleteTogetherPackingList,
   updatePacker,
-  getTogetherListInFolder,
 };
