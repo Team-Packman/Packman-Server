@@ -65,7 +65,6 @@ const createPack = async (
   }
 };
 
-
 const updatePack = async (
   packUpdateDto: PackUpdateDto,
 ): Promise<AlonePackingListCategoryResponseDto | string> => {
@@ -88,6 +87,18 @@ const updatePack = async (
     if (!list.category.includes(categoryId)) return 'no_list_category';
     if (!cate.pack.includes(packId)) return 'no_category_pack';
 
+    let packRemainNum = list.packRemainNum;
+    if (isChecked != pack.isChecked) {
+      if (isChecked) {
+        packRemainNum -= 1;
+      } else {
+        packRemainNum += 1;
+      }
+    }
+    await AlonePackingList.updateOne(
+      { _id: list._id },
+      { $set: { packRemainNum: packRemainNum } },
+    );
     await Pack.updateOne(
       { _id: packId },
       {
@@ -129,8 +140,7 @@ const updatePack = async (
   }
 };
 
-
 export default {
   createPack,
-  updatePack
+  updatePack,
 };
