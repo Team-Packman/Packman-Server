@@ -19,7 +19,10 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
     // 존재하는 유저인지 판별
     const userEmail = response.data.email;
     const user = await User.findOne({ email: userEmail });
-    if (!user) {
+    if (!user || user.isDeleted) {
+      if (user?.isDeleted) {
+        await User.findByIdAndDelete(user._id);
+      }
       const data = {
         isAlreadyUser: false,
         email: userEmail,
@@ -41,7 +44,6 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
     console.log(error);
   }
 };
-
 
 export default {
   getGoogleUser,
