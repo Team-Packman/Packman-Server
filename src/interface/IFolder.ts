@@ -30,6 +30,6 @@ export interface AllFolderResponseDto {
 }
 
 export interface FolderResponseDto {
-    _id: mongoose.Schema.Types.ObjectId;
-    title: string;
+  _id: mongoose.Schema.Types.ObjectId;
+  title: string;
 }

@@ -1,11 +1,10 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
-import { PackCreateDto } from '../interface/IPack';
-import { TogetherPackingListPackService } from '../services';
-import { PackUpdateDto } from '../interface/IPack';
+import { PackCreateDto, PackUpdateDto } from '../interface/IPack';
+import AlonePackingListPackService from '../services/AlonePackingListPackService';
 
 const createPack = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -15,10 +14,10 @@ const createPack = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const PackCreateDto: PackCreateDto = req.body;
+  const packCreateDto: PackCreateDto = req.body;
 
   try {
-    const data = await TogetherPackingListPackService.createPack(PackCreateDto);
+    const data = await AlonePackingListPackService.createPack(packCreateDto);
 
     if (
       data === 'no_list' ||
@@ -30,7 +29,7 @@ const createPack = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.CREATE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.CREATE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -49,9 +48,9 @@ const updatePack = async (req: Request, res: Response) => {
   }
 
   const packUpdateDto: PackUpdateDto = req.body;
-  console.log(packUpdateDto)
+
   try {
-    const data = await TogetherPackingListPackService.updatePack(packUpdateDto);
+    const data = await AlonePackingListPackService.updatePack(packUpdateDto);
 
     if (
       data === 'no_pack' ||
@@ -65,7 +64,7 @@ const updatePack = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -78,7 +77,7 @@ const updatePack = async (req: Request, res: Response) => {
 const deletePack = async (req: Request, res: Response) => {
   const { listId, categoryId, packId } = req.params;
   try {
-    const data = await TogetherPackingListPackService.deletePack(listId, categoryId, packId);
+    const data = await AlonePackingListPackService.deletePack(listId, categoryId, packId);
 
     if (
       data === 'no_pack' ||
@@ -92,7 +91,7 @@ const deletePack = async (req: Request, res: Response) => {
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.DELETE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.DELETE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -101,9 +100,4 @@ const deletePack = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
-
-export default {
-  createPack,
-  updatePack,
-  deletePack,
-};
+export default { createPack, updatePack, deletePack };

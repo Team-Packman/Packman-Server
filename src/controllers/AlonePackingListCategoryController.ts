@@ -3,11 +3,11 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
-import { PackCreateDto } from '../interface/IPack';
-import { TogetherPackingListPackService } from '../services';
-import { PackUpdateDto } from '../interface/IPack';
+import { CategoryCreateDto } from '../interface/ICategory';
+import { CategoryUpdateDto } from '../interface/ICategory';
+import AlonePackingListCategoryService from '../services/AlonePackingListCategoryService';
 
-const createPack = async (req: Request, res: Response) => {
+const createCategory = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res
@@ -15,22 +15,18 @@ const createPack = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const PackCreateDto: PackCreateDto = req.body;
+  const categoryCreateDto: CategoryCreateDto = req.body;
 
   try {
-    const data = await TogetherPackingListPackService.createPack(PackCreateDto);
-
-    if (
-      data === 'no_list' ||
-      data === 'no_category' ||
-      data === 'no_list_category' ||
-      data === 'null'
-    ) {
-      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
+    const data = await AlonePackingListCategoryService.createCategory(categoryCreateDto);
+    if (data === 400) {
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.success(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.CREATE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.CREATE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -40,7 +36,7 @@ const createPack = async (req: Request, res: Response) => {
   }
 };
 
-const updatePack = async (req: Request, res: Response) => {
+const updateCategory = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res
@@ -48,24 +44,24 @@ const updatePack = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
   }
 
-  const packUpdateDto: PackUpdateDto = req.body;
-  console.log(packUpdateDto)
+  const categoryUpdateDto: CategoryUpdateDto = req.body;
+
   try {
-    const data = await TogetherPackingListPackService.updatePack(packUpdateDto);
+    const data = await AlonePackingListCategoryService.updateCategory(categoryUpdateDto);
 
     if (
-      data === 'no_pack' ||
       data === 'no_list' ||
       data === 'no_category' ||
       data === 'no_list_category' ||
-      data === 'no_category_pack' ||
       data === 'null'
     ) {
-      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
+      res
+        .status(statusCode.BAD_REQUEST)
+        .send(util.fail(statusCode.BAD_REQUEST, message.NO_PACKINGLIST));
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.UPDATE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.UPDATE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -75,24 +71,21 @@ const updatePack = async (req: Request, res: Response) => {
   }
 };
 
-const deletePack = async (req: Request, res: Response) => {
-  const { listId, categoryId, packId } = req.params;
+const deleteCategory = async (req: Request, res: Response) => {
+  const { listId, categoryId } = req.params;
   try {
-    const data = await TogetherPackingListPackService.deletePack(listId, categoryId, packId);
-
+    const data = await AlonePackingListCategoryService.deleteCategory(listId, categoryId);
     if (
-      data === 'no_pack' ||
       data === 'no_list' ||
       data === 'no_category' ||
       data === 'no_list_category' ||
-      data === 'no_category_pack' ||
       data === 'null'
     ) {
       res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     } else {
       res
         .status(statusCode.OK)
-        .send(util.success(statusCode.OK, message.DELETE_TOGETHER_PACK_SUCCESS, data));
+        .send(util.success(statusCode.OK, message.DELETE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
     console.log(error);
@@ -103,7 +96,7 @@ const deletePack = async (req: Request, res: Response) => {
 };
 
 export default {
-  createPack,
-  updatePack,
-  deletePack,
+  createCategory,
+  updateCategory,
+  deleteCategory,
 };
