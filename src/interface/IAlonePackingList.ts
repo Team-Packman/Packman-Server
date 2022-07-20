@@ -38,3 +38,22 @@ export interface AlonePackingListResponseDTO {
   ];
   isSaved: boolean;
 }
+
+export interface AloneListInFolderResponseDto {
+  currentFolder: {
+    _id: string;
+    title: string;
+  };
+  folder: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+  }[];
+  listNum: number;
+  alonePackingList: {
+    _id: string;
+    title: string;
+    departureDate: string;
+    packTotalNum: number;
+    packRemainNum: number;
+  }[];
+}
