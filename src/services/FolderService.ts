@@ -188,7 +188,7 @@ const getAloneListInFolders = async (
   folderId: string,
 ): Promise<AloneListInFolderResponseDto | null> => {
   try {
-    const folders = await Folder.find({ userId: userId }, { isAloned: true });
+    const folders = await Folder.find({ userId: userId, isAloned: true });
     const currentFd = await Folder.findById(folderId);
     if (!currentFd) return null;
     const currentFolder = {
@@ -201,13 +201,13 @@ const getAloneListInFolders = async (
       title: string;
     }[] = [];
 
-    folders.map((fd) => {
+    for await (const element of folders) {
       const tmp = {
-        _id: fd.id,
-        title: fd.title,
+        _id: element.id,
+        title: element.title,
       };
       folder.push(tmp);
-    });
+    }
 
     const lists: {
       _id: string;
@@ -217,8 +217,8 @@ const getAloneListInFolders = async (
       packRemainNum: number;
     }[] = [];
 
-    for await (const lt of currentFd.list) {
-      const list = await AlonePackingList.findById(lt);
+    for await (const listId of currentFd.list) {
+      const list = await AlonePackingList.findById(listId);
       if (!list) return null;
       const data = {
         _id: list._id,
