@@ -19,5 +19,5 @@ router.patch(
   AlonePackingListCategoryController.updateCategory,
 );
 
-// router.delete('/:listId/:categoryId', auth, TogetherPackingListCategoryController.deleteCategory);
+router.delete('/:listId/:categoryId', auth, AlonePackingListCategoryController.deleteCategory);
 export default router;

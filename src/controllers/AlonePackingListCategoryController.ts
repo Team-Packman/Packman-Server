@@ -71,32 +71,32 @@ const updateCategory = async (req: Request, res: Response) => {
   }
 };
 
-// const deleteCategory = async (req: Request, res: Response) => {
-//   const { listId, categoryId } = req.params;
-//   try {
-//     const data = await TogetherPackingListCategoryService.deleteCategory(listId, categoryId);
-//     if (
-//       data === 'no_list' ||
-//       data === 'no_category' ||
-//       data === 'no_list_category' ||
-//       data === 'null'
-//     ) {
-//       res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
-//     } else {
-//       res
-//         .status(statusCode.OK)
-//         .send(util.success(statusCode.OK, message.DELETE_TOGETHER_CATEGORY_SUCCESS, data));
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(statusCode.INTERNAL_SERVER_ERROR)
-//       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
-//   }
-// };
+const deleteCategory = async (req: Request, res: Response) => {
+  const { listId, categoryId } = req.params;
+  try {
+    const data = await AlonePackingListCategoryService.deleteCategory(listId, categoryId);
+    if (
+      data === 'no_list' ||
+      data === 'no_category' ||
+      data === 'no_list_category' ||
+      data === 'null'
+    ) {
+      res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
+    } else {
+      res
+        .status(statusCode.OK)
+        .send(util.success(statusCode.OK, message.DELETE_ALONE_CATEGORY_SUCCESS, data));
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(statusCode.INTERNAL_SERVER_ERROR)
+      .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+  }
+};
 
 export default {
   createCategory,
   updateCategory,
-//   deleteCategory,
+  deleteCategory,
 };
