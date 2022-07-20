@@ -22,6 +22,7 @@ import mongoose from 'mongoose';
 import { GroupResponseDto } from '../interface/IGroup';
 
 const createTogetherPackingList = async (
+  userId: mongoose.Types.ObjectId,
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
 ): Promise<
   | {
@@ -39,7 +40,7 @@ const createTogetherPackingList = async (
     if (duplicatedData) return 'duplication';
 
     const group = new Group({
-      members: [],
+      members: [userId],
     });
     await group.save();
 
