@@ -22,7 +22,7 @@ const getMembers = async (userId: string, groupId: string): Promise<GroupRespons
       idx += 1;
       const data: GroupResponseDto = {
         _id: mem?._id,
-        nickname: mem?.name as string,
+        name: mem?.name as string,
         profileImageId: mem?.profileImageId as string,
       };
       result.push(data);

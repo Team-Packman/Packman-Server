@@ -17,6 +17,9 @@ import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
 import { togetherMyListResponse, togetherListResponse } from '../modules/togetherListResponse';
+import MemberService from './MemberService';
+import mongoose from 'mongoose';
+import { GroupResponseDto } from '../interface/IGroup';
 
 const createTogetherPackingList = async (
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
@@ -107,12 +110,17 @@ const createTogetherPackingList = async (
 
 const readTogetherPackingList = async (
   listId: string,
+  userId: string,
 ): Promise<
   | {
       title: string;
       departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
       myPackingList: TogetherMyPackingListResponseDTO;
+      group: {
+        _id: string;
+        members: GroupResponseDto[];
+      };
     }
   | string
 > => {
@@ -142,6 +150,7 @@ const readTogetherPackingList = async (
     });
 
     const togetherRawData = await TogetherPackingList.findById(listId);
+
     if (!togetherRawData) return 'notfoundList';
     const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
       togetherRawData.myPackingListId,
@@ -154,6 +163,13 @@ const readTogetherPackingList = async (
       departureDate: togetherRawData.departureDate,
       togetherPackingList: togetherData,
       myPackingList: aloneData,
+      group: {
+        _id: togetherData.groupId.toString(),
+        members: (await MemberService.getMembers(
+          userId,
+          togetherData.groupId,
+        )) as GroupResponseDto[],
+      },
     };
     return response;
   } catch (error) {
