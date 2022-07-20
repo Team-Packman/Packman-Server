@@ -54,10 +54,11 @@ const getKakaoUser = async (kakaoToken: string): Promise<AuthResponseDto | null 
       },
     });
 
+    console.log(response);
     if (!response) return null;
 
     // 존재하는 유저인지 판별
-    const userEmail = response.data.kakao_account.email;
+    const userEmail = response.data.email;
     const user = await User.findOne({ email: userEmail });
     if (!user || user.isDeleted) {
       if (user?.isDeleted) {
