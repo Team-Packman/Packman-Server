@@ -8,6 +8,7 @@ export interface IAlonePackingList {
   category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
   isSaved: boolean;
+  createdAt: Date;
 }
 
 export interface AlonePackingListCreateDTO {
@@ -17,7 +18,6 @@ export interface AlonePackingListCreateDTO {
   templateId: string;
 }
 
-//
 export interface AlonePackingListResponseDTO {
   _id: mongoose.Types.ObjectId;
   title: string;
