@@ -39,6 +39,26 @@ export interface AlonePackingListResponseDTO {
   isSaved: boolean;
 }
 
+export interface AlonePackingListCategoryResponseDto {
+  _id: mongoose.Types.ObjectId;
+  category: [
+    {
+      _id: mongoose.Types.ObjectId;
+      name: string;
+      pack: [
+        {
+          _id: mongoose.Types.ObjectId;
+          name: string;
+          isChecked: boolean;
+          packer: {
+            _id: mongoose.Types.ObjectId;
+            name: string;
+          };
+        },
+      ];
+    },
+  ];
+}
 export interface AloneListInFolderResponseDto {
   currentFolder: {
     _id: string;

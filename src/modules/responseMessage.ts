@@ -42,6 +42,12 @@ const message = {
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
+  CREATE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 생성 성공',
+  UPDATE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 수정 성공',
+  DELETE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 삭제 성공',
+  CREATE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 생성 성공',
+  UPDATE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 수정 성공',
+  DELETE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 삭제 성공',
   READ_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 상세 조회 성공',
   DELETE_ALONEPACKINGLIST_SUCCESS: '폴더 속 혼자 패킹리스트 삭제 성공',
 
