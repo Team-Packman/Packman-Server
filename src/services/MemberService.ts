@@ -11,34 +11,34 @@ const getMembers = async (userId: string, groupId: string): Promise<GroupRespons
     if (!master) return null;
     let idx = 0;
     let target;
-    console.log(master._id);
+    const result = [];
+    for await (const memberId of group.members){
+      const mem = await User.findById(memberId);
+      const memToString = mem?._id.toString();
+      const masterToString = master?._id.toString();
+      if (memToString === masterToString) {
+        target = idx;
+      }
+      idx += 1;
+      const data: GroupResponseDto = {
+        _id: mem?._id,
+        nickname: mem?.name as string,
+        profileImageId: mem?.profileImageId as string,
+      };
+      result.push(data);
+    }
 
-    const data = await Promise.all(
-      group.members.map(async (memberId) => {
-        const mem = await User.findById(memberId);
-        const memToString = mem?._id.toString();
-        const masterToString = master?._id.toString();
-        if (memToString === masterToString) {
-          target = idx;
-        }
-        idx += 1;
-        const data: GroupResponseDto = {
-          _id: mem?._id,
-          nickname: mem?.name as string,
-          profileImageId: mem?.profileImageId as string,
-        };
-        return data;
-      }),
-    );
+  
     if (!target) {
       return null; // 유저가 멤버에 없을 때
     }
-    const swap = data[target];
-    data[target] = data[0];
-    data[0] = swap;
+    
 
-    console.log(data);
-    return data;
+    const swap = result[target];
+    result[target] = result[0];
+    result[0] = swap;
+    
+    return result;
   } catch (error) {
     console.log(error);
     throw error;
