@@ -22,9 +22,11 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
   }
 
   const togetherPackingListCreateDto: TogetherPackingListCreateDTO = req.body;
+  const userId = req.body.user.id;
 
   try {
     const data = await TogetherPackingListService.createTogetherPackingList(
+      userId,
       togetherPackingListCreateDto,
     );
 
@@ -146,7 +148,6 @@ const updatePacker = async (req: Request, res: Response) => {
       .send(util.fail(statusCode.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
   }
 };
-
 
 export default {
   createTogetherPackingList,
