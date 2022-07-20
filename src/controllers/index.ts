@@ -6,6 +6,7 @@ import TogetherPackingListPackController from './TogetherPackingListPackControll
 import TogetherPackingListController from './TogetherPackingListController';
 import PackingListController from './PackingListController';
 import FolderController from './FolderController';
+import MemberController from './MemberController';
 
 export {
   AuthController,
@@ -16,4 +17,5 @@ export {
   TogetherPackingListPackController,
   TogetherPackingListController,
   PackingListController,
+  MemberController,
 };

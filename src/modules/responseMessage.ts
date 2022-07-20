@@ -27,6 +27,9 @@ const message = {
   SUCCESS_DELETE_FOLDER: '폴더 수정 성공',
   SUCCESS_GET_FOLDERS: '폴더 조회 성공',
   NO_FOLDER: '존재하지 않는 Folder입니다',
+  SUCCESS_GET_TOGETHER_PACKINGLIST_IN_FOLDER: '폴더 속 함께 패킹리스트 조회 성공',
+  SUCCESS_GET_ALONE_PACKINGLIST_IN_FOLDER: '폴더 속 혼자 패킹리스트 조회 성공',
+  SUCCESS_GET_RECENT_CREATED_LIST: '최근 생성된 리스트 조회 성공',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',
@@ -40,6 +43,14 @@ const message = {
 
   //혼자 패킹리스트
   CREATE_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 생성 성공',
+  CREATE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 생성 성공',
+  UPDATE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 수정 성공',
+  DELETE_ALONE_CATEGORY_SUCCESS: '혼자 패킹리스트 카테고리 삭제 성공',
+  CREATE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 생성 성공',
+  UPDATE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 수정 성공',
+  DELETE_ALONE_PACK_SUCCESS: '혼자 패킹리스트 짐 삭제 성공',
+  READ_ALONEPACKINGLIST_SUCCESS: '혼자 패킹리스트 상세 조회 성공',
+  DELETE_ALONEPACKINGLIST_SUCCESS: '폴더 속 혼자 패킹리스트 삭제 성공',
 
   // 함께 패킹리스트 관련
   CREATE_TOGETHER_CATEGORY_SUCCESS: '함께 패킹리스트 카테고리 생성 성공',
@@ -65,6 +76,9 @@ const message = {
   // 초대 코드 관련
   SUCCESS_INVITE_TOGETHER_PACKING: '함께 패킹리스트 초대 성공',
   READ_DETAILEDTEMPLTATE_SUCCESS: '템플릿 상세조회 성공',
+
+  // 멤버
+  SUCCESS_GET_MEMBERS: '멤버 조회 성공',
 };
 
 export default message;

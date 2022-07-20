@@ -22,9 +22,11 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
   }
 
   const togetherPackingListCreateDto: TogetherPackingListCreateDTO = req.body;
+  const userId = req.body.user.id;
 
   try {
     const data = await TogetherPackingListService.createTogetherPackingList(
+      userId,
       togetherPackingListCreateDto,
     );
 
@@ -64,8 +66,9 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
 
 const readTogetherPackingList = async (req: Request, res: Response) => {
   const { listId } = req.params;
+  const userId = req.body.user.id;
   try {
-    const data = await TogetherPackingListService.readTogetherPackingList(listId);
+    const data = await TogetherPackingListService.readTogetherPackingList(listId, userId);
 
     if (data == 'notfoundList')
       res

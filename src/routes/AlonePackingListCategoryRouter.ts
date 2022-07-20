@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import TogetherPackingListCategoryController from '../controllers/TogetherPackingListCategoryController';
+import AlonePackingListCategoryController from '../controllers/AlonePackingListCategoryController';
 import auth from '../middleware/auth';
 
 const router: Router = Router();
@@ -9,15 +9,15 @@ router.post(
   '/',
   [body('name').notEmpty(), body('listId').notEmpty()],
   auth,
-  TogetherPackingListCategoryController.createCategory,
+  AlonePackingListCategoryController.createCategory,
 );
 
 router.patch(
   '/',
   [body('_id').notEmpty(), body('name').notEmpty(), body('listId').notEmpty()],
   auth,
-  TogetherPackingListCategoryController.updateCategory,
+  AlonePackingListCategoryController.updateCategory,
 );
 
-router.delete('/:listId/:categoryId', auth, TogetherPackingListCategoryController.deleteCategory);
+router.delete('/:listId/:categoryId', auth, AlonePackingListCategoryController.deleteCategory);
 export default router;

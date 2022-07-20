@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import TogetherPackingListPackController from '../controllers/TogetherPackingListPackController';
+import AlonePackingListPackController from '../controllers/AlonePackingListPackController';
 import auth from '../middleware/auth';
 
 const router: Router = Router();
@@ -9,9 +9,8 @@ router.post(
   '/',
   [body('name').notEmpty(), body('categoryId').notEmpty(), body('listId').notEmpty()],
   auth,
-  TogetherPackingListPackController.createPack,
+  AlonePackingListPackController.createPack,
 );
-
 router.patch(
   '/',
   [
@@ -22,9 +21,8 @@ router.patch(
     body('categoryId').notEmpty(),
   ],
   auth,
-  TogetherPackingListPackController.updatePack,
+  AlonePackingListPackController.updatePack,
 );
 
-router.delete('/:listId/:categoryId/:packId', auth, TogetherPackingListPackController.deletePack);
-
+router.delete('/:listId/:categoryId/:packId', auth, AlonePackingListPackController.deletePack);
 export default router;

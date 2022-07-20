@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import { body } from 'express-validator/check';
 import { AlonePackingListController } from '../controllers';
+import auth from '../middleware/auth';
 
 const router: Router = Router();
 
 router.post(
   '/',
   [body('title').notEmpty(), body('departureDate').notEmpty(), body('folderId').notEmpty()],
+  auth,
   AlonePackingListController.createAlonePackingList,
 );
 
-router;
+router.get('/:listId', auth, AlonePackingListController.readAlonePackingList);
+router.delete('/:folderId/:listId', auth, AlonePackingListController.deleteAlonePackingList);
 
 export default router;

@@ -1,29 +1,28 @@
-import { TogetherPackingListCategoryResponseDto } from '../interface/ITogetherPackingList';
 import { CategoryCreateDto } from '../interface/ICategory';
 
-import TogetherPackingList from '../models/TogetherPackingList';
 import Category from '../models/Category';
 import Pack from '../models/Pack';
 import { CategoryUpdateDto } from '../interface/ICategory';
 import mongoose from 'mongoose';
+import { AlonePackingListCategoryResponseDto } from '../interface/IAlonePackingList';
+import AlonePackingList from '../models/AlonePackingList';
 
 const createCategory = async (
   categoryCreateDto: CategoryCreateDto,
-): Promise<TogetherPackingListCategoryResponseDto | number> => {
+): Promise<AlonePackingListCategoryResponseDto | number> => {
   try {
     const listId = categoryCreateDto.listId;
     const newCategory = new Category({ name: categoryCreateDto.name });
-
     await newCategory.save();
 
-    await TogetherPackingList.findByIdAndUpdate(listId, {
+    await AlonePackingList.findByIdAndUpdate(listId, {
       $push: { category: newCategory.id },
     });
 
     // Pack 생성되지 않는 오류로 추가
     const pack = Pack.find();
 
-    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+    const data: AlonePackingListCategoryResponseDto | null = await AlonePackingList.findOne(
       { _id: listId },
       { category: 1 },
     ).populate({
@@ -57,18 +56,17 @@ const createCategory = async (
 
 const updateCategory = async (
   categoryUpdateDto: CategoryUpdateDto,
-): Promise<TogetherPackingListCategoryResponseDto | string> => {
+): Promise<AlonePackingListCategoryResponseDto | string> => {
   try {
     const categoryId = categoryUpdateDto._id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
-
     const cate = await Category.findById(categoryId);
     if (!cate) return 'no_category';
 
-    const list = await TogetherPackingList.findById(listId);
+    const list = await AlonePackingList.findById(listId);
     if (!list) return 'no_list';
-
+ 
     // list의 category 배열에 존재하지 않는 categoryId인 경우
     if (!list.category.includes(categoryId)) return 'no_list_category';
 
@@ -81,7 +79,7 @@ const updateCategory = async (
       },
     );
 
-    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+    const data: AlonePackingListCategoryResponseDto | null = await AlonePackingList.findOne(
       { _id: listId },
       { category: 1 },
     ).populate({
@@ -116,22 +114,21 @@ const updateCategory = async (
 const deleteCategory = async (
   listId: string,
   categoryId: string,
-): Promise<TogetherPackingListCategoryResponseDto | string> => {
+): Promise<AlonePackingListCategoryResponseDto | string> => {
   try {
     const cate = await Category.findById(categoryId);
     if (!cate) return 'no_category';
 
-    const list = await TogetherPackingList.findById(listId);
+    const list = await AlonePackingList.findById(listId);
     if (!list) return 'no_list';
 
     const categories = list.category;
     const stringCate: string[] = [];
     const packs = cate.pack;
 
-    for await (const cat of categories) {
+    categories.map((cat) => {
       stringCate.push(cat.toString());
-    }
-
+    });
     if (!stringCate.includes(categoryId)) return 'no_list_category';
 
     await Pack.deleteMany({ _id: { $in: packs } });
@@ -139,7 +136,7 @@ const deleteCategory = async (
 
     categories.splice(stringCate.indexOf(categoryId), 1);
 
-    await TogetherPackingList.updateOne(
+    await AlonePackingList.updateOne(
       { _id: listId },
       {
         $set: {
@@ -148,7 +145,7 @@ const deleteCategory = async (
       },
     );
 
-    const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
+    const data: AlonePackingListCategoryResponseDto | null = await AlonePackingList.findOne(
       { _id: listId },
       { category: 1 },
     ).populate({
@@ -182,5 +179,5 @@ const deleteCategory = async (
 export default {
   createCategory,
   updateCategory,
-  deleteCategory,
+    deleteCategory,
 };

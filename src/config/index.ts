@@ -37,4 +37,9 @@ export default {
    * jwt Algorithm
    */
   jwtAlgo: process.env.JWT_ALGO as string,
+
+  /**
+   * baseUrl
+   */
+  baseUrl: process.env.BASE_URL as string,
 };

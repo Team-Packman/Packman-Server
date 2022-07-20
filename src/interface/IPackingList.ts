@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export interface PackingListTitleUpdateDTO {
   _id: string;
   title: string;
@@ -22,4 +24,13 @@ export interface PackingListResponseDTO {
   title: string;
   packTotalNum: number;
   packRemainNum: number;
+}
+
+export interface RecentCreatedPackingListDto {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  remainDay: number;
+  packTotalNum: number;
+  packRemainNum: number;
+  url: string;
 }

@@ -16,15 +16,20 @@ import PackingListService from './PackingListService';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
+import { togetherMyListResponse, togetherListResponse } from '../modules/togetherListResponse';
+import MemberService from './MemberService';
+import mongoose from 'mongoose';
+import { GroupResponseDto } from '../interface/IGroup';
 
 const createTogetherPackingList = async (
+  userId: mongoose.Types.ObjectId,
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
 ): Promise<
   | {
       title: string;
       departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
-      alonePackingList: TogetherMyPackingListResponseDTO;
+      myPackingList: TogetherMyPackingListResponseDTO;
     }
   | string
 > => {
@@ -35,7 +40,7 @@ const createTogetherPackingList = async (
     if (duplicatedData) return 'duplication';
 
     const group = new Group({
-      members: [],
+      members: [userId],
     });
     await group.save();
 
@@ -81,45 +86,13 @@ const createTogetherPackingList = async (
       $push: { list: togetherPackingList.id },
     });
 
-    const togetherData: TogetherPackingListResponseDTO | null = await TogetherPackingList.findOne(
-      { _id: togetherPackingList.id },
-      { category: 1, isSaved: 1, groupId: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-        options: { sort: { createdAt: 1 } },
-        populate: {
-          path: 'packer',
-          model: 'User',
-          select: {
-            _id: 1,
-            name: 1,
-          },
-        },
-      },
-    });
+    const togetherData: TogetherPackingListResponseDTO | null = await togetherListResponse(
+      togetherPackingList.id,
+    );
 
-    const aloneData: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
-      { _id: alonePackingList.id },
-      { category: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-        options: { sort: { createdAt: 1 } },
-      },
-    });
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
+      alonePackingList.id,
+    );
 
     if (!togetherData || !aloneData) return 'notfoundList';
 
@@ -127,7 +100,7 @@ const createTogetherPackingList = async (
       title: togetherPackingList.title,
       departureDate: togetherPackingList.departureDate,
       togetherPackingList: togetherData,
-      alonePackingList: aloneData,
+      myPackingList: aloneData,
     };
     return response;
   } catch (error) {
@@ -138,12 +111,17 @@ const createTogetherPackingList = async (
 
 const readTogetherPackingList = async (
   listId: string,
+  userId: string,
 ): Promise<
   | {
       title: string;
       departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
       myPackingList: TogetherMyPackingListResponseDTO;
+      group: {
+        _id: string;
+        members: GroupResponseDto[];
+      };
     }
   | string
 > => {
@@ -159,7 +137,7 @@ const readTogetherPackingList = async (
       populate: {
         path: 'pack',
         model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packerId: 1 },
+        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
         options: { sort: { createdAt: 1 } },
         populate: {
           path: 'packer',
@@ -173,30 +151,25 @@ const readTogetherPackingList = async (
     });
 
     const togetherRawData = await TogetherPackingList.findById(listId);
+
     if (!togetherRawData) return 'notfoundList';
-    const aloneData: TogetherMyPackingListResponseDTO | null = await AlonePackingList.findOne(
-      { _id: togetherRawData.myPackingListId },
-      { category: 1 },
-    ).populate({
-      path: 'category',
-      model: 'Category',
-      select: { _id: 1, name: 1, pack: 1 },
-      options: { sort: { createdAt: 1 } },
-      populate: {
-        path: 'pack',
-        model: 'Pack',
-        select: { _id: 1, name: 1, isChecked: 1, packer: 1 },
-        options: { sort: { createdAt: 1 } },
-      },
-    });
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
+      togetherRawData.myPackingListId,
+    );
 
     if (!togetherData || !aloneData) return 'notfoundList';
-
     const response = {
       title: togetherRawData.title,
       departureDate: togetherRawData.departureDate,
       togetherPackingList: togetherData,
       myPackingList: aloneData,
+      group: {
+        _id: togetherData.groupId.toString(),
+        members: (await MemberService.getMembers(
+          userId,
+          togetherData.groupId,
+        )) as GroupResponseDto[],
+      },
     };
     return response;
   } catch (error) {
@@ -216,6 +189,16 @@ const deleteTogetherPackingList = async (
 > => {
   try {
     const deleteLists = listId.split(',');
+    const data = [];
+    const strlists = [];
+
+    const responseFolder = await Folder.findById(folderId);
+    if (!responseFolder) return 'notfoundFolder';
+
+    for await (const element of responseFolder.list) {
+      strlists.push(element.toString());
+    }
+
     for await (const element of deleteLists) {
       const deleteList = await TogetherPackingList.findByIdAndUpdate(element, {
         isDeleted: true,
@@ -224,14 +207,16 @@ const deleteTogetherPackingList = async (
       await AlonePackingList.findByIdAndUpdate(deleteList.myPackingListId, {
         isDeleted: true,
       });
+      responseFolder.list.splice(strlists.indexOf(element), 1);
     }
 
-    const data = [];
-    const responseFolder = await Folder.findById(folderId);
-    if (!responseFolder) return 'notfoundFolder';
+    await Folder.findByIdAndUpdate(folderId, {
+      list: responseFolder.list,
+    });
+
     for await (const element of responseFolder.list) {
       const responseList = await TogetherPackingList.findById(element);
-      if (responseList && responseList.isDeleted == false) {
+      if (responseList) {
         const innerData: PackingListResponseDTO = {
           _id: responseList.id,
           departureDate: responseList.departureDate,
