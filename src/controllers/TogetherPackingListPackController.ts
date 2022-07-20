@@ -49,7 +49,7 @@ const updatePack = async (req: Request, res: Response) => {
   }
 
   const packUpdateDto: PackUpdateDto = req.body;
-
+  console.log(packUpdateDto)
   try {
     const data = await TogetherPackingListPackService.updatePack(packUpdateDto);
 
