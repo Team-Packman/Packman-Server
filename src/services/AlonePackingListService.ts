@@ -90,9 +90,22 @@ const deleteAlonePackingList = async (
     const data = [];
     const responseFolder = await Folder.findById(folderId);
     if (!responseFolder) return 'notfoundFolder';
+
+    const strlists = [];
+    for await (const element of responseFolder.list) {
+      strlists.push(element.toString());
+    }
+    for await (const element of deleteLists) {
+      responseFolder.list.splice(strlists.indexOf(element), 1);
+    }
+
+    await Folder.findByIdAndUpdate(folderId, {
+      list: responseFolder.list,
+    });
+
     for await (const element of responseFolder.list) {
       const responseList = await AlonePackingList.findById(element);
-      if (responseList && responseList.isDeleted == false) {
+      if (responseList) {
         const innerData: PackingListResponseDTO = {
           _id: responseList.id,
           departureDate: responseList.departureDate,
