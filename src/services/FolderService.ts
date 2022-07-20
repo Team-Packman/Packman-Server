@@ -10,6 +10,8 @@ import TogetherPackingList from '../models/TogetherPackingList';
 import { folderResponse } from '../modules/folderResponse';
 import mongoose from 'mongoose';
 import { TogetherListInFolderResponseDto } from '../interface/ITogetherPackingList';
+import { RecentCreatedPackingListDto } from '../interface/IPackingList';
+import dayjs from 'dayjs';
 
 const createFolder = async (
   userId: string,
@@ -156,18 +158,15 @@ const getTogetherListInFolders = async (
     for await (const lt of currentFd.list) {
       const list = await TogetherPackingList.findById(lt);
       if (!list) return null;
-      if (!list.isDeleted) {
-        const data = {
-          _id: list._id,
-          title: list.title,
-          departureDate: list.departureDate,
-          packTotalNum: list.packTotalNum,
-          packRemainNum: list.packRemainNum,
-        };
-        lists.push(data);
-      }
+      const data = {
+        _id: list._id,
+        title: list.title,
+        departureDate: list.departureDate,
+        packTotalNum: list.packTotalNum,
+        packRemainNum: list.packRemainNum,
+      };
+      lists.push(data);
     }
-
     const listNum = lists.length;
 
     const data: TogetherListInFolderResponseDto | null = {
@@ -184,6 +183,89 @@ const getTogetherListInFolders = async (
   }
 };
 
+const getRecentCreatedList = async (
+  userId: string,
+): Promise<RecentCreatedPackingListDto | null> => {
+  try {
+    const folders = await Folder.find({ userId: userId });
+    const list: {
+      id: mongoose.Types.ObjectId;
+      aloneFolder: boolean;
+      createdAt: Date;
+    }[] = [];
+
+    for await (const fd of folders) {
+      for await (const fl of fd.list) {
+        // 혼자 패킹리스트 폴더
+        if (fd.isAloned) {
+          const alone = await AlonePackingList.findById(fl);
+          if (!alone) return null;
+          const data = {
+            id: alone._id,
+            aloneFolder: true,
+            createdAt: alone.createdAt,
+          };
+          list.push(data);
+        } else {
+          // 함께 패킹리스트 폴더
+          const together = await TogetherPackingList.findById(fl);
+          if (!together) return null;
+          const data = {
+            id: together._id,
+            aloneFolder: false,
+            createdAt: together.createdAt,
+          };
+          list.push(data);
+        }
+      }
+    }
+    list.sort(function (a, b) {
+      if (a.createdAt > b.createdAt) return -1;
+      else return 1;
+    });
+
+    const recentListId = list[0].id;
+
+    let remainDay;
+    let recentList;
+    let url = '15.164.165.92:8000/packingList';
+    // alone 폴더에서 추가된 list
+    if (list[0].aloneFolder) {
+      recentList = await AlonePackingList.findById(recentListId);
+      if (!recentList) return null;
+      remainDay = dayjs(recentList.departureDate).diff(dayjs(), 'day');
+      url = `${url}/alone/${recentListId}`;
+      const data: RecentCreatedPackingListDto | null = {
+        _id: recentListId,
+        title: recentList.title,
+        remainDay: remainDay,
+        packTotalNum: recentList.packTotalNum,
+        packRemainNum: recentList.packRemainNum,
+        url: url,
+      };
+      return data;
+    } else {
+      // together 폴더에서 추가된 list
+      recentList = await TogetherPackingList.findById(recentListId);
+      if (!recentList) return null;
+      remainDay = dayjs(recentList.departureDate).diff(dayjs(), 'day');
+      url = `${url}/together/${recentListId}`;
+      const data: RecentCreatedPackingListDto | null = {
+        _id: recentListId,
+        title: recentList.title,
+        remainDay: remainDay,
+        packTotalNum: recentList.packTotalNum,
+        packRemainNum: recentList.packRemainNum,
+        url: url,
+      };
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export default {
   createFolder,
   updateFolder,
@@ -192,4 +274,5 @@ export default {
   getAloneFolders,
   getTogetherFolders,
   getTogetherListInFolders,
+  getRecentCreatedList,
 };
