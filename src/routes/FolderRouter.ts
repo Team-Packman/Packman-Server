@@ -23,5 +23,4 @@ router.get('/alone', auth, FolderController.getAloneFolders);
 router.get('/together', auth, FolderController.getTogetherFolders);
 router.get('/packingList/together/:folderId', auth, FolderController.getTogetherListInFolder);
 router.get('/packingList/alone/:folderId', auth, FolderController.getAloneListInFolder);
-router.get('/recentCreatedList', auth, FolderController.getRecentCreatedList);
 export default router;

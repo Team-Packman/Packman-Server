@@ -29,7 +29,6 @@ const message = {
   NO_FOLDER: '존재하지 않는 Folder입니다',
   SUCCESS_GET_TOGETHER_PACKINGLIST_IN_FOLDER: '폴더 속 함께 패킹리스트 조회 성공',
   SUCCESS_GET_ALONE_PACKINGLIST_IN_FOLDER: '폴더 속 혼자 패킹리스트 조회 성공',
-  SUCCESS_GET_RECENT_CREATED_LIST: '최근 생성된 리스트 조회 성공',
 
   //패킹리스트 공통
   NO_PACKINGLIST: '존재하지 않는 PackingList입니다',

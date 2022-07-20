@@ -11,7 +11,6 @@ export interface ITogetherPackingList {
   myPackingListId: mongoose.Types.ObjectId;
   isSaved: boolean;
   inviteCode: string;
-  createdAt: Date;
 }
 
 export interface TogetherPackingListCategoryResponseDto {
