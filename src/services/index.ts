@@ -6,6 +6,7 @@ import TogetherPackingListPackService from './TogetherPackingListPackService';
 import AlonePackingListService from './AlonePackingListService';
 import TogetherPackingListService from './TogetherPackingListService';
 import PackingListService from './PackingListService';
+import MemberService from './MemberService';
 
 export {
   AuthService,
@@ -16,4 +17,5 @@ export {
   TogetherPackingListService,
   FolderService,
   PackingListService,
+  MemberService,
 };
