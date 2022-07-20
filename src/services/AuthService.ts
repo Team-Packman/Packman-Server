@@ -54,6 +54,7 @@ const getKakaoUser = async (kakaoToken: string): Promise<AuthResponseDto | null 
       },
     });
 
+    console.log(response);
     if (!response) return null;
 
     // 존재하는 유저인지 판별
