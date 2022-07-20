@@ -12,4 +12,5 @@ router.post(
   AlonePackingListPackController.createPack,
 );
 
+router.delete('/:listId/:categoryId/:packId', auth, AlonePackingListPackController.deletePack);
 export default router;
