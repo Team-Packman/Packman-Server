@@ -173,6 +173,16 @@ const deleteTogetherPackingList = async (
 > => {
   try {
     const deleteLists = listId.split(',');
+    const data = [];
+    const strlists = [];
+
+    const responseFolder = await Folder.findById(folderId);
+    if (!responseFolder) return 'notfoundFolder';
+
+    for await (const element of responseFolder.list) {
+      strlists.push(element.toString());
+    }
+
     for await (const element of deleteLists) {
       const deleteList = await TogetherPackingList.findByIdAndUpdate(element, {
         isDeleted: true,
@@ -181,14 +191,16 @@ const deleteTogetherPackingList = async (
       await AlonePackingList.findByIdAndUpdate(deleteList.myPackingListId, {
         isDeleted: true,
       });
+      responseFolder.list.splice(strlists.indexOf(element), 1);
     }
 
-    const data = [];
-    const responseFolder = await Folder.findById(folderId);
-    if (!responseFolder) return 'notfoundFolder';
+    await Folder.findByIdAndUpdate(folderId, {
+      list: responseFolder.list,
+    });
+
     for await (const element of responseFolder.list) {
       const responseList = await TogetherPackingList.findById(element);
-      if (responseList && responseList.isDeleted == false) {
+      if (responseList) {
         const innerData: PackingListResponseDTO = {
           _id: responseList.id,
           departureDate: responseList.departureDate,
