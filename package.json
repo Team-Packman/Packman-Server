@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc && node dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mocha ./test"
   },
   "author": "",
   "license": "ISC",
@@ -28,14 +29,17 @@
     "@types/cors": "^2.8.12",
     "@types/nanoid": "^3.0.0",
     "axios": "^0.27.2",
+    "chai": "^4.3.6",
     "cors": "^2.8.5",
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
     "mongoose": "^6.3.1",
     "nanoid": "3.3.4",
+    "supertest": "^6.2.4",
     "upgrade": "^1.1.0"
   }
 }
