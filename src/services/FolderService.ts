@@ -126,7 +126,7 @@ const getTogetherListInFolders = async (
   folderId: string,
 ): Promise<TogetherListInFolderResponseDto | null> => {
   try {
-    const folders = await Folder.find({ userId: userId }, { isAloned: false });
+    const folders = await Folder.find({ userId: userId, isAloned: false });
     const currentFd = await Folder.findById(folderId);
     if (!currentFd) return null;
     const currentTitle = currentFd.title;
