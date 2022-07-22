@@ -12,7 +12,6 @@ import mongoose from 'mongoose';
 import { TogetherListInFolderResponseDto } from '../interface/ITogetherPackingList';
 import { AloneListInFolderResponseDto } from '../interface/IAlonePackingList';
 import { RecentCreatedPackingListDto } from '../interface/IPackingList';
-import dayjs from 'dayjs';
 
 const createFolder = async (
   userId: string,
@@ -292,9 +291,7 @@ const getRecentCreatedList = async (
       if (a.createdAt > b.createdAt) return -1;
       else return 1;
     });
-
     const recentListId = list[0]._id;
-
     let remainDay;
     let recentList;
     let url = '';

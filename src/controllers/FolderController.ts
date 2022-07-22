@@ -310,7 +310,7 @@ const getRecentCreatedList = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     else if (data === '204') {
       return res
-        .status(statusCode.BAD_REQUEST)
+        .status(statusCode.NO_CONTENT)
         .send(util.success(statusCode.NO_CONTENT, message.NO_PACKINGLIST, {}));
     }
     res
