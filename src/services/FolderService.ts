@@ -252,43 +252,48 @@ const getRecentCreatedList = async (
 ): Promise<RecentCreatedPackingListDto | null> => {
   try {
     const folders = await Folder.find({ userId: userId });
+    if (folders.length === 0) return null;
+
     const list: {
-      id: mongoose.Types.ObjectId;
+      _id: mongoose.Types.ObjectId;
       aloneFolder: boolean;
       createdAt: Date;
     }[] = [];
 
     for await (const fd of folders) {
-      for await (const fl of fd.list) {
-        // 혼자 패킹리스트 폴더
-        if (fd.isAloned) {
-          const alone = await AlonePackingList.findById(fl);
-          if (!alone) return null;
-          const data = {
-            id: alone._id,
-            aloneFolder: true,
-            createdAt: alone.createdAt,
-          };
-          list.push(data);
-        } else {
-          // 함께 패킹리스트 폴더
-          const together = await TogetherPackingList.findById(fl);
-          if (!together) return null;
-          const data = {
-            id: together._id,
-            aloneFolder: false,
-            createdAt: together.createdAt,
-          };
-          list.push(data);
+      if (fd.list.length !== 0) {
+        for await (const fl of fd.list) {
+          // 혼자 패킹리스트 폴더
+          if (fd.isAloned) {
+            const alone = await AlonePackingList.findById(fl);
+            if (!alone) return null;
+            const data = {
+              _id: alone._id,
+              aloneFolder: true,
+              createdAt: alone.createdAt,
+            };
+            list.push(data);
+          } else {
+            // 함께 패킹리스트 폴더
+            const together = await TogetherPackingList.findById(fl);
+            if (!together) return null;
+            const data = {
+              _id: together._id,
+              aloneFolder: false,
+              createdAt: together.createdAt,
+            };
+            list.push(data);
+          }
         }
       }
     }
+    if (list.length === 0) return null;
     list.sort(function (a, b) {
       if (a.createdAt > b.createdAt) return -1;
       else return 1;
     });
 
-    const recentListId = list[0].id;
+    const recentListId = list[0]._id;
 
     let remainDay;
     let recentList;
