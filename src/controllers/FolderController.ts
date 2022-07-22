@@ -4,7 +4,8 @@ import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { validationResult } from 'express-validator';
 import { FolderService } from '../services';
-
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 /**
  *  @route GET /folder
  *  @desc create folder
@@ -27,6 +28,19 @@ const createFolder = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_CREATE_FOLDER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -59,6 +73,19 @@ const updateFolder = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_UPDATE_FOLDER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -86,6 +113,19 @@ const deleteFolder = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_DELETE_FOLDER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -105,6 +145,19 @@ const getFolders = async (req: Request, res: Response) => {
     const data = await FolderService.getFolders(userId);
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -126,6 +179,19 @@ const getAloneFolders = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { aloneFolders: data }));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -147,6 +213,19 @@ const getTogetherFolders = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_GET_FOLDERS, { togetherFolders: data }));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -167,6 +246,19 @@ const getTogetherListInFolder = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_GET_TOGETHER_PACKINGLIST_IN_FOLDER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -188,6 +280,19 @@ const getAloneListInFolder = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_GET_ALONE_PACKINGLIST_IN_FOLDER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -207,6 +312,19 @@ const getRecentCreatedList = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_GET_RECENT_CREATED_LIST, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

@@ -3,7 +3,8 @@ import statusCode from '../modules/statusCode';
 import message from '../modules/responseMessage';
 import util from '../modules/util';
 import { AuthService } from '../services';
-
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 /**
  *  @route GET /auth/google
  *  @desc get google user
@@ -26,6 +27,19 @@ const getGoogleUser = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.INVALID_TOKEN));
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_TOKEN, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -55,6 +69,19 @@ const getKakaoUser = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.INVALID_TOKEN));
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_TOKEN, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

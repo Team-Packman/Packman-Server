@@ -6,6 +6,8 @@ import { UserCreateDto } from '../interface/IUser';
 import { UserService } from '../services';
 import { validationResult } from 'express-validator';
 import getToken from '../modules/jwtHandler';
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 
 /**
  *  @route POST /user/profile
@@ -33,6 +35,19 @@ const createUser = async (req: Request, res: Response) => {
     data.accessToken = accessToken;
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_CREATE_USER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -56,6 +71,19 @@ const getUserInfo = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_USER));
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_GET_USER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -86,6 +114,19 @@ const updateUser = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_USER));
     res.status(statusCode.OK).send(util.success(statusCode.OK, message.SUCCESS_UPDATE_USER, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

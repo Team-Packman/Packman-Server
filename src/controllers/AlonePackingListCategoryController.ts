@@ -79,6 +79,19 @@ const updateCategory = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.UPDATE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -103,6 +116,19 @@ const deleteCategory = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.DELETE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
