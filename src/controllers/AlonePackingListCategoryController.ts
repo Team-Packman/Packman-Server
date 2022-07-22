@@ -6,6 +6,8 @@ import { validationResult } from 'express-validator';
 import { CategoryCreateDto } from '../interface/ICategory';
 import { CategoryUpdateDto } from '../interface/ICategory';
 import AlonePackingListCategoryService from '../services/AlonePackingListCategoryService';
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 
 const createCategory = async (req: Request, res: Response) => {
   const error = validationResult(req);
@@ -29,6 +31,19 @@ const createCategory = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.CREATE_ALONE_CATEGORY_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
