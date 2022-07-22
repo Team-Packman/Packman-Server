@@ -310,8 +310,8 @@ const getRecentCreatedList = async (req: Request, res: Response) => {
         .send(util.fail(statusCode.BAD_REQUEST, message.NO_DATA));
     else if (data === '204') {
       res
-        .status(statusCode.NOT_FOUND)
-        .send(util.success(statusCode.NOT_FOUND, message.NOT_FOUND, data));
+        .status(statusCode.NO_CONTENT)
+        .send(util.success(statusCode.NO_CONTENT, message.NOT_FOUND, data));
     }
     res
       .status(statusCode.OK)
