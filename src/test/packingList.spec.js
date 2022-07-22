@@ -12,7 +12,7 @@ describe('POST /packingList/title', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d984fb07a7c2aa188b198a',
+        _id: '62d9850207a7c2aa188b1994',
         title: '제목',
         isAloned: true,
       })
@@ -32,7 +32,7 @@ describe('POST /packingList/title', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d984fb07a7c2aa188b198a',
+        _id: '62d9850207a7c2aa188b1994',
         title: '제목',
       })
       .expect(400)
@@ -53,7 +53,7 @@ describe('PATCH /packingList/departureDate', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d984fb07a7c2aa188b198a',
+        _id: '62d9850207a7c2aa188b1994',
         departureDate: '2022.07.15',
         isAlone: true,
       })
@@ -73,7 +73,7 @@ describe('PATCH /packingList/departureDate', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d984fb07a7c2aa188b198a',
+        _id: '62d9850207a7c2aa188b1994',
         isAlone: true,
       })
       .expect(400)
@@ -131,11 +131,11 @@ describe('PATCH /packingList/myTemplate', () => {
 describe('GET /packingList/invite/:inviteCode', () => {
   it('함께 패킹리스트 초대 성공', (done) => {
     req(app)
-      .patch('/packingList/invite/:inviteCode')
+      .patch('/packingList/invite/83e2Xd')
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d9842924ff58dcf71797cf',
+        _id: '62d984fb07a7c2aa188b1989',
         title: '폴더',
       })
       .expect(200)

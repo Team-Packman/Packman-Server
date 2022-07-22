@@ -177,6 +177,7 @@ const generateInviteCode = () => {
 };
 const invitePackingList = async (req: Request, res: Response) => {
   const inviteCode = req.params.inviteCode;
+  console.log(inviteCode);
   try {
     const data = await PackingListService.getPackingByInviteCode(inviteCode);
     if (!data)

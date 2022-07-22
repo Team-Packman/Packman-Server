@@ -106,7 +106,7 @@ describe('PATCH /folder', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        _id: '62d9842924ff58dcf71797cf',
+        _id: '62da9957dee24d78fb238e3c',
         title: '폴더',
       })
       .expect(200)
@@ -141,7 +141,7 @@ describe('PATCH /folder', () => {
 describe('DELETE /folder/:folderId', () => {
   it('폴더 삭제 성공', (done) => {
     req(app)
-      .patch('/folder/:folderId')
+      .delete('/folder/62da9957dee24d78fb238e3c')
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .expect(200)
