@@ -249,10 +249,10 @@ const getAloneListInFolders = async (
 
 const getRecentCreatedList = async (
   userId: string,
-): Promise<RecentCreatedPackingListDto | null> => {
+): Promise<RecentCreatedPackingListDto | null | string> => {
   try {
     const folders = await Folder.find({ userId: userId });
-    if (folders.length === 0) return null;
+    if (folders.length === 0) return '204';
 
     const list: {
       _id: mongoose.Types.ObjectId;
@@ -287,7 +287,7 @@ const getRecentCreatedList = async (
         }
       }
     }
-    if (list.length === 0) return null;
+    if (list.length === 0) return '204';
     list.sort(function (a, b) {
       if (a.createdAt > b.createdAt) return -1;
       else return 1;
@@ -297,7 +297,7 @@ const getRecentCreatedList = async (
 
     let remainDay;
     let recentList;
-    let url = '15.164.165.92:8000/packingList';
+    let url = '/packingList';
     // alone 폴더에서 추가된 list
     if (list[0].aloneFolder) {
       recentList = await AlonePackingList.findById(recentListId);
