@@ -297,7 +297,7 @@ const getRecentCreatedList = async (
 
     let remainDay;
     let recentList;
-    let url = '/packingList';
+    let url = '';
     // alone 폴더에서 추가된 list
     if (list[0].aloneFolder) {
       recentList = await AlonePackingList.findById(recentListId);
