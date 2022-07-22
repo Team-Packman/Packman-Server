@@ -30,9 +30,9 @@ export interface SocialUserInfo {
 }
 
 export interface AuthResponseDto {
+  _id?: string;
   isAlreadyUser: boolean;
   token?: string;
-  _id?: mongoose.Schema.Types.ObjectId;
   email: string;
   name?: string;
   profileImageId?: string;

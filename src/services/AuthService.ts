@@ -65,15 +65,19 @@ const getKakaoUser = async (kakaoToken: string): Promise<AuthResponseDto | null 
       }
       const data = {
         isAlreadyUser: false,
+        _id: '',
         email: userEmail,
+        name: '',
+        profileImageId: '',
+        accessToken: '',
       };
       return data;
     } else {
       const accessToken = getToken(user._id);
       const data = {
         isAlreadyUser: true,
-        token: accessToken,
         _id: user._id,
+        accessToken: accessToken,
         email: userEmail,
         name: user.name,
         profileImageId: user.profileImageId,
