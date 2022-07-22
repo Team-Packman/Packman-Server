@@ -13,7 +13,7 @@ connectDB();
 app.use(
   cors({
     credentials: true,
-    origin: ['https://packman.kr', config.baseUrl],
+    origin: ['http://localhost:3000', config.baseUrl],
   }),
 );
 
