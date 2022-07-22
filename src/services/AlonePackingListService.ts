@@ -22,36 +22,32 @@ const createAlonePackingList = async (
       departureDate: alonePackingListCreateDto.departureDate,
     });
 
-    //null값으로 받을 경우
-    // const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
-    // if (!innerTemplate) {
-    //   alonePackingList.category = [];
-    // } else {
-    //   alonePackingList.category = innerTemplate.category;
-    //   for await (const element of alonePackingList.category) {
-    //     const myCategory = await Category.findById(element);
-    //     if (!myCategory) return 'notfoundCategory';
-    //     alonePackingList.packTotalNum += myCategory.pack.length;
-    //     alonePackingList.packRemainNum += myCategory.pack.length;
-    //   }
-    // }
-    // await alonePackingList.save();
-
-    //빈 문자열로 받을 경우
-    if (!alonePackingListCreateDto.templateId) {
+    const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
+    if (!innerTemplate) {
       alonePackingList.category = [];
     } else {
-      const innerTemplate = await Template.findById(alonePackingListCreateDto.templateId);
-      if (innerTemplate) {
-        alonePackingList.category = innerTemplate.category;
-        for await (const element of alonePackingList.category) {
-          const myCategory = await Category.findById(element);
-          if (!myCategory) return 'notfoundCategory';
-          alonePackingList.packTotalNum += myCategory.pack.length;
-          alonePackingList.packRemainNum += myCategory.pack.length;
-        }
-      } else return 'notfoundTemplate';
+      alonePackingList.category = innerTemplate.category;
+      console.log('[1] ----------------------map 시작----------------------');
+      alonePackingList.category.map(async (element) => {
+        console.log('[2] map 내부 카테고리 ID: ', element);
+        const myCategory = await Category.findById(element);
+        if (!myCategory) return 'notfoundCategory';
+        alonePackingList.packTotalNum += myCategory.pack.length;
+        alonePackingList.packRemainNum += myCategory.pack.length;
+        console.log(
+          '[3] map 내부 계산된 총 짐 수: ',
+          alonePackingList.packTotalNum,
+          '[4] map 내부 계산된 남은 짐 수: ',
+          alonePackingList.packRemainNum,
+        );
+      });
     }
+    console.log(
+      '[5] map 외부 계산된 총 짐 수: ',
+      alonePackingList.packTotalNum,
+      '[6] map 내부 계산된 남은 짐 수:',
+      alonePackingList.packRemainNum,
+    );
     await alonePackingList.save();
 
     await Folder.findByIdAndUpdate(alonePackingListCreateDto.folderId, {
