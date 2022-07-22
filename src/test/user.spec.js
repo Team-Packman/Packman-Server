@@ -1,18 +1,18 @@
-import request from 'supertest';
-import { expect } from 'chai';
-import dotenv from 'dotenv';
-import app from '../src/index';
-dotenv.config();
+/* eslint-disable */
+import req from 'supertest';
+const dotenv = require('dotenv');
 
+import app from '../index';
+dotenv.config();
 describe('POST /user/prfile', () => {
   it('유저 생성 성공', (done) => {
-    request(app)
+    req(app)
       .post('/user/profile')
       .set('Content-Type', 'application/json')
       .send({
-        'email': 'kkkl@gmail.com',
-        'name': '박현지',
-        'profileImageId': '1',
+        email: 'kkkl@gmail.com',
+        name: '박현지',
+        profileImageId: '1',
       })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -25,12 +25,12 @@ describe('POST /user/prfile', () => {
       });
   });
   it('필요한 값이 없습니다', (done) => {
-    request(app)
+    req(app)
       .post('/user/profile')
       .set('Content-Type', 'application/json')
       .send({
-        'email': 'kkkl@gmail.com',
-        'profileImageId': '1',
+        email: 'kkkl@gmail.com',
+        profileImageId: '1',
       })
       .expect(400)
       .then((res) => {
@@ -45,15 +45,15 @@ describe('POST /user/prfile', () => {
 
 describe('PATCH /user/prfile', () => {
   it('유저 수정 성공', (done) => {
-    request(app)
+    req(app)
       .patch('/user/profile')
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        '_id': '62d6acbdc10dc1e16b2a636a',
-        'email': 'kkkl@gmail.com',
-        'name': '박현지',
-        'profileImageId': '1',
+        _id: '62d6acbdc10dc1e16b2a636a',
+        email: 'kkkl@gmail.com',
+        name: '박현지',
+        profileImageId: '1',
       })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -66,13 +66,13 @@ describe('PATCH /user/prfile', () => {
       });
   });
   it('필요한 값이 없습니다', (done) => {
-    request(app)
+    req(app)
       .patch('/user/profile')
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
       .send({
-        'email': 'kkkl@gmail.com',
-        'profileImageId': '1',
+        email: 'kkkl@gmail.com',
+        profileImageId: '1',
       })
       .expect(400)
       .then((res) => {
@@ -87,7 +87,7 @@ describe('PATCH /user/prfile', () => {
 
 describe('GET /user', () => {
   it('유저 조회 성공', (done) => {
-    request(app)
+    req(app)
       .get('/user')
       .set('Content-Type', 'application/json')
       .set('Authorization', process.env.USER_TOKEN)
@@ -102,7 +102,7 @@ describe('GET /user', () => {
       });
   });
   it('토큰이 유효하지 않습니다', (done) => {
-    request(app)
+    req(app)
       .get('/user')
       .set('Content-Type', 'application/json')
       .set('Authorization', '')
