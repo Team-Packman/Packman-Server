@@ -9,7 +9,6 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
       method: 'get',
       url: 'https://www.googleapis.com/oauth2/v2/userinfo',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${googleToken}`,
       },
     });
@@ -51,7 +50,6 @@ const getKakaoUser = async (kakaoToken: string): Promise<AuthResponseDto | null 
       method: 'get',
       url: 'https://kapi.kakao.com/v2/user/me',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${kakaoToken}`,
       },
     });
