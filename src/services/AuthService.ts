@@ -51,6 +51,7 @@ const getKakaoUser = async (kakaoToken: string): Promise<AuthResponseDto | null 
       method: 'get',
       url: 'https://kapi.kakao.com/v2/user/me',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${kakaoToken}`,
       },
     });
