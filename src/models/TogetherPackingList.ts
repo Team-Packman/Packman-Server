@@ -48,7 +48,9 @@ const TogetherPackingListSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: () => {
+        return new Date();
+      },
     },
     updatedAt: {
       type: Date,

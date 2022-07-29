@@ -23,6 +23,6 @@ router.patch(
   auth,
   PackingListController.updatePackingListMyTemplate,
 );
-router.get('/invite/:inviteId', PackingListController.invitePackingList);
+router.get('/invite/:inviteCode', PackingListController.invitePackingList);
 
 export default router;

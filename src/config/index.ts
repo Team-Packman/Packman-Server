@@ -12,6 +12,11 @@ if (envFound.error) {
 
 export default {
   /**
+   * environment
+   */
+  env: process.env.NODE_ENV as string,
+
+  /**
    * Your favorite port
    */
   port: parseInt(process.env.PORT as string, 10) as number,
@@ -42,4 +47,9 @@ export default {
    * baseUrl
    */
   baseUrl: process.env.BASE_URL as string,
+
+  /**
+   * slack webhook
+   */
+  slackWebHook: process.env.SLACK_WEB_HOOK_URL as string,
 };

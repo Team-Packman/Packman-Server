@@ -5,7 +5,8 @@ import util from '../modules/util';
 import { validationResult } from 'express-validator';
 import { PackCreateDto, PackUpdateDto } from '../interface/IPack';
 import AlonePackingListPackService from '../services/AlonePackingListPackService';
-
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 const createPack = async (req: Request, res: Response) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
@@ -32,6 +33,19 @@ const createPack = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.CREATE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -67,6 +81,19 @@ const updatePack = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.UPDATE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -94,6 +121,19 @@ const deletePack = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.DELETE_ALONE_PACK_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

@@ -13,7 +13,7 @@ router.post(
 );
 router.patch(
   '/',
-  [body('id').notEmpty(), body('title').notEmpty()],
+  [body('_id').notEmpty(), body('title').notEmpty()],
   auth,
   FolderController.updateFolder,
 );

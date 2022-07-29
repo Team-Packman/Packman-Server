@@ -153,6 +153,7 @@ const getPackingByInviteCode = async (
 } | null> => {
   try {
     const packingList = await TogetherPackingList.findOne({ inviteCode: inviteCode });
+    console.log(inviteCode);
     if (!packingList) return null;
     const data = {
       _id: packingList.id,
