@@ -9,6 +9,7 @@ const getGoogleUser = async (googleToken: string): Promise<AuthResponseDto | nul
       method: 'get',
       url: 'https://www.googleapis.com/oauth2/v2/userinfo',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         Authorization: `Bearer ${googleToken}`,
       },
     });
