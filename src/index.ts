@@ -16,11 +16,7 @@ connectDB();
 //     origin: ['http://localhost:3000', 'https://www.packman.kr', config.baseUrl],
 //   }),
 // );
-app.use(
-  cors({
-    origin: '*',
-  }),
-);
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
