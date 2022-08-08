@@ -10,10 +10,15 @@ dotenv.config();
 
 connectDB();
 
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ['http://localhost:3000', 'https://www.packman.kr', config.baseUrl],
+//   }),
+// );
 app.use(
   cors({
-    credentials: true,
-    origin: ['http://localhost:3000', 'https://www.packman.kr', config.baseUrl],
+    origin: '*',
   }),
 );
 
