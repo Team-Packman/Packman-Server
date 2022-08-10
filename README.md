@@ -1,6 +1,7 @@
 ## 🧳 Packman
 > 내 손안의 짐 챙김 도우미, 팩맨  
 2022.07.02 ~ 
+
 ## 🧳 Server Architecture
 <img src="https://img.shields.io/badge/TypeScript-2d79c7?style=flat-square&logo=TypeScript&logoColor=white"/> <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/> <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=Express&logoColor=white"/> <img src="https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=MongoDB&logoColor=white"/> <img src="https://img.shields.io/badge/Mongoose-47A248?style=flat-square&logo=MongoDB&logoColor=white"/>
  <img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=AmazonAWS&logoColor=white"/> <br>
@@ -11,6 +12,24 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 | <img src="https://user-images.githubusercontent.com/63945197/178551981-6bb59e08-226e-4541-bfc8-784142d87c68.png" width="300"/> | <img src="https://user-images.githubusercontent.com/63945197/178552234-ea3bb0e4-5128-4f09-8a34-51c3d730f41b.png" width="300"/>  | <img src="https://user-images.githubusercontent.com/63945197/178552668-9e2f1d2f-65c6-435c-b682-fe39796e64d8.png" width="300"/>  
 |              [dingding-21](https://github.com/dingding-21)               |             [kkl4846](https://github.com/kkl4846)              |             [laalaa31](https://github.com/laalaa31)              |
+<hr>
+<br/>
+
+## 🧳 Service Core Function
+![20](https://user-images.githubusercontent.com/102424704/180459110-ed7660bc-c55e-4e6b-be12-d837b7d05d3d.jpg)
+![21](https://user-images.githubusercontent.com/102424704/180459121-5c7b7223-c22a-4df4-ad21-42fa89f5e68a.jpg)
+![22](https://user-images.githubusercontent.com/102424704/180459130-eebb33f5-6d3e-412f-9a0b-644ca9aab29d.jpg)
+![23](https://user-images.githubusercontent.com/102424704/180459142-0c62cffd-7966-403c-a46b-5d2ad1895f36.jpg)
+![24](https://user-images.githubusercontent.com/102424704/180459150-e00212ac-376f-43db-ae79-12af5efce613.jpg)
+![25](https://user-images.githubusercontent.com/102424704/180459156-c7f313c8-ba31-46f0-bd1f-949dc5fe692a.jpg)
+![26](https://user-images.githubusercontent.com/102424704/180459169-491dfd5b-70eb-49e3-8fa1-3cdacd109166.jpg)
+![27](https://user-images.githubusercontent.com/102424704/180459176-6724af15-9388-4fea-be1e-65153ab058c5.jpg)
+![28](https://user-images.githubusercontent.com/102424704/180459183-1b736428-02c6-47e9-9e89-81bc78a08d60.jpg)
+<hr>
+<br/>
+
+## 🧳 Service Architecture
+![45 (2)](https://user-images.githubusercontent.com/102424704/180460416-55a5514a-35bb-475f-976c-6a538aa64be8.jpg)
 <hr>
 <br/>
 
@@ -672,9 +691,8 @@ ex) `postUserInformation( )`
 
 </br>
 
-## 🧳 Dependencies Module
-
-```json
+## 🧳   Dependencies Module ( package.json )
+```
 {
   "name": "node-typescript-init",
   "version": "1.0.0",
@@ -683,28 +701,56 @@ ex) `postUserInformation( )`
   "scripts": {
     "dev": "nodemon",
     "build": "tsc && node dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mocha -r ts-node/register src/test",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.3.1",
     "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/mocha": "^9.1.1",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^17.0.25",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "nodemon": "^2.0.15",
     "prettier": "^2.7.1",
     "ts-node": "^10.7.0",
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/nanoid": "^3.0.0",
+    "axios": "^0.27.2",
+    "chai": "^4.3.6",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
-    "mongoose": "^6.3.1"
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
+    "mongoose": "^6.3.1",
+    "nanoid": "3.3.4",
+    "supertest": "^6.2.4",
+    "upgrade": "^1.1.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   }
 }
+
 ```
+<hr>
+<br/>

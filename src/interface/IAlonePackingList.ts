@@ -8,6 +8,7 @@ export interface IAlonePackingList {
   category: mongoose.Types.ObjectId[];
   isDeleted: boolean;
   isSaved: boolean;
+  createdAt: Date;
 }
 
 export interface AlonePackingListCreateDTO {
@@ -17,7 +18,6 @@ export interface AlonePackingListCreateDTO {
   templateId: string;
 }
 
-//
 export interface AlonePackingListResponseDTO {
   _id: mongoose.Types.ObjectId;
   title: string;
@@ -37,4 +37,43 @@ export interface AlonePackingListResponseDTO {
     },
   ];
   isSaved: boolean;
+}
+
+export interface AlonePackingListCategoryResponseDto {
+  _id: mongoose.Types.ObjectId;
+  category: [
+    {
+      _id: mongoose.Types.ObjectId;
+      name: string;
+      pack: [
+        {
+          _id: mongoose.Types.ObjectId;
+          name: string;
+          isChecked: boolean;
+          packer: {
+            _id: mongoose.Types.ObjectId;
+            name: string;
+          };
+        },
+      ];
+    },
+  ];
+}
+export interface AloneListInFolderResponseDto {
+  currentFolder: {
+    _id: string;
+    title: string;
+  };
+  folder: {
+    _id: mongoose.Types.ObjectId;
+    title: string;
+  }[];
+  listNum: number;
+  alonePackingList: {
+    _id: string;
+    title: string;
+    departureDate: string;
+    packTotalNum: number;
+    packRemainNum: number;
+  }[];
 }

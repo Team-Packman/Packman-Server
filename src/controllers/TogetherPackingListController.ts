@@ -6,6 +6,8 @@ import { validationResult } from 'express-validator';
 import { TogetherPackingListCreateDTO } from '../interface/ITogetherPackingList';
 import { TogetherPackingListService } from '../services';
 import { PackerUpdateDto } from '../interface/IPack';
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 
 /**
  *  @route POST /packinglist/together
@@ -22,9 +24,11 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
   }
 
   const togetherPackingListCreateDto: TogetherPackingListCreateDTO = req.body;
+  const userId = req.body.user.id;
 
   try {
     const data = await TogetherPackingListService.createTogetherPackingList(
+      userId,
       togetherPackingListCreateDto,
     );
 
@@ -49,6 +53,19 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.CREATE_TOGETHERPACKINGLIST_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -64,8 +81,9 @@ const createTogetherPackingList = async (req: Request, res: Response) => {
 
 const readTogetherPackingList = async (req: Request, res: Response) => {
   const { listId } = req.params;
+  const userId = req.body.user.id;
   try {
-    const data = await TogetherPackingListService.readTogetherPackingList(listId);
+    const data = await TogetherPackingListService.readTogetherPackingList(listId, userId);
 
     if (data == 'notfoundList')
       res
@@ -76,6 +94,19 @@ const readTogetherPackingList = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.READ_TOGETHERPACKINGLIST_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -105,6 +136,19 @@ const deleteTogetherPackingList = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.DELETE_TOGETHERPACKINGLIST_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -139,6 +183,19 @@ const updatePacker = async (req: Request, res: Response) => {
         .send(util.success(statusCode.OK, message.UPDATE_PACKER_SUCCESS, data));
     }
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

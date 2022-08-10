@@ -3,7 +3,6 @@ import { PackCreateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import Category from '../models/Category';
 import { PackUpdateDto } from '../interface/IPack';
-import mongoose from 'mongoose';
 import { TogetherPackingListCategoryResponseDto } from '../interface/ITogetherPackingList';
 
 const createPack = async (
@@ -26,6 +25,13 @@ const createPack = async (
 
     await Category.findByIdAndUpdate(categoryId, {
       $push: { pack: newPack.id },
+    });
+
+    const packTotal = list.packTotalNum + 1;
+    const packRemain = list.packRemainNum + 1;
+
+    await TogetherPackingList.findByIdAndUpdate(listId, {
+      $set: { packTotalNum: packTotal, packRemainNum: packRemain },
     });
 
     const data: TogetherPackingListCategoryResponseDto | null = await TogetherPackingList.findOne(
@@ -64,7 +70,7 @@ const updatePack = async (
   packUpdateDto: PackUpdateDto,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const packId = packUpdateDto.id;
+    const packId = packUpdateDto._id;
     const packName = packUpdateDto.name;
     const isChecked = packUpdateDto.isChecked;
     const listId = packUpdateDto.listId;
@@ -81,6 +87,19 @@ const updatePack = async (
 
     if (!list.category.includes(categoryId)) return 'no_list_category';
     if (!cate.pack.includes(packId)) return 'no_category_pack';
+
+    let packRemainNum = list.packRemainNum;
+    if (isChecked != pack.isChecked) {
+      if (isChecked) {
+        packRemainNum -= 1;
+      } else {
+        packRemainNum += 1;
+      }
+    }
+    await TogetherPackingList.updateOne(
+      { _id: listId },
+      { $set: { packRemainNum: packRemainNum } },
+    );
 
     await Pack.updateOne(
       { _id: packId },
@@ -140,12 +159,10 @@ const deletePack = async (
     const stringCate: string[] = [];
     const stringPack: string[] = [];
 
-    console.log(stringCate);
     list.category.map((cat) => {
       stringCate.push(cat.toString());
     });
 
-    console.log(stringCate);
     cate.pack.map((pk) => {
       stringPack.push(pk.toString());
     });
@@ -155,10 +172,16 @@ const deletePack = async (
 
     const packs = cate.pack;
 
+    const packTotal = list.packTotalNum - 1;
+    let packRemain = list.packRemainNum;
+    if (!pack.isChecked) packRemain = list.packRemainNum - 1;
+
+    await TogetherPackingList.findByIdAndUpdate(listId, {
+      $set: { packTotalNum: packTotal, packRemainNum: packRemain },
+    });
+
     await Pack.deleteOne({ _id: packId });
-    console.log(packs);
     packs.splice(stringPack.indexOf(packId), 1);
-    console.log(packs);
 
     await Category.updateOne(
       { _id: categoryId },

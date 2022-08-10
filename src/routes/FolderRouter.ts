@@ -13,7 +13,7 @@ router.post(
 );
 router.patch(
   '/',
-  [body('id').notEmpty(), body('title').notEmpty()],
+  [body('_id').notEmpty(), body('title').notEmpty()],
   auth,
   FolderController.updateFolder,
 );
@@ -21,6 +21,7 @@ router.delete('/:folderId', auth, FolderController.deleteFolder);
 router.get('/', auth, FolderController.getFolders);
 router.get('/alone', auth, FolderController.getAloneFolders);
 router.get('/together', auth, FolderController.getTogetherFolders);
-
+router.get('/packingList/together/:folderId', auth, FolderController.getTogetherListInFolder);
+router.get('/packingList/alone/:folderId', auth, FolderController.getAloneListInFolder);
+router.get('/recentCreatedList', auth, FolderController.getRecentCreatedList);
 export default router;
-

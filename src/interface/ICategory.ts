@@ -11,7 +11,7 @@ export interface CategoryCreateDto {
 }
 
 export interface CategoryUpdateDto {
-  id: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   name: string;
   listId: mongoose.Types.ObjectId;
 }

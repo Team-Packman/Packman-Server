@@ -10,6 +10,8 @@ import {
 } from '../interface/IPackingList';
 import PackingListService from '../services/PackingListService';
 import { nanoid } from 'nanoid';
+import slackWebHook, { SlackMessageFormat } from '../middleware/slackWebHook';
+import config from '../config';
 /**
  *  @route PATCH /packingList/title
  *  @desc Update Packinglist Title
@@ -46,6 +48,19 @@ const updatePackingListTitle = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -81,6 +96,19 @@ const updatePackingListDate = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_TITLE_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -118,6 +146,19 @@ const updatePackingListMyTemplate = async (req: Request, res: Response) => {
         .status(statusCode.OK)
         .send(util.success(statusCode.OK, message.UPDATE_PACKINGLIST_MYTEMPLATE_SUCCESS, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -136,6 +177,7 @@ const generateInviteCode = () => {
 };
 const invitePackingList = async (req: Request, res: Response) => {
   const inviteCode = req.params.inviteCode;
+  console.log(inviteCode);
   try {
     const data = await PackingListService.getPackingByInviteCode(inviteCode);
     if (!data)
@@ -146,6 +188,19 @@ const invitePackingList = async (req: Request, res: Response) => {
       .status(statusCode.OK)
       .send(util.success(statusCode.OK, message.SUCCESS_INVITE_TOGETHER_PACKING, data));
   } catch (error) {
+    if (config.env === 'production') {
+      const message: SlackMessageFormat = {
+        color: slackWebHook.colors.danger,
+        title: 'Packman 서버 에러',
+        fields: [
+          {
+            title: 'Error:',
+            value: `\`\`\`${error}\`\`\``,
+          },
+        ],
+      };
+      slackWebHook.sendMessage(message);
+    }
     console.log(error);
     res
       .status(statusCode.INTERNAL_SERVER_ERROR)

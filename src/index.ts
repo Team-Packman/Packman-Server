@@ -2,11 +2,26 @@ import express, { Request, Response, NextFunction } from 'express';
 const app = express();
 import connectDB from './loaders/db';
 import routes from './routes';
+import cors from 'cors';
+import config from './config';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 connectDB();
+
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ['http://localhost:3000', 'https://www.packman.kr', config.baseUrl],
+//   }),
+// );
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  }),
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -39,3 +54,5 @@ app
     console.error(err);
     process.exit(1);
   });
+
+export default app;

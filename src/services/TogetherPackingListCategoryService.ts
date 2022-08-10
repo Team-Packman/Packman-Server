@@ -59,7 +59,7 @@ const updateCategory = async (
   categoryUpdateDto: CategoryUpdateDto,
 ): Promise<TogetherPackingListCategoryResponseDto | string> => {
   try {
-    const categoryId = categoryUpdateDto.id;
+    const categoryId = categoryUpdateDto._id;
     const categoryName = categoryUpdateDto.name;
     const listId = categoryUpdateDto.listId;
 
@@ -128,9 +128,10 @@ const deleteCategory = async (
     const stringCate: string[] = [];
     const packs = cate.pack;
 
-    categories.map((cat) => {
+    for await (const cat of categories) {
       stringCate.push(cat.toString());
-    });
+    }
+
     if (!stringCate.includes(categoryId)) return 'no_list_category';
 
     await Pack.deleteMany({ _id: { $in: packs } });

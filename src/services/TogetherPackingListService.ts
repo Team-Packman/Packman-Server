@@ -16,9 +16,13 @@ import PackingListService from './PackingListService';
 import { PackerUpdateDto } from '../interface/IPack';
 import Pack from '../models/Pack';
 import User from '../models/User';
-import { aloneListResponse, togetherListResponse } from '../modules/listResponse';
+import { togetherMyListResponse, togetherListResponse } from '../modules/togetherListResponse';
+import MemberService from './MemberService';
+import mongoose from 'mongoose';
+import { GroupResponseDto } from '../interface/IGroup';
 
 const createTogetherPackingList = async (
+  userId: mongoose.Types.ObjectId,
   togetherPackingListCreateDto: TogetherPackingListCreateDTO,
 ): Promise<
   | {
@@ -36,7 +40,7 @@ const createTogetherPackingList = async (
     if (duplicatedData) return 'duplication';
 
     const group = new Group({
-      members: [],
+      members: [userId],
     });
     await group.save();
 
@@ -86,7 +90,7 @@ const createTogetherPackingList = async (
       togetherPackingList.id,
     );
 
-    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
       alonePackingList.id,
     );
 
@@ -107,12 +111,17 @@ const createTogetherPackingList = async (
 
 const readTogetherPackingList = async (
   listId: string,
+  userId: string,
 ): Promise<
   | {
       title: string;
       departureDate: string;
       togetherPackingList: TogetherPackingListResponseDTO;
       myPackingList: TogetherMyPackingListResponseDTO;
+      group: {
+        _id: string;
+        members: GroupResponseDto[];
+      };
     }
   | string
 > => {
@@ -142,18 +151,25 @@ const readTogetherPackingList = async (
     });
 
     const togetherRawData = await TogetherPackingList.findById(listId);
+
     if (!togetherRawData) return 'notfoundList';
-    const aloneData: TogetherMyPackingListResponseDTO | null = await aloneListResponse(
+    const aloneData: TogetherMyPackingListResponseDTO | null = await togetherMyListResponse(
       togetherRawData.myPackingListId,
     );
 
     if (!togetherData || !aloneData) return 'notfoundList';
-
     const response = {
       title: togetherRawData.title,
       departureDate: togetherRawData.departureDate,
       togetherPackingList: togetherData,
       myPackingList: aloneData,
+      group: {
+        _id: togetherData.groupId.toString(),
+        members: (await MemberService.getMembers(
+          userId,
+          togetherData.groupId,
+        )) as GroupResponseDto[],
+      },
     };
     return response;
   } catch (error) {
@@ -173,6 +189,11 @@ const deleteTogetherPackingList = async (
 > => {
   try {
     const deleteLists = listId.split(',');
+    const data = [];
+
+    const originalFolder = await Folder.findById(folderId);
+    if (!originalFolder) return 'notfoundFolder';
+
     for await (const element of deleteLists) {
       const deleteList = await TogetherPackingList.findByIdAndUpdate(element, {
         isDeleted: true,
@@ -183,12 +204,20 @@ const deleteTogetherPackingList = async (
       });
     }
 
-    const data = [];
+    const revisedLists = originalFolder.list.filter((element) => {
+      return !deleteLists.includes(element.toString());
+    });
+
+    await Folder.findByIdAndUpdate(folderId, {
+      list: revisedLists,
+    });
+
     const responseFolder = await Folder.findById(folderId);
     if (!responseFolder) return 'notfoundFolder';
+
     for await (const element of responseFolder.list) {
       const responseList = await TogetherPackingList.findById(element);
-      if (responseList && responseList.isDeleted == false) {
+      if (responseList) {
         const innerData: PackingListResponseDTO = {
           _id: responseList.id,
           departureDate: responseList.departureDate,

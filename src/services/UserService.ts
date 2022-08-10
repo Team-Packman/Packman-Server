@@ -16,6 +16,7 @@ const createUser = async (userCreateDto: UserCreateDto): Promise<UserResponseDto
     });
     await user.save();
     const data = {
+      isAlreadyUser: true,
       _id: user._id,
       name: user.name,
       email: user.email,
